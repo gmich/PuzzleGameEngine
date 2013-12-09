@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 #endregion
 
-namespace pGame
+namespace PuzzlePrototype
 {
 #if WINDOWS || LINUX
     /// <summary>
@@ -18,7 +18,7 @@ namespace pGame
         [STAThread]
         static void Main()
         {
-            using (var game = new Game1())
+            using (var game = new PGame())
                 game.Run();
         }
     }

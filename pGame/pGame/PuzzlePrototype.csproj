@@ -8,7 +8,7 @@
     <ProjectGuid>{BF830536-1648-4A9B-83B0-57368A48A5B1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>pGame</RootNamespace>
+    <RootNamespace>PuzzlePrototype</RootNamespace>
     <AssemblyName>pGame</AssemblyName>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,12 +32,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Game\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Game1.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Camera\Camera.cs" />
+    <Compile Include="Camera\CameraManager.cs" />
+    <Compile Include="Camera\ChasingCamera.cs" />
+    <Compile Include="Camera\ICameraScript.cs" />
+    <Compile Include="Diagnostics\FPSMonitor.cs" />
+    <Compile Include="Game\PGame.cs" />
+    <Compile Include="Input\InputManager.cs" />
+    <Compile Include="Level\LevelManager.cs" />
+    <Compile Include="Level\Tile.cs" />
+    <Compile Include="Game\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Managers\ResolutionManager.cs" />
+    <Compile Include="Scene\EffectMask.cs" />
+    <Compile Include="Scene\EffectsManager.cs" />
+    <Compile Include="Scene\LightSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">
@@ -60,7 +72,7 @@
       <Link>SDL.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icon.ico" />
+    <Content Include="Game\Icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
