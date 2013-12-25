@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace PuzzlePrototype.Level
 {
     public class LevelManager
     {
-
         #region Declarations
 
         //TODO: replace int with object
-        static List<List<int>> map;
-
+        static Level level;
 
         #endregion
 
@@ -20,7 +19,7 @@ namespace PuzzlePrototype.Level
 
         public LevelManager()
         {
-            map = new List<List<int>>();
+            level = new Level();
         }
 
         #endregion
@@ -33,7 +32,7 @@ namespace PuzzlePrototype.Level
         {         
             get
             {
-                return map[0].Count();
+                return level.Width;
             }
         }
 
@@ -41,7 +40,7 @@ namespace PuzzlePrototype.Level
         {
             get
             {
-                return map.Count()/map[0].Count();
+                return level.Height;
             }
         }
 
@@ -78,5 +77,10 @@ namespace PuzzlePrototype.Level
         }
 
         #endregion
+
+        static bool SquareIsPassable(Vector2 location)
+        {
+            return true;
+        }
     }
 }

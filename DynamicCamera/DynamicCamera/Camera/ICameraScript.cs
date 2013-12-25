@@ -1,24 +1,27 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace PuzzlePrototype.Level
+namespace DynamicCamera
 {
-    public interface Tile
+    public interface ICameraScript
     {
-        int ID
+        Camera Camera
         {
             get;
-            set;
         }
 
-        bool Passable
+        Vector2 WorldLocation
+        {
+            get;
+        }
+
+        Vector2 TargetLocation
         {
             get;
             set;
         }
 
         void Update(GameTime gameTime);
-        
+
     }
 }
