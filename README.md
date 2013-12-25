@@ -1,44 +1,47 @@
-PuzzleGameEngine
-================
+Puzzle Game Engine
+==================
 
 A prototype puzzle solving game engine using MonoGame and SDL
 
-Engine features:
 
--Dynamic Camera 
-  Using 3D tranformations but only x-y accessibility
+Engine features
+---------------
+
+
+* **Dynamic Camera** <br>
+  3D tranformations but only x-y accessibility
   
--Actors
+* **Actors** <br>
   user input interaction / AI / plain
   
--Multiple render targets
+* **Multiple render targets**
 
--HLSL support
+* **HLSL support** <br>
   e.g. custom shaders
   
--Gates with custom logic
+* **Gates with custom logic**
 
--Level editor
+* **Level editor** <br>
  serialized maps
  
--Dynamic resolution
+* **Dynamic resolution**
 
--Clickable components 
+* **Clickable components** <br>
   buttons,lists etc
   
--Animations
+* **Animations**
 
--Audio Support
+* **Audio Support**
 
--Particles
+* **Particles**
 
--XML Mapping
+* **XML Mapping** <br>
  sprites / maps / statistics
  
--Diagnostics Tools
+* **Diagnostics Tools** <br>
  e.g. FPS counter
  
--Networking (?)
+* **Networking (?)**
 
   
   
