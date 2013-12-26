@@ -4,10 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SpeechGame.Level
+namespace DynamicCamera.Level
 {
-    using Camera;
-    using Scene;
 
     public class TileMap
     {
@@ -19,39 +17,19 @@ namespace SpeechGame.Level
         int MapHeight;
         MapSquare[,] mapCells;
         Texture2D tileSheet;
-        CameraManager Camera;
-        
+        Vector2 cameraPosition;
+        Camera Camera;
         #endregion
 
-        #region Instance
-
-        static TileMap tileMap;
-
-        public static TileMap GetInstance()
+        public TileMap(Vector2 cameraPosition, Camera camera, Texture2D tileTexture, int tileWidth, int tileHeight)
         {
-            if (tileMap == null)
-                tileMap = new TileMap();
-
-            return tileMap;
-        }
-
-        private TileMap()
-        {
-            Camera = CameraManager.GetInstance();
-        }
-
-        #endregion
-
-        #region Initialization
-
-        public void Initialize(Texture2D tileTexture, int tileWidth, int tileHeight)
-        {
+            this.cameraPosition = cameraPosition;
             tileSheet = tileTexture;
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
+            this.Camera = camera;
         }
 
-        #endregion
 
         #region Randomize Map
         
@@ -70,7 +48,7 @@ namespace SpeechGame.Level
 
                 for (int y = 0; y < MapHeight; y++)
                 {
-                    if ((y >= 10 || x==0 || x==MapWidth-1) || (y==9 && rand.Next(0,13)==10))
+                    if (rand.Next(0,2)==1)
                     {
                         mapCells[x, y] = new MapSquare(1, false, " ");
                     }
@@ -144,30 +122,12 @@ namespace SpeechGame.Level
                 TileHeight);
         }
 
-        public Rectangle MapToScreenRectangle(int cellX, int cellY)
-        {
-            return new Rectangle(
-            cellX * TileWidth / 4 + (int)Camera.Position.X,
-            cellY * TileHeight / 4 + (int)Camera.Position.Y,
-            TileWidth / 4,
-            TileHeight / 4);
-        }
 
         public Rectangle CellWorldRectangle(Vector2 cell)
         {
             return CellWorldRectangle(
                 (int)cell.X,
                 (int)cell.Y);
-        }
-
-        public Rectangle CellScreenRectangle(int cellX, int cellY)
-        {
-            return Camera.WorldToScreen(CellWorldRectangle(cellX, cellY));
-        }
-
-        public Rectangle CellSreenRectangle(Vector2 cell)
-        {
-            return CellScreenRectangle((int)cell.X, (int)cell.Y);
         }
 
         public bool CellIsPassable(int cellX, int cellY)
@@ -236,6 +196,11 @@ namespace SpeechGame.Level
             }
         }
 
+        public Rectangle CellScreenRectangle(int cellX, int cellY)
+        {
+            return Camera.WorldToScreen(CellWorldRectangle(cellX, cellY));
+        }
+
         public void SetTileAtCell(
            int tileX,
            int tileY,
@@ -269,10 +234,10 @@ namespace SpeechGame.Level
         public void Draw(SpriteBatch spriteBatch)
         {
             int startX = GetCellByPixelX((int)Camera.Position.X);
-            int endX = GetCellByPixelX((int)Camera.Position.X + Camera.ViewPortWidth);
+            int endX = GetCellByPixelX((int)Camera.Position.X + ResolutionHandler.WindowWidth);
 
             int startY = GetCellByPixelY((int)Camera.Position.Y);
-            int endY = GetCellByPixelY((int)Camera.Position.Y + Camera.ViewPortHeight);
+            int endY = GetCellByPixelY((int)Camera.Position.Y + ResolutionHandler.WindowHeight);
 
             for (int x = startX; x <= endX; x++)
                 for (int y = startY; y <= endY; y++)
@@ -282,6 +247,7 @@ namespace SpeechGame.Level
                     {
                         spriteBatch.Draw(tileSheet, CellScreenRectangle(x, y), TileSourceRectangle(mapCells[x, y].LayerTile),
                           Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+  
                     }
                 }
         }

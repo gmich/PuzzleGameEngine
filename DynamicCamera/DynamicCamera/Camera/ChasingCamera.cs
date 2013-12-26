@@ -94,7 +94,7 @@ namespace DynamicCamera
             if (distance < 0.001f)
                 distance = 0.0f;
 
-            RepositionCamera(gameTime.ElapsedGameTime.Seconds);
+            RepositionCamera((float)gameTime.ElapsedGameTime.TotalSeconds);
         }
 
         #endregion

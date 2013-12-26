@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DynamicCamera
 {
-   public class Camera
+   public sealed class Camera
     {
         #region Declarations
 
@@ -22,6 +22,7 @@ namespace DynamicCamera
         {
             this.Position = initialPos;
             this.viewPortSize = viewportSize;
+            this.Zoom = 1.0f;
         }
 
         #endregion
@@ -176,6 +177,8 @@ namespace DynamicCamera
 
         #endregion
 
+        #region 3D Transformation
+
         public Matrix GetTransformation(GraphicsDevice graphicsDevice)
         {
             transform = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
@@ -185,5 +188,6 @@ namespace DynamicCamera
             return transform;
         }
 
+        #endregion
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SpeechGame.Level
+namespace DynamicCamera.Level
 {
     public class MapSquare
     {

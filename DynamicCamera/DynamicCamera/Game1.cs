@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.GamerServices;
 
 namespace DynamicCamera
 {
+    using Scene;
+    using Input;
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -18,12 +20,25 @@ namespace DynamicCamera
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SceneDirector sceneDirector;
+        ResolutionHandler resolutionHandler;
 
         public Game1()
             : base()
         {
-            graphics = new GraphicsDeviceManager(this);
+           this.graphics = new GraphicsDeviceManager(this)
+            {
+                PreferMultiSampling = true,
+                PreferredBackBufferWidth = 800,
+                PreferredBackBufferHeight = 600
+            };
+
+            this.Window.AllowUserResizing = true;
+            this.Window.ClientSizeChanged += new EventHandler<EventArgs>(OnWindowClientSizeChanged);
+            this.graphics.ApplyChanges();
+
             Content.RootDirectory = "Content";
+
         }
 
         /// <summary>
@@ -35,7 +50,8 @@ namespace DynamicCamera
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            resolutionHandler = new ResolutionHandler(ref this.graphics, false);
+            InputHandler.Initialize();
             base.Initialize();
         }
 
@@ -47,7 +63,7 @@ namespace DynamicCamera
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            sceneDirector = new SceneDirector(GraphicsDevice, Content);
             // TODO: use this.Content to load your game content here
         }
 
@@ -70,6 +86,9 @@ namespace DynamicCamera
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            InputHandler.Update(gameTime);
+            resolutionHandler.Update(gameTime);
+            sceneDirector.Update(gameTime);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -83,9 +102,14 @@ namespace DynamicCamera
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            sceneDirector.Draw(spriteBatch);
 
             base.Draw(gameTime);
+        }
+
+        private void OnWindowClientSizeChanged(object sender, System.EventArgs e)
+        {
+            this.resolutionHandler.SetResolution(this.Window.ClientBounds.Width, this.Window.ClientBounds.Height);
         }
     }
 }

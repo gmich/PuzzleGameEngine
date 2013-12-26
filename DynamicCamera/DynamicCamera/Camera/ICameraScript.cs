@@ -10,11 +10,6 @@ namespace DynamicCamera
             get;
         }
 
-        Vector2 WorldLocation
-        {
-            get;
-        }
-
         Vector2 TargetLocation
         {
             get;
