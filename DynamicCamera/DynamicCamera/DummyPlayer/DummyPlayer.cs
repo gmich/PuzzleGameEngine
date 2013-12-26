@@ -19,6 +19,14 @@ namespace DynamicCamera
             this.texture = texture;
         }
 
+        public Vector2 Center
+        {
+            get
+            {
+                return new Vector2(location.X + texture.Width / 2, location.Y + texture.Height / 2);
+            }
+        }
+            
         public void Update(GameTime gameTime)
         {
             float step = 10;

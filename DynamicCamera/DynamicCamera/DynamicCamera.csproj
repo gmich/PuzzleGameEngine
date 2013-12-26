@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="Camera\ChasingCamera.cs" />
     <Compile Include="Camera\Camera.cs" />
+    <Compile Include="Camera\ICameraMan.cs" />
+    <Compile Include="Camera\Rotater.cs" />
     <Compile Include="Camera\ICameraScript.cs" />
     <Compile Include="DummyPlayer\DummyPlayer.cs" />
     <Compile Include="Game1.cs" />

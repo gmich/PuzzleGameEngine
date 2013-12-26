@@ -233,11 +233,12 @@ namespace DynamicCamera.Level
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            int startX = GetCellByPixelX((int)Camera.Position.X);
-            int endX = GetCellByPixelX((int)Camera.Position.X + ResolutionHandler.WindowWidth);
 
-            int startY = GetCellByPixelY((int)Camera.Position.Y);
-            int endY = GetCellByPixelY((int)Camera.Position.Y + ResolutionHandler.WindowHeight);
+            int startX = GetCellByPixelX((int)(Camera.Position.X * Camera.Scale));
+            int endX = GetCellByPixelX((int)(Camera.Position.X  * (1.0f/ Camera.Scale))+ ResolutionHandler.WindowWidth);
+
+            int startY = GetCellByPixelY((int)(Camera.Position.Y * Camera.Scale));
+            int endY = GetCellByPixelY((int)(Camera.Position.Y * (1.0f / Camera.Scale)) + ResolutionHandler.WindowHeight);
 
             for (int x = startX; x <= endX; x++)
                 for (int y = startY; y <= endY; y++)
@@ -247,7 +248,6 @@ namespace DynamicCamera.Level
                     {
                         spriteBatch.Draw(tileSheet, CellScreenRectangle(x, y), TileSourceRectangle(mapCells[x, y].LayerTile),
                           Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
-  
                     }
                 }
         }

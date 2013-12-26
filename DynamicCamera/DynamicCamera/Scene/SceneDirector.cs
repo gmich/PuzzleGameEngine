@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace DynamicCamera.Scene
 {
-    class SceneDirector
+    public class SceneDirector
     {
         List<IScene> scenes;
 

@@ -26,9 +26,10 @@ namespace DynamicCamera.Scene
         public GameScene(GraphicsDevice graphicsDevice,ContentManager content)
         {
             this.graphicsDevice = graphicsDevice;
-            renderTarget = new RenderTarget2D(graphicsDevice, this.Width,this.Height);
-            player = new DummyPlayer(new Vector2(50, 50), content.Load<Texture2D>(@"player"));
-            cameraScript = new ChasingCamera(player.location, new Vector2(this.Width, this.Height));
+            renderTarget = new RenderTarget2D(graphicsDevice, this.Width,this.Height); 
+            player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"player"));
+            cameraScript = new ChasingCamera(player.location, new Vector2(this.Width, this.Height), new Vector2(50000,50000));
+            cameraScript.AddCameraMan(new Rotater(0.0f, MathHelper.PiOver2, 10));
             tileMap = new TileMap(cameraScript.Camera.Position, cameraScript.Camera, content.Load<Texture2D>("PlatformTiles"), 50, 50);
             tileMap.Randomize(200, 200);
         }
@@ -129,12 +130,31 @@ namespace DynamicCamera.Scene
 
         #endregion
 
+        //TODO: remove 
+        Vector2 initialpos;
+        bool clicked = false;
         public void Update(GameTime gameTime)
         {
-            HandleRotation();
             HandleZoom();
             player.Update(gameTime);
-            cameraScript.TargetLocation = player.location;
+            //cameraScript.TargetLocation = player.Center;
+
+            //TODO: encapsulate this in an ICameraMan object
+            if (InputHandler.LeftButtonIsClicked())
+            {
+                if (!clicked)
+                {
+                    clicked = true;
+                    initialpos = InputHandler.MousePosition + cameraScript.Camera.Position;
+                }
+
+                cameraScript.TargetLocation = initialpos;
+            }
+            if (!InputHandler.LeftButtonIsClicked())
+            {
+                clicked = false;
+                cameraScript.TargetLocation = player.Center;
+            }
             cameraScript.Update(gameTime);
         }
 
@@ -152,7 +172,6 @@ namespace DynamicCamera.Scene
                         null,
                         null,
                         cameraScript.Camera.GetTransformation(graphicsDevice));
-
             tileMap.Draw(spriteBatch);
             player.Draw(spriteBatch);
 

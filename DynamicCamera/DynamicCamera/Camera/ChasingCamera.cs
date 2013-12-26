@@ -14,15 +14,17 @@ namespace DynamicCamera
         Camera camera;
         float distance;
         Vector2 targetLocation;
+        List<ICameraMan> cameraMen;
 
         #endregion
 
         #region Constructor
 
-        public ChasingCamera(Vector2 targetLocation,Vector2 viewportSize)
+        public ChasingCamera(Vector2 targetLocation,Vector2 viewportSize,Vector2 cameraSize)
         {
             this.TargetLocation = targetLocation;
-            camera = new Camera(targetLocation, viewportSize);
+            camera = new Camera(targetLocation, viewportSize, cameraSize);
+            cameraMen = new List<ICameraMan>();
         }
 
         #endregion
@@ -34,6 +36,14 @@ namespace DynamicCamera
             get
             {
                 return camera;
+            }
+        }
+
+        public float ChaseStep
+        {
+            get
+            {
+                return 5.0f;
             }
         }
 
@@ -53,6 +63,11 @@ namespace DynamicCamera
 
         #region Helper Methods
 
+        public void AddCameraMan(ICameraMan cameraMan)
+        {
+            cameraMen.Add(cameraMan);
+        }
+
         private void RepositionCamera(float timePassed)
         {
             int screenLocX = (int)camera.WorldToScreen(camera.Position).X;
@@ -67,6 +82,7 @@ namespace DynamicCamera
             {
                 camera.Move(angle * distance * timePassed);
             }
+            
             if (screenLocY < camera.ViewPortHeight / 2)
             {
                 camera.Move(angle * distance * timePassed);
@@ -89,12 +105,15 @@ namespace DynamicCamera
         {
             
             distance = Vector2.Distance(targetLocation, camera.WorldCenter);
-            distance *= 5;
+            distance *= ChaseStep;
 
             if (distance < 0.001f)
                 distance = 0.0f;
 
             RepositionCamera((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            foreach (ICameraMan cameraman in cameraMen)
+                cameraman.Update(gameTime,this.Camera);
         }
 
         #endregion

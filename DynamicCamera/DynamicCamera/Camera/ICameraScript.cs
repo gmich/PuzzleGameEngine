@@ -16,6 +16,8 @@ namespace DynamicCamera
             set;
         }
 
+        void AddCameraMan(ICameraMan cameraMan);
+
         void Update(GameTime gameTime);
 
     }

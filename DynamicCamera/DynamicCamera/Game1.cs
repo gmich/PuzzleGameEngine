@@ -35,6 +35,8 @@ namespace DynamicCamera
 
             this.Window.AllowUserResizing = true;
             this.Window.ClientSizeChanged += new EventHandler<EventArgs>(OnWindowClientSizeChanged);
+            this.graphics.PreferMultiSampling = true;
+
             this.graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";

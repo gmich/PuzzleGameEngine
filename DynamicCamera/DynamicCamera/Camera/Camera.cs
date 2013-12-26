@@ -18,11 +18,12 @@ namespace DynamicCamera
 
         #region Constructor
 
-        public Camera(Vector2 initialPos, Vector2 viewportSize)
+        public Camera(Vector2 initialPos, Vector2 viewportSize,Vector2 worldSize)
         {
             this.Position = initialPos;
             this.viewPortSize = viewportSize;
             this.Zoom = 1.0f;
+            this.WorldSize = worldSize;
         }
 
         #endregion
@@ -43,8 +44,14 @@ namespace DynamicCamera
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, 1000 * 48, 50 * 48);
+                return new Rectangle((int)Position.X, (int)Position.Y, (int)WorldSize.X, (int)WorldSize.Y);
             }
+        }
+
+        public Vector2 WorldSize
+        {
+            get;
+            set;
         }
 
         public int ViewPortWidth
@@ -92,10 +99,18 @@ namespace DynamicCamera
 
         #region Translation Properties
 
+        public float Scale
+        {
+            get
+            {
+                return MathHelper.Min(zoom, 1.0f);
+            }
+        }
+
         public float Zoom
         {
             get { return zoom; }
-            set { zoom = value; if (zoom < 0.1f) zoom = 0.1f; }
+            set { zoom = MathHelper.Clamp(value, 0.45f, 2.0f); }
         }
 
         public float Rotation
@@ -181,7 +196,7 @@ namespace DynamicCamera
 
         public Matrix GetTransformation(GraphicsDevice graphicsDevice)
         {
-            transform = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
+            transform = Matrix.CreateTranslation(new Vector3(-ViewPortWidth/2,-ViewPortHeight/2, 0)) *
                                          Matrix.CreateRotationZ(Rotation) *
                                          Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
                                          Matrix.CreateTranslation(new Vector3(ViewPortWidth * 0.5f, ViewPortHeight * 0.5f, 0));
