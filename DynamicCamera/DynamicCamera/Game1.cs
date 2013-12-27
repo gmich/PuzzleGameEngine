@@ -30,7 +30,7 @@ namespace DynamicCamera
            this.graphics = new GraphicsDeviceManager(this)
             {
                 PreferMultiSampling = true,
-                PreferredBackBufferWidth = 800,
+                PreferredBackBufferWidth = 1000,
                 PreferredBackBufferHeight = 600
             };
 
@@ -57,6 +57,8 @@ namespace DynamicCamera
             resolutionHandler = new ResolutionHandler(ref this.graphics, false);
             InputHandler.Initialize();
             fpsMonitor = new FpsMonitor();
+            WindowText.Initialize(Content.Load<SpriteFont>("font"));
+            WindowText.AddText(new Vector2(10, 100), " ");
             base.Initialize();
         }
 
@@ -96,7 +98,8 @@ namespace DynamicCamera
             sceneDirector.Update(gameTime);
 
             fpsMonitor.Update(gameTime);
-            this.Window.Title = fpsMonitor.FPS.ToString();
+
+            WindowText.SetText(new Vector2(10, 100), "FPS: " + fpsMonitor.FPS);
 
             base.Update(gameTime);
         }

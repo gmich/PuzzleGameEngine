@@ -28,6 +28,9 @@ namespace DynamicCamera.Level
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
             this.Camera = camera;
+            WindowText.AddText(new Vector2(10, 10), " ");
+            WindowText.AddText(new Vector2(40, 10), " ");
+            WindowText.AddText(new Vector2(70, 10), " ");
         }
 
 
@@ -237,7 +240,7 @@ namespace DynamicCamera.Level
                 double realHorizontalTiles = Math.Ceiling((double)ResolutionHandler.WindowWidth / TileWidth);
                 double currentHorizontalTiles = Math.Ceiling(ResolutionHandler.WindowWidth / (TileWidth * Camera.Zoom));
 
-                return (int)(Math.Ceiling(realHorizontalTiles - currentHorizontalTiles));
+                return (int)(Math.Ceiling(realHorizontalTiles - currentHorizontalTiles) / 2 - 3);
             }
         }
 
@@ -248,7 +251,7 @@ namespace DynamicCamera.Level
                 double realVerticalTiles = Math.Ceiling((double)ResolutionHandler.WindowHeight / TileHeight);
                 double currentVerticalTiles = Math.Ceiling(ResolutionHandler.WindowHeight / (TileHeight * Camera.Zoom));
 
-                return (int)(Math.Ceiling(realVerticalTiles - currentVerticalTiles));
+                return (int)(Math.Ceiling(realVerticalTiles - currentVerticalTiles) / 2 - 3);
             }
         }
 
@@ -269,11 +272,26 @@ namespace DynamicCamera.Level
             if (Camera.IsFlipped)
                 DrawTiles(spriteBatch, startX, endX, startY, endY);
             else
-                DrawTiles(spriteBatch, startX, endX, startY, endY);
+            {
+                int horizontalSize = endX - startX;
+                int verticalSize = endY- startY;
+                int difference = 0;
+                if (horizontalSize > verticalSize)
+                    difference = horizontalSize - verticalSize;
+                else
+                    difference = verticalSize - horizontalSize;
+
+                DrawTiles(spriteBatch, startX- difference, endX + difference, startY - difference, endY + difference);
+            }
         }
 
         void DrawTiles(SpriteBatch spriteBatch, int startX, int endX, int startY, int endY)
         {
+            WindowText.SetText(new Vector2(10, 10), "Location: {X: " + startX + " / " + MapWidth
+                                                              +"  Y: "  + startY + " / " + MapHeight + "}");
+            WindowText.SetText(new Vector2(10, 40), "Scale: " + Camera.Scale);
+            WindowText.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);
+
             for (int x = startX; x <= endX; x++)
                 for (int y = startY; y <= endY; y++)
                 {

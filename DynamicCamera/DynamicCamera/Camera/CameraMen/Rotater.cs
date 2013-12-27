@@ -84,7 +84,7 @@ namespace DynamicCamera
             if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.Q)
                 || InputHandler.ForwardButtonIsPressed()))
             {
-                if (rotationState == 4)
+                if (rotationState == 3)
                     rotationState = 0;
                 else rotationState++;
 
@@ -94,7 +94,7 @@ namespace DynamicCamera
                 || InputHandler.BackButtonIsPressed()))
             {
                 if (rotationState == 0)
-                    rotationState = 4;
+                    rotationState = 3;
                 else rotationState--;
 
                 return false;

@@ -29,7 +29,7 @@ namespace DynamicCamera.Scene
             player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"player"),10);
             cameraScript = new ChasingCamera(player.location, new Vector2(this.Width, this.Height), new Vector2(50000,50000));
             Rotater rotater = new Rotater(0.0f, MathHelper.PiOver2, 10);
-
+            freeroam = new DummyPlayer(player.location, null, 15);
             rotater.Triggered += CameraRotated;
             cameraScript.AddCameraMan(rotater);
            
@@ -84,7 +84,11 @@ namespace DynamicCamera.Scene
 
         private void CameraRotated(object sender, EventArgs e)
         {
-            Console.WriteLine("new configuration");
+            RotationArgs args = (RotationArgs)e;
+
+            //TODO: input configuration should be handled elsewhere
+            player.InitializeKeys(args.RotationState);
+            freeroam.InitializeKeys(args.RotationState);
         }
 
         #endregion
@@ -151,7 +155,7 @@ namespace DynamicCamera.Scene
                 if (!clicked)
                 {
                     clicked = true;
-                    freeroam = new DummyPlayer(player.location, null,15);
+                    freeroam.location = player.location;
                 }
                 freeroam.Update(gameTime);
                 cameraScript.TargetLocation = freeroam.location;
@@ -194,6 +198,8 @@ namespace DynamicCamera.Scene
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
+
+            WindowText.Draw(spriteBatch);
 
             spriteBatch.End();
         }
