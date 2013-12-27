@@ -15,6 +15,22 @@ namespace DynamicCamera
         int rotationTicksRemaining;
         float rotationAmount;
         int rotationSteps;
+        int rotationState;
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler Triggered;
+
+        protected virtual void OnTriggered(EventArgs e)
+        {
+            EventHandler handler = Triggered;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
 
         #endregion
 
@@ -28,6 +44,7 @@ namespace DynamicCamera
             this.rotationSteps = rotationSteps;
             active = false;
             clockwise = null;
+            rotationState = 0;
         }
 
         #endregion
@@ -64,13 +81,24 @@ namespace DynamicCamera
 
         public bool? HandleRotation()
         {
-                if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.Q)
-                    || InputHandler.ForwardButtonIsPressed()))
-                    return true;
-                else if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.W)
-                    || InputHandler.BackButtonIsPressed()))
-                    return false;
+            if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.Q)
+                || InputHandler.ForwardButtonIsPressed()))
+            {
+                if (rotationState == 4)
+                    rotationState = 0;
+                else rotationState++;
 
+                return true;
+            }
+            else if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.W)
+                || InputHandler.BackButtonIsPressed()))
+            {
+                if (rotationState == 0)
+                    rotationState = 4;
+                else rotationState--;
+
+                return false;
+            }
                 return null;
         }
 
@@ -89,7 +117,10 @@ namespace DynamicCamera
             rotationTicksRemaining = (int)MathHelper.Max(0, rotationTicksRemaining - 1);
 
             if (rotationTicksRemaining == 0)
+            {
+                OnTriggered(new RotationArgs(rotationState));
                 active = false;
+            }
         }
 
         #endregion

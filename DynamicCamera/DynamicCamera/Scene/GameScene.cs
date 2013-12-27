@@ -28,7 +28,11 @@ namespace DynamicCamera.Scene
             this.graphicsDevice = graphicsDevice;
             player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"player"));
             cameraScript = new ChasingCamera(player.location, new Vector2(this.Width, this.Height), new Vector2(50000,50000));
-            cameraScript.AddCameraMan(new Rotater(0.0f, MathHelper.PiOver2, 10));
+            Rotater rotater = new Rotater(0.0f, MathHelper.PiOver2, 10);
+
+            rotater.Triggered += CameraRotated;
+            cameraScript.AddCameraMan(rotater);
+           
             tileMap = new TileMap(cameraScript.Camera.Position, cameraScript.Camera, content.Load<Texture2D>("PlatformTiles"), 64,64);
             tileMap.Randomize(200, 200);
             UpdateRenderTarget();
@@ -76,19 +80,20 @@ namespace DynamicCamera.Scene
 
         #endregion
 
+        #region Event Handling
+
+        private void CameraRotated(object sender, EventArgs e)
+        {
+            Console.WriteLine("new configuration");
+        }
+
+        #endregion
+
         #region Camera Related
 
         #region Properties
 
         float ZoomStep
-        {
-            get
-            {
-                return 0.01f;
-            }
-        }
-
-        float RotationStep
         {
             get
             {
@@ -115,6 +120,7 @@ namespace DynamicCamera.Scene
             cameraScript.Camera.ViewPortHeight = ResolutionHandler.WindowHeight;
         }
 
+        //Encapsulate this in a cameraMan object
         void HandleZoom()
         {
             if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
@@ -124,47 +130,45 @@ namespace DynamicCamera.Scene
                 cameraScript.Camera.Zoom -= ZoomStep;
         }
 
-        void HandleRotation()
-        {
-            if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Q))
-                cameraScript.Camera.Rotation += RotationStep;
-
-            else if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
-                cameraScript.Camera.Rotation -= RotationStep;
-        }
-
         #endregion
 
         #endregion
+
+        #region Update
 
         //TODO: remove 
         Vector2 initialpos;
         bool clicked = false;
+        DummyPlayer freeroam;
         public void Update(GameTime gameTime)
         {
             HandleZoom();
-            player.Update(gameTime);
+            
             //cameraScript.TargetLocation = player.Center;
 
             //TODO: encapsulate this in an ICameraMan object
-            if (InputHandler.LeftButtonIsClicked())
+            if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space)) 
             {
                 if (!clicked)
                 {
                     clicked = true;
-                    initialpos = InputHandler.MousePosition + cameraScript.Camera.Position;
+                    freeroam = new DummyPlayer(player.location, null);
                 }
-
-                cameraScript.TargetLocation = initialpos;
+                freeroam.Update(gameTime);
+                cameraScript.TargetLocation = freeroam.location;
             }
-            if (!InputHandler.LeftButtonIsClicked())
+            else
             {
                 clicked = false;
+                player.Update(gameTime);
                 cameraScript.TargetLocation = player.Center;
             }
             cameraScript.Update(gameTime);
         }
 
+        #endregion
+
+        #region Draw
 
         //TODO: fix rendertarget order
         public void Draw(SpriteBatch spriteBatch)
@@ -172,8 +176,7 @@ namespace DynamicCamera.Scene
 
             graphicsDevice.Clear(Color.CornflowerBlue);
             graphicsDevice.SetRenderTarget(renderTarget);
-
-
+            
             spriteBatch.Begin(SpriteSortMode.BackToFront,
                         BlendState.AlphaBlend,
                         null,
@@ -195,5 +198,7 @@ namespace DynamicCamera.Scene
 
             spriteBatch.End();
         }
+
+        #endregion
     }
 }

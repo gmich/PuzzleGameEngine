@@ -251,7 +251,7 @@ namespace DynamicCamera.Level
                 return (int)(Math.Ceiling(realVerticalTiles - currentVerticalTiles));
             }
         }
-           
+
         public void Draw(SpriteBatch spriteBatch)
         {
 
@@ -261,12 +261,19 @@ namespace DynamicCamera.Level
             startX += HorizontalOffset;
             endX -= HorizontalOffset;
 
-            int startY = GetCellByPixelY((int)(Camera.Position.Y ));
+            int startY = GetCellByPixelY((int)(Camera.Position.Y));
             int endY = GetCellByPixelY((int)(Camera.Position.Y) + ResolutionHandler.WindowHeight);
             startY += VerticalOffset;
             endY -= VerticalOffset;
 
-            Console.WriteLine(Camera.Zoom);
+            if (Camera.IsFlipped)
+                DrawTiles(spriteBatch, startX, endX, startY, endY);
+            else
+                DrawTiles(spriteBatch, startX, endX, startY, endY);
+        }
+
+        void DrawTiles(SpriteBatch spriteBatch, int startX, int endX, int startY, int endY)
+        {
             for (int x = startX; x <= endX; x++)
                 for (int y = startY; y <= endY; y++)
                 {
@@ -278,7 +285,7 @@ namespace DynamicCamera.Level
                     }
                 }
         }
-        
+
         #endregion
 
     }

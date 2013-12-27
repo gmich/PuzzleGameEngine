@@ -43,7 +43,7 @@ namespace DynamicCamera
         {
             get
             {
-                return 10.0f;
+                return 8.0f;
             }
         }
 
@@ -105,9 +105,6 @@ namespace DynamicCamera
 
             distance = Vector2.Distance(targetLocation, camera.WindowCenter);
             distance *= ChaseStep;
-
-            if (distance < 0.001f)
-                distance = 0.0f;
 
             RepositionCamera((float)gameTime.ElapsedGameTime.TotalSeconds);
 

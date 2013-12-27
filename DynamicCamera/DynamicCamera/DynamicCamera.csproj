@@ -38,11 +38,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Camera\ChasingCamera.cs" />
+    <Compile Include="Camera\EventArgs\RotationArgs.cs" />
+    <Compile Include="Camera\Scripts\ChasingCamera.cs" />
     <Compile Include="Camera\Camera.cs" />
-    <Compile Include="Camera\ICameraMan.cs" />
-    <Compile Include="Camera\Rotater.cs" />
-    <Compile Include="Camera\ICameraScript.cs" />
+    <Compile Include="Camera\CameraMen\ICameraMan.cs" />
+    <Compile Include="Camera\CameraMen\Rotater.cs" />
+    <Compile Include="Camera\Scripts\ICameraScript.cs" />
     <Compile Include="Diagnostics\FPSMonitor.cs" />
     <Compile Include="DummyPlayer\DummyPlayer.cs" />
     <Compile Include="Game1.cs" />
