@@ -16,6 +16,12 @@ namespace DynamicCamera.Scene
             scenes.Add(new GameScene(graphicsDevice,content));
         }
 
+        public void UpdateRenderTargets()
+        {
+            foreach (IScene scene in scenes)
+                scene.UpdateRenderTarget();
+        }
+
         public void Update(GameTime gameTime)
         {
             foreach (IScene scene in scenes)

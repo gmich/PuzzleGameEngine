@@ -54,5 +54,11 @@ namespace DynamicCamera.Scene
         {
             get { throw new NotImplementedException(); }
         }
+
+
+        public void UpdateRenderTarget()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

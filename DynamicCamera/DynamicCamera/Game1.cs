@@ -22,6 +22,7 @@ namespace DynamicCamera
         SpriteBatch spriteBatch;
         SceneDirector sceneDirector;
         ResolutionHandler resolutionHandler;
+        FpsMonitor fpsMonitor;
 
         public Game1()
             : base()
@@ -35,6 +36,7 @@ namespace DynamicCamera
 
             this.Window.AllowUserResizing = true;
             this.Window.ClientSizeChanged += new EventHandler<EventArgs>(OnWindowClientSizeChanged);
+
             this.graphics.PreferMultiSampling = true;
 
             this.graphics.ApplyChanges();
@@ -54,6 +56,7 @@ namespace DynamicCamera
             // TODO: Add your initialization logic here
             resolutionHandler = new ResolutionHandler(ref this.graphics, false);
             InputHandler.Initialize();
+            fpsMonitor = new FpsMonitor();
             base.Initialize();
         }
 
@@ -91,7 +94,9 @@ namespace DynamicCamera
             InputHandler.Update(gameTime);
             resolutionHandler.Update(gameTime);
             sceneDirector.Update(gameTime);
-            // TODO: Add your update logic here
+
+            fpsMonitor.Update(gameTime);
+            this.Window.Title = fpsMonitor.FPS.ToString();
 
             base.Update(gameTime);
         }
@@ -107,11 +112,14 @@ namespace DynamicCamera
             sceneDirector.Draw(spriteBatch);
 
             base.Draw(gameTime);
+
+            fpsMonitor.AddFrame();
         }
 
         private void OnWindowClientSizeChanged(object sender, System.EventArgs e)
         {
             this.resolutionHandler.SetResolution(this.Window.ClientBounds.Width, this.Window.ClientBounds.Height);
+            sceneDirector.UpdateRenderTargets();
         }
     }
 }

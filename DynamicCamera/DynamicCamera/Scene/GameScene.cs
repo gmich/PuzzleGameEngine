@@ -26,12 +26,12 @@ namespace DynamicCamera.Scene
         public GameScene(GraphicsDevice graphicsDevice,ContentManager content)
         {
             this.graphicsDevice = graphicsDevice;
-            renderTarget = new RenderTarget2D(graphicsDevice, this.Width,this.Height); 
             player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"player"));
             cameraScript = new ChasingCamera(player.location, new Vector2(this.Width, this.Height), new Vector2(50000,50000));
             cameraScript.AddCameraMan(new Rotater(0.0f, MathHelper.PiOver2, 10));
-            tileMap = new TileMap(cameraScript.Camera.Position, cameraScript.Camera, content.Load<Texture2D>("PlatformTiles"), 50, 50);
+            tileMap = new TileMap(cameraScript.Camera.Position, cameraScript.Camera, content.Load<Texture2D>("PlatformTiles"), 64,64);
             tileMap.Randomize(200, 200);
+            UpdateRenderTarget();
         }
 
         #endregion
@@ -60,7 +60,7 @@ namespace DynamicCamera.Scene
         {
             get
             {
-                return ResolutionHandler.WindowHeight - GameBanner.Height;
+                return ResolutionHandler.WindowHeight ;
             }
         }
 
@@ -107,6 +107,13 @@ namespace DynamicCamera.Scene
         #endregion
 
         #region Helper Methods
+
+        public void UpdateRenderTarget()
+        {
+            renderTarget = new RenderTarget2D(graphicsDevice, this.Width, this.Height);
+            cameraScript.Camera.ViewPortWidth = ResolutionHandler.WindowWidth;
+            cameraScript.Camera.ViewPortHeight = ResolutionHandler.WindowHeight;
+        }
 
         void HandleZoom()
         {
@@ -162,8 +169,10 @@ namespace DynamicCamera.Scene
         //TODO: fix rendertarget order
         public void Draw(SpriteBatch spriteBatch)
         {
-            graphicsDevice.SetRenderTarget(renderTarget);
+
             graphicsDevice.Clear(Color.CornflowerBlue);
+            graphicsDevice.SetRenderTarget(renderTarget);
+
 
             spriteBatch.Begin(SpriteSortMode.BackToFront,
                         BlendState.AlphaBlend,
@@ -172,24 +181,17 @@ namespace DynamicCamera.Scene
                         null,
                         null,
                         cameraScript.Camera.GetTransformation(graphicsDevice));
+
             tileMap.Draw(spriteBatch);
             player.Draw(spriteBatch);
 
             spriteBatch.End();
 
             graphicsDevice.SetRenderTarget(null);
-         //   spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
-                    BlendState.AlphaBlend,
-                    null,
-                    null,
-                    null,
-                    null,
-                    cameraScript.Camera.GetTransformation(graphicsDevice));
 
-            tileMap.Draw(spriteBatch);
-            player.Draw(spriteBatch);
-            //spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+            spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
 
             spriteBatch.End();
         }

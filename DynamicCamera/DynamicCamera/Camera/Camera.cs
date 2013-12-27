@@ -79,6 +79,14 @@ namespace DynamicCamera
             }
         }
 
+        public Vector2 WindowCenter
+        {
+            get
+            {
+                return Position + new Vector2(ResolutionHandler.WindowWidth / 2, ResolutionHandler.WindowHeight / 2);
+            }
+        }
+
         public Rectangle ScreenRectangle
         {
             get
@@ -110,7 +118,11 @@ namespace DynamicCamera
         public float Zoom
         {
             get { return zoom; }
-            set { zoom = MathHelper.Clamp(value, 0.45f, 2.0f); }
+            set
+            {
+                zoom = MathHelper.Clamp(value, 0.45f, 2.0f);
+                //zoom = (float)Decimal.Round((Decimal)zoom, 2);
+            }
         }
 
         public float Rotation

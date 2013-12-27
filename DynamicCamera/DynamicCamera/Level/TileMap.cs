@@ -54,7 +54,7 @@ namespace DynamicCamera.Level
                     }
                     else
                     {
-                        mapCells[x, y] = new MapSquare();
+                        mapCells[x, y] = new MapSquare(2, false, " ");
                     }
                 }
             }
@@ -122,7 +122,6 @@ namespace DynamicCamera.Level
                 TileHeight);
         }
 
-
         public Rectangle CellWorldRectangle(Vector2 cell)
         {
             return CellWorldRectangle(
@@ -144,7 +143,6 @@ namespace DynamicCamera.Level
         {
             return CellIsPassable((int)cell.X, (int)cell.Y);
         }
-
 
         public bool CellIsPassableByPixel(Vector2 pixelLocation)
         {
@@ -231,15 +229,44 @@ namespace DynamicCamera.Level
 
         #region Draw
 
+        //Review this Property
+        int HorizontalOffset
+        {
+            get
+            {
+                double realHorizontalTiles = Math.Ceiling((double)ResolutionHandler.WindowWidth / TileWidth);
+                double currentHorizontalTiles = Math.Ceiling(ResolutionHandler.WindowWidth / (TileWidth * Camera.Zoom));
+
+                return (int)(Math.Ceiling(realHorizontalTiles - currentHorizontalTiles));
+            }
+        }
+
+        int VerticalOffset
+        {
+            get
+            {
+                double realVerticalTiles = Math.Ceiling((double)ResolutionHandler.WindowHeight / TileHeight);
+                double currentVerticalTiles = Math.Ceiling(ResolutionHandler.WindowHeight / (TileHeight * Camera.Zoom));
+
+                return (int)(Math.Ceiling(realVerticalTiles - currentVerticalTiles));
+            }
+        }
+           
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            int startX = GetCellByPixelX((int)(Camera.Position.X * Camera.Scale));
-            int endX = GetCellByPixelX((int)(Camera.Position.X  * (1.0f/ Camera.Scale))+ ResolutionHandler.WindowWidth);
+            int startX = GetCellByPixelX((int)(Camera.Position.X));
+            int endX = GetCellByPixelX((int)(Camera.Position.X) + ResolutionHandler.WindowWidth);
 
-            int startY = GetCellByPixelY((int)(Camera.Position.Y * Camera.Scale));
-            int endY = GetCellByPixelY((int)(Camera.Position.Y * (1.0f / Camera.Scale)) + ResolutionHandler.WindowHeight);
+            startX += HorizontalOffset;
+            endX -= HorizontalOffset;
 
+            int startY = GetCellByPixelY((int)(Camera.Position.Y ));
+            int endY = GetCellByPixelY((int)(Camera.Position.Y) + ResolutionHandler.WindowHeight);
+            startY += VerticalOffset;
+            endY -= VerticalOffset;
+
+            Console.WriteLine(Camera.Zoom);
             for (int x = startX; x <= endX; x++)
                 for (int y = startY; y <= endY; y++)
                 {

@@ -12,6 +12,8 @@ namespace DynamicCamera.Scene
 
         void Update(GameTime gameTime);
 
+        void UpdateRenderTarget();
+
         void Draw(SpriteBatch spriteBatch);
     }
 }

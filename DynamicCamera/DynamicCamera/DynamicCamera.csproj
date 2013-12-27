@@ -43,6 +43,7 @@
     <Compile Include="Camera\ICameraMan.cs" />
     <Compile Include="Camera\Rotater.cs" />
     <Compile Include="Camera\ICameraScript.cs" />
+    <Compile Include="Diagnostics\FPSMonitor.cs" />
     <Compile Include="DummyPlayer\DummyPlayer.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Input\InputHandler.cs" />

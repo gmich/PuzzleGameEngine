@@ -43,7 +43,7 @@ namespace DynamicCamera
         {
             get
             {
-                return 5.0f;
+                return 10.0f;
             }
         }
 
@@ -72,7 +72,7 @@ namespace DynamicCamera
         {
             int screenLocX = (int)camera.WorldToScreen(camera.Position).X;
             int screenLocY = (int)camera.WorldToScreen(camera.Position).Y;
-            Vector2 angle = targetLocation - camera.WorldCenter;
+            Vector2 angle = targetLocation - camera.WindowCenter;
 
             angle.Normalize();
 
@@ -100,11 +100,10 @@ namespace DynamicCamera
              */
         }
 
-
         public void Update(GameTime gameTime)
         {
-            
-            distance = Vector2.Distance(targetLocation, camera.WorldCenter);
+
+            distance = Vector2.Distance(targetLocation, camera.WindowCenter);
             distance *= ChaseStep;
 
             if (distance < 0.001f)
