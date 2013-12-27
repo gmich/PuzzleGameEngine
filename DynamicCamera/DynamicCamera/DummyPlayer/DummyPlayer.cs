@@ -13,10 +13,17 @@ namespace DynamicCamera
         public Vector2 location;
         Texture2D texture;
 
-        public DummyPlayer(Vector2 location, Texture2D texture)
+        public DummyPlayer(Vector2 location, Texture2D texture,float step)
         {
             this.location = location;
             this.texture = texture;
+            this.step = step;
+        }
+
+        float step
+        {
+            get;
+            set;
         }
 
         public Vector2 Center
@@ -29,7 +36,6 @@ namespace DynamicCamera
             
         public void Update(GameTime gameTime)
         {
-            float step = 10;
             if(InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up))
             {
                 location -=new Vector2(0,step);

@@ -26,7 +26,7 @@ namespace DynamicCamera.Scene
         public GameScene(GraphicsDevice graphicsDevice,ContentManager content)
         {
             this.graphicsDevice = graphicsDevice;
-            player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"player"));
+            player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"player"),10);
             cameraScript = new ChasingCamera(player.location, new Vector2(this.Width, this.Height), new Vector2(50000,50000));
             Rotater rotater = new Rotater(0.0f, MathHelper.PiOver2, 10);
 
@@ -137,7 +137,6 @@ namespace DynamicCamera.Scene
         #region Update
 
         //TODO: remove 
-        Vector2 initialpos;
         bool clicked = false;
         DummyPlayer freeroam;
         public void Update(GameTime gameTime)
@@ -152,7 +151,7 @@ namespace DynamicCamera.Scene
                 if (!clicked)
                 {
                     clicked = true;
-                    freeroam = new DummyPlayer(player.location, null);
+                    freeroam = new DummyPlayer(player.location, null,15);
                 }
                 freeroam.Update(gameTime);
                 cameraScript.TargetLocation = freeroam.location;
@@ -179,7 +178,7 @@ namespace DynamicCamera.Scene
             
             spriteBatch.Begin(SpriteSortMode.BackToFront,
                         BlendState.AlphaBlend,
-                        null,
+                        SamplerState.PointWrap,
                         null,
                         null,
                         null,

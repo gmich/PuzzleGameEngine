@@ -38,7 +38,7 @@ namespace DynamicCamera
             this.Window.ClientSizeChanged += new EventHandler<EventArgs>(OnWindowClientSizeChanged);
 
             this.graphics.PreferMultiSampling = true;
-
+            //this.GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
             this.graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";
