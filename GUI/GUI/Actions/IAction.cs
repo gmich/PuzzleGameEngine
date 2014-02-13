@@ -6,7 +6,7 @@ using System.Text;
 namespace GUI.Actions
 {
     //command
-    interface IAction
+    public interface IAction
     {
         void Execute();
     }

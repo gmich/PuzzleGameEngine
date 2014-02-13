@@ -39,8 +39,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Animations\IAnimation.cs" />
-    <Compile Include="Camera\EventArgs\RotationArgs.cs" />
-    <Compile Include="Camera\Scripts\ChasingCamera.cs" />
     <Compile Include="Camera\ChasingCamera.cs" />
     <Compile Include="Camera\Camera.cs" />
     <Compile Include="Camera\ICameraMan.cs" />

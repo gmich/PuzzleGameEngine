@@ -28,15 +28,14 @@ namespace DynamicCamera.Scene
             this.graphicsDevice = graphicsDevice;
             player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"player"),10);
             cameraScript = new ChasingCamera(player.location, new Vector2(this.Width, this.Height), new Vector2(50000,50000));
-<<<<<<< HEAD
+
             Rotater rotater = new Rotater(0.0f, MathHelper.PiOver2, 10);
             freeroam = new DummyPlayer(player.location, null, 15);
             rotater.Triggered += CameraRotated;
             cameraScript.AddCameraMan(rotater);
            
-=======
             cameraScript.AddCameraMan(new Rotater(0.0f, MathHelper.PiOver2, 10));
->>>>>>> parent of b304e83... Added free roaming using the chasing script
+
             tileMap = new TileMap(cameraScript.Camera.Position, cameraScript.Camera, content.Load<Texture2D>("PlatformTiles"), 64,64);
             tileMap.Randomize(200, 200);
             UpdateRenderTarget();
@@ -84,7 +83,6 @@ namespace DynamicCamera.Scene
 
         #endregion
 
-<<<<<<< HEAD
         #region Event Handling
 
         private void CameraRotated(object sender, EventArgs e)
@@ -98,8 +96,6 @@ namespace DynamicCamera.Scene
 
         #endregion
 
-=======
->>>>>>> parent of b304e83... Added free roaming using the chasing script
         #region Camera Related
 
         #region Properties
@@ -175,11 +171,11 @@ namespace DynamicCamera.Scene
                 if (!clicked)
                 {
                     clicked = true;
-<<<<<<< HEAD
+
                     freeroam.location = player.location;
-=======
+
                     initialpos = InputHandler.MousePosition + cameraScript.Camera.Position;
->>>>>>> parent of b304e83... Added free roaming using the chasing script
+
                 }
 
                 cameraScript.TargetLocation = initialpos;

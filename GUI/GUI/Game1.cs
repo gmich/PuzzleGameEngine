@@ -11,18 +11,26 @@ using Microsoft.Xna.Framework.GamerServices;
 
 namespace GUI
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
+    using Resolution;
+    using Input;
+    using GUIManager;
+
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        ResolutionHandler resolutionHandler;
+        GUIHandler guiHandler;
 
         public Game1()
             : base()
         {
-            graphics = new GraphicsDeviceManager(this);
+            this.graphics = new GraphicsDeviceManager(this)
+            {
+                PreferMultiSampling = true,
+                PreferredBackBufferWidth = 1000,
+                PreferredBackBufferHeight = 600
+            };
             Content.RootDirectory = "Content";
         }
 
@@ -34,8 +42,9 @@ namespace GUI
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+            resolutionHandler = new ResolutionHandler(ref this.graphics, false);
+            InputHandler.Initialize();
+            
             base.Initialize();
         }
 
@@ -47,7 +56,7 @@ namespace GUI
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            guiHandler = new GUIHandler(Content);
             // TODO: use this.Content to load your game content here
         }
 
@@ -71,6 +80,8 @@ namespace GUI
                 Exit();
 
             // TODO: Add your update logic here
+            InputHandler.Update(gameTime);
+            guiHandler.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -83,7 +94,11 @@ namespace GUI
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+            guiHandler.Draw(spriteBatch);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

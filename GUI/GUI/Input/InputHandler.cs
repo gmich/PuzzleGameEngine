@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 namespace GUI.Input
 {
 
-    static public class InputManager 
+    static public class InputHandler
     {
         #region Constants and Fields
 
@@ -70,25 +70,6 @@ namespace GUI.Input
             }
         }
 
-        public static bool MouseInBounds
-        {
-            get
-            {
-                int offSet = 2;
-                return ((MousePosition.X < Camera.ViewPortWidth + offSet && MousePosition.X > 0 - offSet)
-                        && (MousePosition.Y < Camera.ViewPortHeight + offSet && MousePosition.Y > 0 - offSet));
-            }
-        }
-
-        static public Vector2 MouseWorldPosition
-        {
-            get
-            {
-                Vector2 location = new Vector2(mouseState.X, mouseState.Y) + Camera.Position;
-                return (Camera.AdjustInWorldBounds(location, 0, 0));
-            }
-        }
-
         static public Rectangle MouseRectangle
         {
             get
@@ -97,13 +78,6 @@ namespace GUI.Input
             }
         }
 
-        static public Rectangle MouseWorldRectangle
-        {
-            get
-            {
-                return new Rectangle((int)MousePosition.X + (int)Camera.Position.X, (int)MousePosition.Y + (int)Camera.Position.Y, 1, 1);
-            }
-        }
 
         #endregion
 

@@ -22,18 +22,19 @@ namespace GUI.Components.Buttons
 
         #region Constructor
 
-        public MenuButton(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, DrawProperties clickedButtonDrawProperties, DrawTextProperties textProperties, Vector2 position)
+        public MenuButton(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, DrawProperties clickedButtonDrawProperties, DrawTextProperties textProperties, Vector2 position, Vector2 size)
+            : base()
         {
             button = buttonDrawProperties;
             frame = frameDrawProperties;
             clickedButton = clickedButtonDrawProperties;
             defaultText = textProperties;
+            this.Size = size;
             this.Position = position;
         }
 
         #endregion
-
-
+        
         #region Update
 
         public override void Update(GameTime gameTime)
@@ -43,7 +44,7 @@ namespace GUI.Components.Buttons
 
         #endregion
 
-        #region Draw & Drawing Information
+        #region Drawing Related Methods
 
         #region Drawing Properties
 
@@ -58,13 +59,7 @@ namespace GUI.Components.Buttons
 
         #endregion
 
-        #region Text
-
-        string Text
-        {
-            get;
-            set;
-        }
+        #region TextProperties
 
         Vector2 TextLocation
         {
@@ -84,7 +79,7 @@ namespace GUI.Components.Buttons
 
         #endregion
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             DrawableEntity(spriteBatch, button);
 
@@ -95,7 +90,7 @@ namespace GUI.Components.Buttons
             if (mouseIsOverButton)
                 DrawableEntity(spriteBatch, frame);
 
-            spriteBatch.DrawString(defaultText.font, Text, TextLocation, defaultText.textColor, 0.0f, Vector2.Zero, defaultText.textScale, SpriteEffects.None, defaultText.textLayer);
+            spriteBatch.DrawString(defaultText.font, defaultText.text, TextLocation, defaultText.textColor, 0.0f, Vector2.Zero, defaultText.textScale, SpriteEffects.None, defaultText.textLayer);
         }
 
         void DrawableEntity(SpriteBatch spriteBatch, DrawProperties entity)

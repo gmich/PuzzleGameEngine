@@ -20,7 +20,7 @@ namespace DynamicCamera
 
         #region Constructor
 
-        public ChasingCamera(Vector2 targetLocation,Vector2 viewportSize,Vector2 cameraSize)
+        public ChasingCamera(Vector2 targetLocation, Vector2 viewportSize, Vector2 cameraSize)
         {
             this.TargetLocation = targetLocation;
             camera = new Camera(targetLocation, viewportSize, cameraSize);
@@ -30,7 +30,7 @@ namespace DynamicCamera
         #endregion
 
         #region Properties
-        
+
         public Camera Camera
         {
             get
@@ -112,7 +112,7 @@ namespace DynamicCamera
             RepositionCamera((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             foreach (ICameraMan cameraman in cameraMen)
-                cameraman.Update(gameTime,this.Camera);
+                cameraman.Update(gameTime, this.Camera);
         }
 
         #endregion

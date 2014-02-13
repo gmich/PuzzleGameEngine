@@ -7,6 +7,9 @@ namespace GUI.ActionReceivers
 {
     public class Player
     {
-        public void doInvokedAction();
+        public void doInvokedAction()
+        {
+            //do something;
+        }
     }
 }

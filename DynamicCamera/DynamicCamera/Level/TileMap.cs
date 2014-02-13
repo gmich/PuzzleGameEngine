@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DynamicCamera.Level
 {
+    using DynamicCamera;
 
     public class TileMap
     {
@@ -269,7 +270,7 @@ namespace DynamicCamera.Level
             startY += VerticalOffset;
             endY -= VerticalOffset;
 
-<<<<<<< HEAD
+
             if (Camera.IsFlipped)
                 DrawTiles(spriteBatch, startX, endX, startY, endY);
             else
@@ -293,9 +294,9 @@ namespace DynamicCamera.Level
             WindowText.SetText(new Vector2(10, 40), "Scale: " + Camera.Scale);
             WindowText.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);
 
-=======
+
             Console.WriteLine(Camera.Zoom);
->>>>>>> parent of b304e83... Added free roaming using the chasing script
+
             for (int x = startX; x <= endX; x++)
                 for (int y = startY; y <= endY; y++)
                 {

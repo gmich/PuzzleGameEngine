@@ -8,47 +8,16 @@ namespace GUI.Components
     using Actions;
     using Input;
 
-    abstract class AGUIElement
+    public abstract class AGUIElement
     {
+        #region Constructor
 
-        #region DrawProperties
-
-        public struct DrawProperties
+        protected AGUIElement()
         {
-            public Texture2D texture;
-            public float layer;
-            public float transparency;
-            public float rotation;
-            public Color color;
-
-            public DrawProperties(Texture2D texture, float layer, float transparency, float rotation, Color color)
-            {
-                this.texture = texture;
-                this.layer = layer;
-                this.transparency = transparency;
-                this.rotation = rotation;
-                this.color = color;
-            }
-        }
-
-        public struct DrawTextProperties
-        {
-            public string text;
-            public int size;
-            public SpriteFont font;
-            public Color textColor;
-            public float textLayer;
-            public float textScale;
-
-            public DrawTextProperties(string text, int size, SpriteFont font, Color textColor, float textLAyer, float textScale)
-            {
-                this.text = text;
-                this.size = size;
-                this.font = font;
-                this.textColor = textColor;
-                this.textLayer = 0.7f;
-                this.textScale = 1.0f;
-            }
+            mouseOverActions = new List<IAction>();
+            mouseClickActions = new List<IAction>();
+            mouseReleaseActions = new List<IAction>();
+            mouseLeaveActions = new List<IAction>();
         }
 
         #endregion
@@ -61,13 +30,13 @@ namespace GUI.Components
             mouseIsClicking();
         }
         
-        public virtual void Draw(SpriteBatch spriteBatch);
+        public abstract void Draw(SpriteBatch spriteBatch);
 
         #endregion
 
         #region Rendering Properties
 
-        protected Vector2 Position
+        protected virtual Vector2 Position
         {
             get;
             set;
@@ -212,12 +181,12 @@ namespace GUI.Components
         protected bool mouseIsOverButton;
         void mouseIsOver()
         {
-            if (this.Equals(InputManager.MousePosition) && !mouseIsOverButton)
+            if (this.Equals(InputHandler.MousePosition) && !mouseIsOverButton)
             {
                 OnMouseOver();
                 mouseIsOverButton = true;
             }
-            else if (!this.Equals(InputManager.MousePosition) && mouseIsOverButton)
+            else if (!this.Equals(InputHandler.MousePosition) && mouseIsOverButton)
             {
                 OnMouseLeave();
                 mouseIsOverButton = false;
@@ -228,17 +197,17 @@ namespace GUI.Components
         protected bool mouseCanRelease;
         void mouseIsClicking()
         {
-            if (mouseIsOverButton && InputManager.LeftButtonIsClicked() && !mouseIsClickingButton)
+            if (mouseIsOverButton && InputHandler.LeftButtonIsClicked() && !mouseIsClickingButton)
             {
                 OnMouseClick();
                 mouseIsClickingButton = true;
                 mouseCanRelease = true;
             }
-            else if (InputManager.LeftButtonIsClicked() && !mouseIsOverButton)
+            else if (InputHandler.LeftButtonIsClicked() && !mouseIsOverButton)
             {
                 mouseIsClickingButton = true;
             }
-            else if (!InputManager.LeftButtonIsClicked())
+            else if (!InputHandler.LeftButtonIsClicked())
             {
                 mouseIsClickingButton = false;
                 if (mouseCanRelease && mouseIsOverButton)
