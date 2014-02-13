@@ -35,9 +35,21 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Actions\InvokePlayerAction.cs" />
+    <Compile Include="Components\AButton.cs" />
+    <Compile Include="Components\MenuButton.cs" />
+    <Compile Include="Components\Rewrite_dated_elements\GameButton.cs" />
+    <Compile Include="Components\Rewrite_dated_elements\IButton.cs" />
+    <Compile Include="Components\IGUIArea.cs" />
+    <Compile Include="Components\Rewrite_dated_elements\TextBox.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GUIHandler\IGuiHandler.cs" />
+    <Compile Include="Input\InputManager.cs" />
+    <Compile Include="Input\KeyboardInput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ActionReceivers\Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="OpenTK">

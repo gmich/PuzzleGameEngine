@@ -28,11 +28,15 @@ namespace DynamicCamera.Scene
             this.graphicsDevice = graphicsDevice;
             player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"player"),10);
             cameraScript = new ChasingCamera(player.location, new Vector2(this.Width, this.Height), new Vector2(50000,50000));
+<<<<<<< HEAD
             Rotater rotater = new Rotater(0.0f, MathHelper.PiOver2, 10);
             freeroam = new DummyPlayer(player.location, null, 15);
             rotater.Triggered += CameraRotated;
             cameraScript.AddCameraMan(rotater);
            
+=======
+            cameraScript.AddCameraMan(new Rotater(0.0f, MathHelper.PiOver2, 10));
+>>>>>>> parent of b304e83... Added free roaming using the chasing script
             tileMap = new TileMap(cameraScript.Camera.Position, cameraScript.Camera, content.Load<Texture2D>("PlatformTiles"), 64,64);
             tileMap.Randomize(200, 200);
             UpdateRenderTarget();
@@ -80,6 +84,7 @@ namespace DynamicCamera.Scene
 
         #endregion
 
+<<<<<<< HEAD
         #region Event Handling
 
         private void CameraRotated(object sender, EventArgs e)
@@ -93,11 +98,21 @@ namespace DynamicCamera.Scene
 
         #endregion
 
+=======
+>>>>>>> parent of b304e83... Added free roaming using the chasing script
         #region Camera Related
 
         #region Properties
 
         float ZoomStep
+        {
+            get
+            {
+                return 0.01f;
+            }
+        }
+
+        float RotationStep
         {
             get
             {
@@ -124,7 +139,6 @@ namespace DynamicCamera.Scene
             cameraScript.Camera.ViewPortHeight = ResolutionHandler.WindowHeight;
         }
 
-        //Encapsulate this in a cameraMan object
         void HandleZoom()
         {
             if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
@@ -134,44 +148,50 @@ namespace DynamicCamera.Scene
                 cameraScript.Camera.Zoom -= ZoomStep;
         }
 
-        #endregion
+        void HandleRotation()
+        {
+            if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Q))
+                cameraScript.Camera.Rotation += RotationStep;
+
+            else if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
+                cameraScript.Camera.Rotation -= RotationStep;
+        }
 
         #endregion
 
-        #region Update
+        #endregion
 
         //TODO: remove 
         bool clicked = false;
-        DummyPlayer freeroam;
         public void Update(GameTime gameTime)
         {
             HandleZoom();
-            
+            player.Update(gameTime);
             //cameraScript.TargetLocation = player.Center;
 
             //TODO: encapsulate this in an ICameraMan object
-            if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space)) 
+            if (InputHandler.LeftButtonIsClicked())
             {
                 if (!clicked)
                 {
                     clicked = true;
+<<<<<<< HEAD
                     freeroam.location = player.location;
+=======
+                    initialpos = InputHandler.MousePosition + cameraScript.Camera.Position;
+>>>>>>> parent of b304e83... Added free roaming using the chasing script
                 }
-                freeroam.Update(gameTime);
-                cameraScript.TargetLocation = freeroam.location;
+
+                cameraScript.TargetLocation = initialpos;
             }
-            else
+            if (!InputHandler.LeftButtonIsClicked())
             {
                 clicked = false;
-                player.Update(gameTime);
                 cameraScript.TargetLocation = player.Center;
             }
             cameraScript.Update(gameTime);
         }
 
-        #endregion
-
-        #region Draw
 
         //TODO: fix rendertarget order
         public void Draw(SpriteBatch spriteBatch)
@@ -179,7 +199,8 @@ namespace DynamicCamera.Scene
 
             graphicsDevice.Clear(Color.CornflowerBlue);
             graphicsDevice.SetRenderTarget(renderTarget);
-            
+
+
             spriteBatch.Begin(SpriteSortMode.BackToFront,
                         BlendState.AlphaBlend,
                         SamplerState.PointWrap,
@@ -203,7 +224,5 @@ namespace DynamicCamera.Scene
 
             spriteBatch.End();
         }
-
-        #endregion
     }
 }

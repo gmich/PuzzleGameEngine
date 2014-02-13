@@ -5,10 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 namespace DynamicCamera
 {
    public sealed class Camera
-   {
+    {
         #region Declarations
 
-       private Vector2 viewPortSize;
+        private Vector2 viewPortSize;
         private Vector2 position;
         float zoom; 
         Matrix transform;
@@ -35,8 +35,8 @@ namespace DynamicCamera
             get { return position; }
             set
             {
-                position = new Vector2(MathHelper.Clamp((float)Math.Round((decimal)value.X), 0, WorldRectangle.Width),
-                    MathHelper.Clamp((float)Math.Round((decimal)value.Y), 0, WorldRectangle.Height));
+                position = new Vector2(MathHelper.Clamp(value.X, 0, WorldRectangle.Width),
+                    MathHelper.Clamp(value.Y, 0, WorldRectangle.Height));
             }
         }
 
@@ -114,20 +114,13 @@ namespace DynamicCamera
                 return MathHelper.Min(zoom, 1.0f);
             }
         }
-        public bool IsFlipped
-        {
-            get
-            {
-                return ((Decimal.Round(((Decimal)(Rotation / MathHelper.PiOver2)))) % 2 == 0);
-            }
-        }
 
         public float Zoom
         {
             get { return zoom; }
             set
             {
-                zoom = MathHelper.Clamp(value, 0.30f, 1.0f);
+                zoom = MathHelper.Clamp(value, 0.45f, 2.0f);
                 //zoom = (float)Decimal.Round((Decimal)zoom, 2);
             }
         }

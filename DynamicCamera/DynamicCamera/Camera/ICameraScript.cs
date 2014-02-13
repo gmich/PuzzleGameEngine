@@ -5,7 +5,6 @@ namespace DynamicCamera
 {
     public interface ICameraScript
     {
-       
         Camera Camera
         {
             get;

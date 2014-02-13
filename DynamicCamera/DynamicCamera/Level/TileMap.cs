@@ -254,7 +254,7 @@ namespace DynamicCamera.Level
                 return (int)(Math.Ceiling(realVerticalTiles - currentVerticalTiles) / 2 - 3);
             }
         }
-
+           
         public void Draw(SpriteBatch spriteBatch)
         {
 
@@ -264,11 +264,12 @@ namespace DynamicCamera.Level
             startX += HorizontalOffset;
             endX -= HorizontalOffset;
 
-            int startY = GetCellByPixelY((int)(Camera.Position.Y));
+            int startY = GetCellByPixelY((int)(Camera.Position.Y ));
             int endY = GetCellByPixelY((int)(Camera.Position.Y) + ResolutionHandler.WindowHeight);
             startY += VerticalOffset;
             endY -= VerticalOffset;
 
+<<<<<<< HEAD
             if (Camera.IsFlipped)
                 DrawTiles(spriteBatch, startX, endX, startY, endY);
             else
@@ -292,6 +293,9 @@ namespace DynamicCamera.Level
             WindowText.SetText(new Vector2(10, 40), "Scale: " + Camera.Scale);
             WindowText.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);
 
+=======
+            Console.WriteLine(Camera.Zoom);
+>>>>>>> parent of b304e83... Added free roaming using the chasing script
             for (int x = startX; x <= endX; x++)
                 for (int y = startY; y <= endY; y++)
                 {
@@ -303,7 +307,7 @@ namespace DynamicCamera.Level
                     }
                 }
         }
-
+        
         #endregion
 
     }
