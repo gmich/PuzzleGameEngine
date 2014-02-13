@@ -16,7 +16,7 @@ namespace GUI.GUIHandler
         {
             IGUIArea button = new MenuButton();
             Player player = new Player();
-            button.StoreAndExecute(new InvokePlayerAction(player));
+           // button.StoreAndExecute(new InvokePlayerAction(player));
 
             //button.update and draw
         }

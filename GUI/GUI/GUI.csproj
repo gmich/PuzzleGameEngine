@@ -38,6 +38,8 @@
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Actions\InvokePlayerAction.cs" />
     <Compile Include="Components\AButton.cs" />
+    <Compile Include="Components\Button\AButton.cs" />
+    <Compile Include="Components\Button\ButtonEventArgs\ShowStringEventArgs.cs" />
     <Compile Include="Components\MenuButton.cs" />
     <Compile Include="Components\Rewrite_dated_elements\GameButton.cs" />
     <Compile Include="Components\Rewrite_dated_elements\IButton.cs" />
