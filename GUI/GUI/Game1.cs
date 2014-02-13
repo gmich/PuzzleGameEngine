@@ -15,6 +15,7 @@ namespace GUI
     using Input;
     using GUIManager;
 
+
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -28,9 +29,10 @@ namespace GUI
             this.graphics = new GraphicsDeviceManager(this)
             {
                 PreferMultiSampling = true,
-                PreferredBackBufferWidth = 1000,
-                PreferredBackBufferHeight = 600
+                PreferredBackBufferWidth = 200,
+                PreferredBackBufferHeight = 350
             };
+            IsMouseVisible = true;
             Content.RootDirectory = "Content";
         }
 

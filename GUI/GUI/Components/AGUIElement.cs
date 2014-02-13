@@ -18,6 +18,9 @@ namespace GUI.Components
             mouseClickActions = new List<IAction>();
             mouseReleaseActions = new List<IAction>();
             mouseLeaveActions = new List<IAction>();
+            mouseIsOverButton = false;
+            mouseIsClickingButton = false;
+            mouseCanRelease =false;
         }
 
         #endregion
@@ -181,12 +184,12 @@ namespace GUI.Components
         protected bool mouseIsOverButton;
         void mouseIsOver()
         {
-            if (this.Equals(InputHandler.MousePosition) && !mouseIsOverButton)
+            if (this.Intersects(InputHandler.MousePosition) && !mouseIsOverButton)
             {
                 OnMouseOver();
                 mouseIsOverButton = true;
             }
-            else if (!this.Equals(InputHandler.MousePosition) && mouseIsOverButton)
+            else if (!this.Intersects(InputHandler.MousePosition) && mouseIsOverButton)
             {
                 OnMouseLeave();
                 mouseIsOverButton = false;

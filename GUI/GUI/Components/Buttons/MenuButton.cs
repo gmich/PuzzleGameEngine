@@ -65,7 +65,7 @@ namespace GUI.Components.Buttons
         {
             get
             {
-                return new Vector2(Position.X + (button.texture.Width / 2) - (FontSize.X / 2), Position.Y + (button.texture.Height / 2) - FontSize.Y);
+                return new Vector2(Position.X + (Size.X / 2) - (FontSize.X / 2), Position.Y + (Size.Y / 2) - FontSize.Y/2);
             }
         }
 
@@ -87,9 +87,10 @@ namespace GUI.Components.Buttons
             {
                 DrawableEntity(spriteBatch, clickedButton);
             }
-            if (mouseIsOverButton)
+            else if (mouseIsOverButton)
+            {
                 DrawableEntity(spriteBatch, frame);
-
+            }
             spriteBatch.DrawString(defaultText.font, defaultText.text, TextLocation, defaultText.textColor, 0.0f, Vector2.Zero, defaultText.textScale, SpriteEffects.None, defaultText.textLayer);
         }
 
