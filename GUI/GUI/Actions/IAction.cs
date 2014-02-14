@@ -9,5 +9,6 @@ namespace GUI.Actions
     public interface IAction
     {
         void Execute();
+        
     }
 }

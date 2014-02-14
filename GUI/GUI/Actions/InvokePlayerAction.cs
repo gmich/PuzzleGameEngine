@@ -7,7 +7,7 @@ namespace GUI.Actions
 {
     using GUI.ActionReceivers;
 
-    class InvokePlayerAction : IAction
+    class InvokePlayerAction : IAction , IEquatable<IAction>
     {
         Player player;
 
@@ -20,5 +20,14 @@ namespace GUI.Actions
         {
             player.doInvokedAction();
         }
+
+        #region Implement Equality
+
+        public bool Equals(IAction otherAction)
+        {
+            return (this.GetType().Name == otherAction.GetType().Name);
+        }
+
+        #endregion
     }
 }

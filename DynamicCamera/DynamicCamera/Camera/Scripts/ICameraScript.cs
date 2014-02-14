@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace DynamicCamera
+namespace DynamicCamera.Camera.Scripts
 {
+
     public interface ICameraScript
     {
         Camera Camera
@@ -15,8 +16,6 @@ namespace DynamicCamera
             get;
             set;
         }
-
-        void AddCameraMan(ICameraMan cameraMan);
 
         void Update(GameTime gameTime);
 

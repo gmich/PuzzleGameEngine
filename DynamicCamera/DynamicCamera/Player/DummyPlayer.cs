@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace DynamicCamera
+namespace DynamicCamera.Player
 {
     using Input;
     using Scene;

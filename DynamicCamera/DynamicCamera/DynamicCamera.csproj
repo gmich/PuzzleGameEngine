@@ -39,18 +39,23 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Animations\IAnimation.cs" />
-    <Compile Include="Camera\ChasingCamera.cs" />
+    <Compile Include="Camera\Manager\CameraManager.cs" />
+    <Compile Include="Camera\Scripts\ChasingCamera.cs" />
     <Compile Include="Camera\Camera.cs" />
-    <Compile Include="Camera\ICameraMan.cs" />
-    <Compile Include="Camera\Rotater.cs" />
-    <Compile Include="Camera\ICameraScript.cs" />
+    <Compile Include="Camera\Handlers\ICameraHandler.cs" />
+    <Compile Include="Animations\Rotation.cs" />
+    <Compile Include="Camera\Scripts\ICameraScript.cs" />
+    <Compile Include="Camera\Handlers\Rotater.cs" />
     <Compile Include="Diagnostics\FPSMonitor.cs" />
     <Compile Include="Diagnostics\WindowText.cs" />
-    <Compile Include="DummyPlayer\DummyPlayer.cs" />
+    <Compile Include="Input\InputConfiguration.cs" />
+    <Compile Include="Mappers\InputXMLMapper.cs" />
+    <Compile Include="Player\DummyPlayer.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Input\InputHandler.cs" />
     <Compile Include="Level\MapSquare.cs" />
     <Compile Include="Level\TileMap.cs" />
+    <Compile Include="Mappers\IMapper.cs" />
     <Compile Include="Resolution\ResolutionHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,6 +103,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

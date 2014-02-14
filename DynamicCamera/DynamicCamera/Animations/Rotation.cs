@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace DynamicCamera
+namespace DynamicCamera.Animations
 {
     using Input;
 
-    public class Rotater : ICameraMan
+    public class Rotation
     {
         #region Declarations
 
@@ -20,7 +20,7 @@ namespace DynamicCamera
 
         #region Constructor
 
-        public Rotater(float rotationAmount, float rotationCycle,int rotationSteps)
+        public Rotation(float rotationAmount, float rotationCycle, int rotationSteps)
         {
             rotationRate = rotationCycle/rotationSteps;
             this.rotationAmount = rotationAmount;
@@ -60,40 +60,26 @@ namespace DynamicCamera
 
         #endregion
 
-        #region Public Methods
+        #region Events
 
-        public bool? HandleRotation()
+        public event EventHandler Triggered;
+
+        protected virtual void OnTriggered(EventArgs e)
         {
-            if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.Q)
-                || InputHandler.ForwardButtonIsPressed()))
+            EventHandler handler = Triggered;
+            if (handler != null)
             {
-                if (rotationState == 3)
-                    rotationState = 0;
-                else rotationState++;
-
-                return true;
-            }
-            else if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.W)
-                || InputHandler.BackButtonIsPressed()))
-            {
-                if (rotationState == 0)
-                    rotationState = 3;
-                else rotationState--;
-
-                if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.Q)
-                    || InputHandler.ForwardButtonIsPressed()))
-                    return true;
-                else if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.W)
-                    || InputHandler.BackButtonIsPressed()))
-                    return false;
-
-                return null;
+                handler(this, e);
             }
         }
 
+        #endregion
+
+        #region Public Methods
+        
         public void RotateEntity(bool? clockwise)
         {
-            if (clockwise != null)
+            if (clockwise != null && !this.IsActive)
             {
                 this.clockwise = clockwise;
                 rotationTicksRemaining = rotationSteps;
@@ -106,17 +92,14 @@ namespace DynamicCamera
             rotationTicksRemaining = (int)MathHelper.Max(0, rotationTicksRemaining - 1);
 
             if (rotationTicksRemaining == 0)
+            {
+                OnTriggered(new RotationArgs(rotationState));
                 active = false;
+            }
         }
 
         #endregion
 
-        public void Update(GameTime gameTime,Camera camera)
-        {
-            if(!this.IsActive)
-                RotateEntity(HandleRotation());
 
-            camera.Rotation = Value;
-        }
     }
 }

@@ -7,6 +7,10 @@ namespace DynamicCamera.Scene
 {
     using Input;
     using Level;
+    using Player;
+    using Camera.Scripts;
+    using Camera.Handlers;
+    using Resolution;
 
     public class GameScene : IScene
     {
@@ -16,6 +20,7 @@ namespace DynamicCamera.Scene
         RenderTarget2D renderTarget;
         bool isActive;
         DummyPlayer player;
+        DummyPlayer freeroam;
         TileMap tileMap;
         GraphicsDevice graphicsDevice;
 
@@ -32,9 +37,9 @@ namespace DynamicCamera.Scene
             Rotater rotater = new Rotater(0.0f, MathHelper.PiOver2, 10);
             freeroam = new DummyPlayer(player.location, null, 15);
             rotater.Triggered += CameraRotated;
-            cameraScript.AddCameraMan(rotater);
-           
-            cameraScript.AddCameraMan(new Rotater(0.0f, MathHelper.PiOver2, 10));
+            cameraScript.AddCameraHandler(rotater);
+
+            cameraScript.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 10));
 
             tileMap = new TileMap(cameraScript.Camera.Position, cameraScript.Camera, content.Load<Texture2D>("PlatformTiles"), 64,64);
             tileMap.Randomize(200, 200);
@@ -174,11 +179,11 @@ namespace DynamicCamera.Scene
 
                     freeroam.location = player.location;
 
-                    initialpos = InputHandler.MousePosition + cameraScript.Camera.Position;
+                 //   initialpos = InputHandler.MousePosition + cameraScript.Camera.Position;
 
                 }
 
-                cameraScript.TargetLocation = initialpos;
+              //  cameraScript.TargetLocation = initialpos;
             }
             if (!InputHandler.LeftButtonIsClicked())
             {
@@ -216,7 +221,7 @@ namespace DynamicCamera.Scene
 
             spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
 
-            WindowText.Draw(spriteBatch);
+            DynamicCamera.Diagnostics.WindowText.Draw(spriteBatch);
 
             spriteBatch.End();
         }

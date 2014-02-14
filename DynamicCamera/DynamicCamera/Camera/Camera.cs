@@ -2,8 +2,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace DynamicCamera
+namespace DynamicCamera.Camera
 {
+    using Resolution;
+
    public sealed class Camera
     {
         #region Declarations

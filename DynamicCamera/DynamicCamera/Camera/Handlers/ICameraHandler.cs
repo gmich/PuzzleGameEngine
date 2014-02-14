@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace DynamicCamera
+namespace DynamicCamera.Camera.Handlers
 {
-    public interface ICameraMan
+    using Camera;
+
+    public interface ICameraHandler
     {
         bool IsActive
         {

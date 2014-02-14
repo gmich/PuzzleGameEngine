@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-
-namespace DynamicCamera
+namespace DynamicCamera.Camera.Scripts
 {
+    using Handlers;
+
     public class ChasingCamera : ICameraScript
     {
 
@@ -14,7 +15,6 @@ namespace DynamicCamera
         Camera camera;
         float distance;
         Vector2 targetLocation;
-        List<ICameraMan> cameraMen;
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace DynamicCamera
         {
             this.TargetLocation = targetLocation;
             camera = new Camera(targetLocation, viewportSize, cameraSize);
-            cameraMen = new List<ICameraMan>();
+
         }
 
         #endregion
@@ -62,11 +62,6 @@ namespace DynamicCamera
         #endregion
 
         #region Helper Methods
-
-        public void AddCameraMan(ICameraMan cameraMan)
-        {
-            cameraMen.Add(cameraMan);
-        }
 
         private void RepositionCamera(float timePassed)
         {
@@ -111,8 +106,6 @@ namespace DynamicCamera
 
             RepositionCamera((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            foreach (ICameraMan cameraman in cameraMen)
-                cameraman.Update(gameTime, this.Camera);
         }
 
         #endregion

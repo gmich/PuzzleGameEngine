@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace DynamicCamera
+namespace DynamicCamera.Diagnostics
 {
     static class WindowText
     {

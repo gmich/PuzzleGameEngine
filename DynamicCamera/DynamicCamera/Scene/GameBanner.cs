@@ -4,11 +4,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DynamicCamera.Scene
 {
+    using Resolution;
     public class GameBanner : IScene
     {
         #region Declarations
 
-        Camera camera;
+        DynamicCamera.Camera.Camera camera;
         RenderTarget2D renderTarget;
         bool isActive;
 

@@ -7,7 +7,7 @@ namespace GUI.Actions
 {
     using GUI.ActionReceivers;
 
-    class AppendConsoleText : IAction
+    class AppendConsoleText : IAction , IEquatable<IAction>
     {
 
         string text;
@@ -21,5 +21,14 @@ namespace GUI.Actions
         {
             Console.WriteLine(text);
         }
+
+        #region Implement Equality
+
+        public bool Equals(IAction otherAction)
+        {
+            return (this.GetType().Name == otherAction.GetType().Name);
+        }
+
+        #endregion
     }
 }

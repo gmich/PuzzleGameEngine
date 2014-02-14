@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 
-namespace DynamicCamera
+namespace DynamicCamera.Diagnostics
 {
     public class FpsMonitor
     {

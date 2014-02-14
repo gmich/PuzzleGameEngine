@@ -6,7 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DynamicCamera.Level
 {
-    using DynamicCamera;
+    using Camera;
+    using Diagnostics;
+    using Resolution;
 
     public class TileMap
     {
@@ -271,9 +273,9 @@ namespace DynamicCamera.Level
             endY -= VerticalOffset;
 
 
-            if (Camera.IsFlipped)
-                DrawTiles(spriteBatch, startX, endX, startY, endY);
-            else
+            //if (Camera.IsFlipped)
+            //    DrawTiles(spriteBatch, startX, endX, startY, endY);
+          //  else
             {
                 int horizontalSize = endX - startX;
                 int verticalSize = endY- startY;
@@ -290,12 +292,11 @@ namespace DynamicCamera.Level
         void DrawTiles(SpriteBatch spriteBatch, int startX, int endX, int startY, int endY)
         {
             WindowText.SetText(new Vector2(10, 10), "Location: {X: " + startX + " / " + MapWidth
-                                                              +"  Y: "  + startY + " / " + MapHeight + "}");
+                                                              + "  Y: " + startY + " / " + MapHeight + "}");
             WindowText.SetText(new Vector2(10, 40), "Scale: " + Camera.Scale);
             WindowText.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);
-
-
-            Console.WriteLine(Camera.Zoom);
+            
+            //Console.WriteLine(Camera.Zoom);
 
             for (int x = startX; x <= endX; x++)
                 for (int y = startY; y <= endY; y++)
