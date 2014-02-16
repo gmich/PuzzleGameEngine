@@ -13,6 +13,8 @@ namespace DynamicCamera
 {
     using Scene;
     using Input;
+    using Resolution;
+    using Diagnostics;
     /// <summary>
     /// This is the main type for your game
     /// </summary>

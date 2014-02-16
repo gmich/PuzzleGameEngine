@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
@@ -10,14 +11,16 @@ namespace DynamicCamera.Scene
     using Player;
     using Camera.Scripts;
     using Camera.Handlers;
+    using Camera.Managers;
     using Resolution;
 
     public class GameScene : IScene
     {
         #region Declarations
 
-        static ICameraScript cameraScript;
+       // static ICameraScript cameraScript;
         RenderTarget2D renderTarget;
+        CameraManager cameraManager;
         bool isActive;
         DummyPlayer player;
         DummyPlayer freeroam;
@@ -32,16 +35,10 @@ namespace DynamicCamera.Scene
         {
             this.graphicsDevice = graphicsDevice;
             player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"player"),10);
-            cameraScript = new ChasingCamera(player.location, new Vector2(this.Width, this.Height), new Vector2(50000,50000));
-
-            Rotater rotater = new Rotater(0.0f, MathHelper.PiOver2, 10);
-            freeroam = new DummyPlayer(player.location, null, 15);
-            rotater.Triggered += CameraRotated;
-            cameraScript.AddCameraHandler(rotater);
-
-            cameraScript.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 10));
-
-            tileMap = new TileMap(cameraScript.Camera.Position, cameraScript.Camera, content.Load<Texture2D>("PlatformTiles"), 64,64);
+            cameraManager = new CameraManager();
+            cameraManager.SetCameraScript(new ChasingCamera(player.location, new Vector2(this.Width, this.Height), new Vector2(50000, 50000)));
+            cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 10));
+            tileMap = new TileMap(cameraManager.Position, cameraManager.Camera, content.Load<Texture2D>("PlatformTiles"), 64, 64);
             tileMap.Randomize(200, 200);
             UpdateRenderTarget();
         }
@@ -88,18 +85,6 @@ namespace DynamicCamera.Scene
 
         #endregion
 
-        #region Event Handling
-
-        private void CameraRotated(object sender, EventArgs e)
-        {
-            RotationArgs args = (RotationArgs)e;
-
-            //TODO: input configuration should be handled elsewhere
-            player.InitializeKeys(args.RotationState);
-            freeroam.InitializeKeys(args.RotationState);
-        }
-
-        #endregion
 
         #region Camera Related
 
@@ -136,26 +121,18 @@ namespace DynamicCamera.Scene
         public void UpdateRenderTarget()
         {
             renderTarget = new RenderTarget2D(graphicsDevice, this.Width, this.Height);
-            cameraScript.Camera.ViewPortWidth = ResolutionHandler.WindowWidth;
-            cameraScript.Camera.ViewPortHeight = ResolutionHandler.WindowHeight;
+            cameraManager.Camera.ViewPortWidth = ResolutionHandler.WindowWidth;
+            cameraManager.Camera.ViewPortHeight = ResolutionHandler.WindowHeight;
         }
 
+        //encapsulate in a camera handler
         void HandleZoom()
         {
             if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
-                cameraScript.Camera.Zoom += ZoomStep;
+                cameraManager.Camera.Zoom += ZoomStep;
 
             else if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.S))
-                cameraScript.Camera.Zoom -= ZoomStep;
-        }
-
-        void HandleRotation()
-        {
-            if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Q))
-                cameraScript.Camera.Rotation += RotationStep;
-
-            else if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
-                cameraScript.Camera.Rotation -= RotationStep;
+                cameraManager.Camera.Zoom -= ZoomStep;
         }
 
         #endregion

@@ -5,7 +5,6 @@ namespace DynamicCamera.Camera.Handlers
 {
     using Input;
     using Animations;
-    using Camera;
 
     public class Rotater : ICameraHandler
     {
@@ -25,7 +24,16 @@ namespace DynamicCamera.Camera.Handlers
         }
 
         #endregion
-              
+
+        #region Rotation Properties
+        
+        public float Value
+        {
+            get { return rotation.Value; }
+        }
+
+        #endregion
+
         #region Public Methods
 
         public bool? HandleRotation()
@@ -60,11 +68,11 @@ namespace DynamicCamera.Camera.Handlers
 
         #endregion
 
-        public void Update(GameTime gameTime, Camera camera)
+        public void Update(GameTime gameTime)
         {
             rotation.RotateEntity(HandleRotation());
-            rotation.UpdateRotation();
-            camera.Rotation = rotation.Value;
+            rotation.UpdateRotation(rotationState);
         }
+
     }
 }

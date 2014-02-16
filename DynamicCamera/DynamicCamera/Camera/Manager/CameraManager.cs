@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace DynamicCamera.Camera.Manager
+namespace DynamicCamera.Camera.Managers
 {
     using Handlers;
     using Scripts;
+    using Input;
 
     public class CameraManager
     {
@@ -15,17 +16,39 @@ namespace DynamicCamera.Camera.Manager
 
         List<ICameraHandler> cameraHandlers;
         ICameraScript cameraScript;
+        List<InputConfiguration> inputConfiguration;
 
         #endregion
 
         public CameraManager()
         {
+            inputConfiguration = new List<InputConfiguration>();
             cameraHandlers = new List<ICameraHandler>(); 
         }
 
+        #region Properties
+
+        public Vector2 Position
+        {
+            get
+            {
+                return cameraScript.Camera.Position;
+            }
+        }
+
+        public Camera Camera
+        {
+            get
+            {
+                return cameraScript.Camera;
+            }
+        }
+
+        #endregion
+
         #region Helper Methods
 
-        public void AddCameraMan(ICameraHandler cameraHandler)
+        public void AddCameraHandler(ICameraHandler cameraHandler)
         {
             cameraHandlers.Add(cameraHandler);
         }
@@ -42,7 +65,7 @@ namespace DynamicCamera.Camera.Manager
             cameraScript.Update(gameTime);
 
             foreach (ICameraHandler camerahandler in cameraHandlers)
-                camerahandler.Update(gameTime, cameraScript.Camera);
+                camerahandler.Update(gameTime);
         }
     }
 }

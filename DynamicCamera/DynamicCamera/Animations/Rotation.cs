@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 namespace DynamicCamera.Animations
 {
     using Input;
+    using EventArguments;
 
     public class Rotation
     {
@@ -87,13 +88,13 @@ namespace DynamicCamera.Animations
             }
         }
 
-        public void UpdateRotation()
+        public void UpdateRotation(int rotationState)
         {
             rotationTicksRemaining = (int)MathHelper.Max(0, rotationTicksRemaining - 1);
 
             if (rotationTicksRemaining == 0)
             {
-                OnTriggered(new RotationArgs(rotationState));
+                OnTriggered(new RotationStateArgs(rotationState));
                 active = false;
             }
         }

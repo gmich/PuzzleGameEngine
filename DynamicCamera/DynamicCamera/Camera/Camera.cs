@@ -42,6 +42,13 @@ namespace DynamicCamera.Camera
             }
         }
 
+       //0 default 1 , 2 ,3 clockwise
+        public int RotationState
+        {
+            get;
+            set;
+        }
+
         public Rectangle WorldRectangle
         {
             get

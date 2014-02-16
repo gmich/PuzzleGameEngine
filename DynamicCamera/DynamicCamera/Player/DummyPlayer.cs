@@ -67,6 +67,13 @@ namespace DynamicCamera.Player
             set;
         }
 
+        //review
+        public int RotationState
+        {
+            get;
+            set;
+        }
+
         public Vector2 Center
         {
             get
@@ -95,6 +102,18 @@ namespace DynamicCamera.Player
             }
 
         }
+
+        #region Movement
+
+        void MoveUp();
+
+        void MoveDown();
+
+        void MoveLeft();
+
+        void MoveRight();
+
+        #endregion
 
         public void Draw(SpriteBatch spriteBatch)
         {

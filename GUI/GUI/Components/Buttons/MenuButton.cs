@@ -35,14 +35,15 @@ namespace GUI.Components.Buttons
 
         #endregion
         
-        #region Update
+        //TODO: check if i need to override
+        /*#region Update
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
         }
 
-        #endregion
+        #endregion*/
 
         #region Drawing Related Methods
 
