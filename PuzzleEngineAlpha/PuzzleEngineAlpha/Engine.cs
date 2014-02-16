@@ -59,7 +59,7 @@ namespace PuzzleEngineAlpha
             resolutionHandler = new ResolutionHandler(ref this.graphics, false);
             InputHandler.Initialize();
             fpsMonitor = new FpsMonitor();
-            WindowText.Initialize(Content.Load<SpriteFont>("font"));
+            WindowText.Initialize(Content.Load<SpriteFont>("Fonts/font"));
             WindowText.AddText(new Vector2(10, 100), " ");
             base.Initialize();
         }

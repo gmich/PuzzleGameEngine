@@ -55,6 +55,9 @@
     <Compile Include="Resolution\ResolutionHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\PuzzleEngineAlpha\PuzzleEngineAlpha\bin\WindowsGL\Release\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\OpenTK.dll</HintPath>
     </Reference>
