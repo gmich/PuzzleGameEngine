@@ -59,6 +59,7 @@ namespace PuzzleEngineAlpha.Camera.Managers
         public void AddCameraHandler(ICameraHandler cameraHandler)
         {
             cameraHandlers.Add(cameraHandler);
+            cameraHandler.Camera = cameraScript.Camera;
         }
 
         public void SetCameraScript(ICameraScript cameraScript)

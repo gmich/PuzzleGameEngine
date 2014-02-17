@@ -6,9 +6,9 @@ namespace PuzzleEngineAlpha.Camera.Handlers
     public interface ICameraHandler
     {
 
-        float Value
+        Camera Camera
         {
-            get;
+            set;
         }
         
         void Update(GameTime gameTime);

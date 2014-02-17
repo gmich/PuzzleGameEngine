@@ -74,6 +74,12 @@ namespace PuzzleEngineAlpha.Player
             set;
         }
 
+        public PuzzleEngineAlpha.Camera.Camera Camera
+        {
+            get;
+            set;
+        }
+
         public Vector2 Center
         {
             get
@@ -117,7 +123,7 @@ namespace PuzzleEngineAlpha.Player
 
         public void Draw(SpriteBatch spriteBatch)
         {
-           // spriteBatch.Draw(texture, location - GameScene.CameraLocation, Color.White);
+            spriteBatch.Draw(texture, location - Camera.Position, Color.White);
         }
     }
 }

@@ -26,10 +26,11 @@ namespace PuzzleEngineAlpha.Camera.Handlers
         #endregion
 
         #region Rotation Properties
-        
-        public float Value
+
+        public Camera Camera
         {
-            get { return rotation.Value; }
+            get;
+            set;
         }
 
         #endregion
@@ -72,6 +73,7 @@ namespace PuzzleEngineAlpha.Camera.Handlers
         {
             rotation.RotateEntity(HandleRotation());
             rotation.UpdateRotation(rotationState);
+            Camera.Rotation = rotation.Value;
         }
 
     }

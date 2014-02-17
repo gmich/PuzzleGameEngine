@@ -23,7 +23,7 @@ namespace PuzzleEngineAlpha.Animations
 
         public Rotation(float rotationAmount, float rotationCycle, int rotationSteps)
         {
-            rotationRate = rotationCycle/rotationSteps;
+            rotationRate = rotationCycle/(rotationSteps-1);
             this.rotationAmount = rotationAmount;
             rotationTicksRemaining = rotationSteps;
             this.rotationSteps = rotationSteps;
@@ -45,8 +45,7 @@ namespace PuzzleEngineAlpha.Animations
             get
             {
                 if (IsActive)
-                {
-                    //UpdateRotation();
+                {    
                     if (clockwise==true)
                         rotationAmount += rotationRate;
                     else if (clockwise == false)
