@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GUI.Input.Scripts
+namespace PuzzleEngineAlpha.Input.Scripts
 {
     public interface IMenuInputScript
     {
@@ -14,7 +14,7 @@ namespace GUI.Input.Scripts
 
         bool Previous
         {
-            set;
+            get;
         }
 
         bool Trigger

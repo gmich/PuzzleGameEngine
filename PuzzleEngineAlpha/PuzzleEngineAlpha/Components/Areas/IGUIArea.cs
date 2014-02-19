@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GUI.Components.Areas
+namespace PuzzleEngineAlpha.Components.Areas
 {
     interface IGUIArea
     {
-        AGUIElement SelectedElement
+        AGUIComponent FocusedComponent
         {
             get;
         }
 
-        void AddElement(AGUIComponent element);
+        void AddElement(AGUIComponent component);
 
         void Enumerate();
   

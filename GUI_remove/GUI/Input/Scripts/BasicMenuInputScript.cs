@@ -7,7 +7,7 @@ namespace GUI.Input.Scripts
 {
     public class BasicMenuInputScript: IMenuInputScript
     {
-        bool Next
+        public bool Next
         {
             get
             {
@@ -15,7 +15,7 @@ namespace GUI.Input.Scripts
             }
         }
 
-        bool Previous
+        public bool Previous
         {
             get
             {
@@ -23,7 +23,7 @@ namespace GUI.Input.Scripts
             }
         }
 
-        bool Trigger
+        public bool Trigger
         {
             get
             {

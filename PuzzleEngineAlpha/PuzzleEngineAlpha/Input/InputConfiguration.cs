@@ -41,6 +41,30 @@ namespace PuzzleEngineAlpha.Input
             set;
         }
 
+        public Keys EnumerateVNext
+        {
+            get
+            {
+                return Keys.Down;
+            }          
+        }
+
+        public Keys EnumerateVPrevious
+        {
+            get
+            {
+                return Keys.Up;
+            }
+        }
+
+        public Keys Trigger
+        {
+            get
+            {
+                return Keys.Enter;
+            }
+        }
+
         #endregion
 
         #endregion

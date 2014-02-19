@@ -8,7 +8,10 @@ namespace GUI.Components.Buttons
 {
     using Actions;
 
-    public class MenuButton : AGUIElement
+    /// <summary>
+    /// MenuButton responds to mouse input
+    /// </summary>
+    public class MenuButton : AGUIComponent
     {
 
         #region Declarations
@@ -35,16 +38,6 @@ namespace GUI.Components.Buttons
 
         #endregion
         
-        //TODO: check if i need to override
-        /*#region Update
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
-
-        #endregion*/
-
         #region Drawing Related Methods
 
         #region Drawing Properties
@@ -57,6 +50,7 @@ namespace GUI.Components.Buttons
             }
         }
 
+        #endregion
 
         #endregion
 
@@ -80,15 +74,42 @@ namespace GUI.Components.Buttons
 
         #endregion
 
+        #region Focus Helper
+
+        void mouseIsOver()
+        {
+            if (this.Intersects(InputHandler.MousePosition) && !IsFocused)
+            {
+                OnFocus();
+                IsFocused = true;
+            }
+            else if (!this.Intersects(InputHandler.MousePosition) && IsFocused)
+            {
+                OnFocusLeave();
+                IsFocused = false;
+            }
+        }
+
+        #endregion
+
+        #region Update and Draw
+
+        public void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            mouseIsOver();
+
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             DrawableEntity(spriteBatch, button);
 
-            if (mouseCanRelease && mouseIsOverButton)
+            if (canRelease && IsFocused)
             {
                 DrawableEntity(spriteBatch, clickedButton);
             }
-            else if (mouseIsOverButton)
+            else if (IsFocused)
             {
                 DrawableEntity(spriteBatch, frame);
             }
