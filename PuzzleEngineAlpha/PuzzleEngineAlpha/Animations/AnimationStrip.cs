@@ -6,6 +6,7 @@ namespace PuzzleEngineAlpha.Animations
 {
     public class AnimationStrip
     {
+
         #region Declarations
         private Texture2D texture;
         private int frameWidth;

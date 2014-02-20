@@ -7,7 +7,7 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 {
     using Handlers;
 
-    public class ChasingCamera : ICameraScript
+    public class ExactCamera : ICameraScript
     {
 
         #region Declarations
@@ -20,7 +20,7 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         #region Constructor
 
-        public ChasingCamera(Vector2 targetLocation, Camera camera)
+        public ExactCamera(Vector2 targetLocation, Camera camera)
         {
             this.TargetLocation = targetLocation;
             this.camera = camera;
@@ -35,14 +35,6 @@ namespace PuzzleEngineAlpha.Camera.Scripts
             get
             {
                 return camera;
-            }
-        }
-
-        public float ChaseStep
-        {
-            get
-            {
-                return 9.0f;
             }
         }
 
@@ -62,29 +54,37 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         #region Helper Methods
 
-        private void RepositionCamera(float timePassed)
+        private void RepositionCamera()
         {
-            int screenLocX = (int)camera.WorldToScreen(camera.Position).X;
-            int screenLocY = (int)camera.WorldToScreen(camera.Position).Y;
-            Vector2 angle = targetLocation - camera.WindowCenter;
+            int screenLocX = (int)Camera.WorldToScreen(targetLocation).X;
+            int screenLocY = (int)Camera.WorldToScreen(targetLocation).Y;
 
-            angle.Normalize();
+            if (screenLocY > camera.ViewPortHeight / 2)
+            {
+                Camera.Move(new Vector2(0, screenLocY - camera.ViewPortHeight/2));
+            }
+            if (screenLocY < camera.ViewPortHeight / 2)
+            {
+                Camera.Move(new Vector2(0, screenLocY - camera.ViewPortHeight / 2));
+                
+            }
 
-            camera.Move(angle * distance * timePassed);
-         
+            if (screenLocX > camera.ViewPortWidth / 2)
+            {
+                Camera.Move(new Vector2(screenLocX -  camera.ViewPortWidth / 2, 0));
+ 
+            }
+
+            if (screenLocX < camera.ViewPortWidth / 2)
+            {
+                Camera.Move(new Vector2(screenLocX -  camera.ViewPortWidth / 2, 0));
+
+            }
         }
 
         public void Update(GameTime gameTime)
         {
-
-            distance = Vector2.Distance(targetLocation, camera.WindowCenter);
-            distance *= ChaseStep;
-
-            if (distance < 0.001f)
-                distance = 0.0f;
-
-            RepositionCamera((float)gameTime.ElapsedGameTime.TotalSeconds);
-
+            RepositionCamera();
         }
 
         #endregion

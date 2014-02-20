@@ -51,6 +51,7 @@
     <Compile Include="Camera\Handlers\Rotater.cs" />
     <Compile Include="Camera\Manager\CameraManager.cs" />
     <Compile Include="Camera\Scripts\ChasingCamera.cs" />
+    <Compile Include="Camera\Scripts\ExactCamera.cs" />
     <Compile Include="Camera\Scripts\ICameraScript.cs" />
     <Compile Include="Components\AGUIComponent.cs" />
     <Compile Include="Components\Areas\IGUIArea.cs" />

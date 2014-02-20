@@ -31,8 +31,8 @@ namespace PuzzleEngineAlpha
            this.graphics = new GraphicsDeviceManager(this)
             {
                 PreferMultiSampling = true,
-                PreferredBackBufferWidth = 600,
-                PreferredBackBufferHeight = 600
+                PreferredBackBufferWidth = 1024,
+                PreferredBackBufferHeight = 768
             };
 
             this.Window.AllowUserResizing = true;

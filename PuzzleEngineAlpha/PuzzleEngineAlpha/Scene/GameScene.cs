@@ -23,9 +23,9 @@ namespace PuzzleEngineAlpha.Scene
         CameraManager cameraManager;
         bool isActive;
         DummyPlayer player;
-        DummyPlayer freeroam;
         TileMap tileMap;
         GraphicsDevice graphicsDevice;
+        Camera.Camera camera;
 
         #endregion
 
@@ -34,14 +34,17 @@ namespace PuzzleEngineAlpha.Scene
         public GameScene(GraphicsDevice graphicsDevice,ContentManager content)
         {
             this.graphicsDevice = graphicsDevice;
+
             player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"Textures/player"),10);
             cameraManager = new CameraManager();
-            cameraManager.SetCameraScript(new ChasingCamera(player.location, new Vector2(this.Width, this.Height), new Vector2(50000, 50000)));
+            camera = new Camera.Camera( player.location,new Vector2(this.Width, this.Height), new Vector2(50000, 50000));
+            cameraManager.SetCameraScript(new ChasingCamera(player.location,camera));
             cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 10));
             player.Camera = cameraManager.Camera;
             tileMap = new TileMap(cameraManager.Position, cameraManager.Camera, content.Load<Texture2D>(@"Textures/PlatformTiles"), 64, 64);
             tileMap.Randomize(200, 200);
             UpdateRenderTarget();
+            clicked = false;
         }
 
         #endregion
@@ -149,28 +152,25 @@ namespace PuzzleEngineAlpha.Scene
         {
             HandleZoom();
             player.Update(gameTime);
-            //cameraScript.TargetLocation = player.Center;
 
-            //TODO: encapsulate this in an ICameraMan object
-            if (InputHandler.LeftButtonIsClicked())
+         /*   if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
             {
                 if (!clicked)
                 {
                     clicked = true;
-
-                //    freeroam.location = player.location;
-
-                 //   initialpos = InputHandler.MousePosition + cameraScript.Camera.Position;
-
+                    cameraManager.SetCameraScript(new ExactCamera(player.location, camera));
                 }
 
-              //  cameraScript.TargetLocation = initialpos;
             }
-            if (!InputHandler.LeftButtonIsClicked())
+            else
             {
-                clicked = false;
-                cameraManager.TargetLocation = player.Center;
-            }
+                if (clicked)
+                {
+                    clicked = false;
+                    cameraManager.SetCameraScript(new ChasingCamera(player.location, camera));
+                }
+            }*/
+            cameraManager.TargetLocation = player.RelativeCenter;
             cameraManager.Update(gameTime);
         }
 
