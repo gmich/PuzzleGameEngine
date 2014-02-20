@@ -31,9 +31,9 @@ namespace PuzzleEngineAlpha.Level
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
             this.Camera = camera;
-            WindowText.AddText(new Vector2(10, 10), " ");
-            WindowText.AddText(new Vector2(40, 10), " ");
-            WindowText.AddText(new Vector2(70, 10), " ");
+            Scene.DiagnosticsScene.AddText(new Vector2(10, 10), " ");
+            Scene.DiagnosticsScene.AddText(new Vector2(40, 10), " ");
+            Scene.DiagnosticsScene.AddText(new Vector2(70, 10), " ");
         }
 
 
@@ -291,10 +291,10 @@ namespace PuzzleEngineAlpha.Level
 
         void DrawTiles(SpriteBatch spriteBatch, int startX, int endX, int startY, int endY)
         {
-            WindowText.SetText(new Vector2(10, 10), "Location: {X: " + startX + " / " + MapWidth
+            Scene.DiagnosticsScene.SetText(new Vector2(10, 10), "Location: {X: " + startX + " / " + MapWidth
                                                               + "  Y: " + startY + " / " + MapHeight + "}");
-            WindowText.SetText(new Vector2(10, 40), "Scale: " + Camera.Scale);
-            WindowText.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);
+            Scene.DiagnosticsScene.SetText(new Vector2(10, 40), "Scale: " + Camera.Scale);
+            Scene.DiagnosticsScene.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);
             
             //Console.WriteLine(Camera.Zoom);
 

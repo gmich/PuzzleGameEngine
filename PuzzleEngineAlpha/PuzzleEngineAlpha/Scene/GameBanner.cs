@@ -23,12 +23,16 @@ namespace PuzzleEngineAlpha.Scene
         }
 
         #endregion
-        
-        bool IsActive
+
+        public bool IsActive
         {
             get
             {
                 return isActive;
+            }
+            set
+            {
+                isActive = value;
             }
         }
 
@@ -54,6 +58,7 @@ namespace PuzzleEngineAlpha.Scene
         bool IScene.IsActive
         {
             get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
 
 

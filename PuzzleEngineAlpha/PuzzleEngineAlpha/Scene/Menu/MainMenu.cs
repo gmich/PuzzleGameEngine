@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 namespace PuzzleEngineAlpha.Scene
 {
     using Input;
+    using Components;
     using GUIManager;
     using Resolution;
 
@@ -32,7 +33,7 @@ namespace PuzzleEngineAlpha.Scene
         }
 
         #endregion
-        
+
         #region Properties
 
         Vector2 SceneLocation
@@ -62,13 +63,17 @@ namespace PuzzleEngineAlpha.Scene
         }
 
         #endregion
-        
-        //FIXME
+
+        bool isActive;
         public bool IsActive
         {
             get
             {
-                return true;
+                return isActive;
+            }
+            set
+            {
+                isActive = value;
             }
         }
 
@@ -87,35 +92,32 @@ namespace PuzzleEngineAlpha.Scene
 
         public void Update(GameTime gameTime)
         {
-            guiHandler.Update(gameTime);
-        
+                guiHandler.Update(gameTime);
         }
 
         //TODO: fix rendertarget order
         public void Draw(SpriteBatch spriteBatch)
         {
+                graphicsDevice.Clear(Color.CornflowerBlue);
+                graphicsDevice.SetRenderTarget(renderTarget);
 
-            graphicsDevice.Clear(Color.CornflowerBlue);
-            graphicsDevice.SetRenderTarget(renderTarget);
+
+                spriteBatch.Begin(SpriteSortMode.BackToFront,
+                            BlendState.AlphaBlend);
 
 
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
-                        BlendState.AlphaBlend);
-                        
+                guiHandler.Draw(spriteBatch);
 
-            guiHandler.Draw(spriteBatch);
+                spriteBatch.End();
 
-            spriteBatch.End();
+                graphicsDevice.SetRenderTarget(null);
 
-            graphicsDevice.SetRenderTarget(null);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
 
-            spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
+                spriteBatch.End();
 
-            PuzzleEngineAlpha.Diagnostics.WindowText.Draw(spriteBatch);
-
-            spriteBatch.End();
         }
     }
 }

@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PuzzleEngineAlpha.Input
 {
-    public class InputConfigurationManager
+    public class ConfigurationManager
     {
-        public static InputConfiguration Config
+        public static Configuration Config
         {
             get;
             set;

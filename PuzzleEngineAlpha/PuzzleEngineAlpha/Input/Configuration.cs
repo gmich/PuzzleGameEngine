@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PuzzleEngineAlpha.Input
 {
-    public class InputConfiguration
+    public class Configuration
     {
 
         #region Properties
@@ -54,6 +54,14 @@ namespace PuzzleEngineAlpha.Input
             get
             {
                 return Keys.Up;
+            }
+        }
+
+        public Keys ToggleDiagnostics
+        {
+            get
+            {
+                return Keys.F1;
             }
         }
 

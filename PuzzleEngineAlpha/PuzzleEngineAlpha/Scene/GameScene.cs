@@ -82,6 +82,10 @@ namespace PuzzleEngineAlpha.Scene
             {
                 return isActive;
             }
+            set
+            {
+                isActive = value;
+            }
         }
 
         #endregion
@@ -154,7 +158,7 @@ namespace PuzzleEngineAlpha.Scene
                 {
                     clicked = true;
 
-                    freeroam.location = player.location;
+                //    freeroam.location = player.location;
 
                  //   initialpos = InputHandler.MousePosition + cameraScript.Camera.Position;
 
@@ -197,8 +201,6 @@ namespace PuzzleEngineAlpha.Scene
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
-
-            PuzzleEngineAlpha.Diagnostics.WindowText.Draw(spriteBatch);
 
             spriteBatch.End();
         }

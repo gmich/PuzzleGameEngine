@@ -11,7 +11,7 @@ namespace PuzzleEngineAlpha.Input.Scripts
         {
             get
             {
-                return InputHandler.IsKeyReleased(InputConfigurationManager.Config.EnumerateVNext);
+                return InputHandler.IsKeyReleased(ConfigurationManager.Config.EnumerateVNext);
             }
         }
 
@@ -19,7 +19,7 @@ namespace PuzzleEngineAlpha.Input.Scripts
         {
             get
             {
-                return InputHandler.IsKeyReleased(InputConfigurationManager.Config.EnumerateVPrevious);
+                return InputHandler.IsKeyReleased(ConfigurationManager.Config.EnumerateVPrevious);
             }
         }
 
@@ -27,7 +27,7 @@ namespace PuzzleEngineAlpha.Input.Scripts
         {
             get
             {
-                return InputHandler.IsKeyReleased(InputConfigurationManager.Config.Trigger);
+                return InputHandler.IsKeyReleased(ConfigurationManager.Config.Trigger);
             }
         }
     }

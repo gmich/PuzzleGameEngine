@@ -24,7 +24,6 @@ namespace PuzzleEngineAlpha
         SpriteBatch spriteBatch;
         SceneDirector sceneDirector;
         ResolutionHandler resolutionHandler;
-        FpsMonitor fpsMonitor;
 
         public Engine()
             : base()
@@ -55,12 +54,10 @@ namespace PuzzleEngineAlpha
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             resolutionHandler = new ResolutionHandler(ref this.graphics, false);
             InputHandler.Initialize();
-            fpsMonitor = new FpsMonitor();
-            WindowText.Initialize(Content.Load<SpriteFont>("Fonts/font"));
-            WindowText.AddText(new Vector2(10, 100), " ");
+            ConfigurationManager.Config = new Configuration();
+
             base.Initialize();
         }
 
@@ -70,10 +67,10 @@ namespace PuzzleEngineAlpha
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sceneDirector = new SceneDirector(GraphicsDevice, Content);
-            // TODO: use this.Content to load your game content here
+
         }
 
         /// <summary>
@@ -99,10 +96,6 @@ namespace PuzzleEngineAlpha
             resolutionHandler.Update(gameTime);
             sceneDirector.Update(gameTime);
 
-            fpsMonitor.Update(gameTime);
-
-            WindowText.SetText(new Vector2(10, 100), "FPS: " + fpsMonitor.FPS);
-
             base.Update(gameTime);
         }
 
@@ -118,7 +111,7 @@ namespace PuzzleEngineAlpha
 
             base.Draw(gameTime);
 
-            fpsMonitor.AddFrame();
+
         }
 
         private void OnWindowClientSizeChanged(object sender, System.EventArgs e)

@@ -8,6 +8,7 @@ namespace PuzzleEngineAlpha.Scene
         bool IsActive
         {
             get;
+            set;
         }
 
         void Update(GameTime gameTime);
