@@ -66,6 +66,7 @@
     <Compile Include="Input\InputUtilities.cs" />
     <Compile Include="Input\Scripts\BasicMenuInputScript.cs" />
     <Compile Include="Input\Scripts\IMenuInputScript.cs" />
+    <Compile Include="Input\Scripts\MovementScript.cs" />
     <Compile Include="Level\MapSquare.cs" />
     <Compile Include="Level\TileMap.cs" />
     <Compile Include="Mappers\IMapper.cs" />

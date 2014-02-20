@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PuzzleEngineAlpha.Player
 {
-    using Input;
+    using Input.Scripts;
     using Scene;
 
     //Helper dummy player
@@ -13,66 +13,21 @@ namespace PuzzleEngineAlpha.Player
     {
         public Vector2 location;
         Texture2D texture;
-        Keys up;
-        Keys down;
-        Keys left;
-        Keys right;
-        int state;
+        MovementScript movementScript;
 
         public DummyPlayer(Vector2 location, Texture2D texture,float step)
         {
             this.location = location;
             this.texture = texture;
             this.step = step;
-            state = 0;
-            InitializeKeys(state);
-        }
-
-        public void InitializeKeys(int state)
-        {
-            this.state = state;
-            switch (state)
-            {
-                case 1:
-                    up = Keys.Right;
-                    down = Keys.Left;
-                    left = Keys.Up;
-                    right = Keys.Down;
-                    break;
-                case 2:
-                    up = Keys.Down;
-                    down = Keys.Up;
-                    left = Keys.Right;
-                    right = Keys.Left;
-                    break;
-                case 3:
-                    up = Keys.Left;
-                    down = Keys.Right;
-                    left = Keys.Down;
-                    right = Keys.Up;
-                    break;
-                default:
-                    up = Keys.Up;
-                    down = Keys.Down;
-                    left = Keys.Left;
-                    right = Keys.Right;
-                    break;
-
-            }
+            movementScript = new MovementScript();
         }
 
         float step
         {
             get;
             set;
-        }
-
-        //review
-        public int RotationState
-        {
-            get;
-            set;
-        }
+        }        
 
         public PuzzleEngineAlpha.Camera.Camera Camera
         {
@@ -90,36 +45,27 @@ namespace PuzzleEngineAlpha.Player
             
         public void Update(GameTime gameTime)
         {
-            if(InputHandler.IsKeyDown(up))
+            movementScript.RotationState = Camera.RotationState;
+
+            if (movementScript.MoveUp)
             {
                 location -=new Vector2(0,step);
             }
-            if (InputHandler.IsKeyDown(down))
+            if (movementScript.MoveDown)
             {
                 location -= new Vector2(0,-step);
             }
-            if (InputHandler.IsKeyDown(left))
+            if (movementScript.MoveLeft)
             {
                 location -= new Vector2(step,0);
             }
-            if (InputHandler.IsKeyDown(right))
+            if (movementScript.MoveRight)
             {
                 location -= new Vector2(-step,0);
             }
 
         }
 
-        #region Movement
-
-      /*  void MoveUp();
-
-        void MoveDown();
-
-        void MoveLeft();
-
-        void MoveRight();*/
-
-        #endregion
 
         public void Draw(SpriteBatch spriteBatch)
         {

@@ -73,6 +73,8 @@ namespace PuzzleEngineAlpha.Camera.Handlers
         {
             rotation.RotateEntity(HandleRotation());
             rotation.UpdateRotation(rotationState);
+
+            Camera.RotationState = rotationState;
             Camera.Rotation = rotation.Value;
         }
 

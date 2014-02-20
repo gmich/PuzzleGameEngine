@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PuzzleEngineAlpha.Input
 {
+    /// <summary>
+    /// TODO: Update to get configuration from an xml using the XMLMapper and inputUtilities
+    /// </summary>
     public class Configuration
     {
 
@@ -19,26 +22,34 @@ namespace PuzzleEngineAlpha.Input
 
         public Keys Up
         {
-            get;
-            set;
+            get
+            {
+                return Keys.Up;
+            }
         }
 
         public Keys Down
         {
-            get;
-            set;
+            get
+            {
+                return Keys.Down;
+            }
         }
 
         public Keys Left
         {
-            get;
-            set;
+            get
+            {
+                return Keys.Left;
+            }
         }
 
         public Keys Right
         {
-            get;
-            set;
+            get
+            {
+                return Keys.Right;
+            }
         }
 
         public Keys EnumerateVNext
