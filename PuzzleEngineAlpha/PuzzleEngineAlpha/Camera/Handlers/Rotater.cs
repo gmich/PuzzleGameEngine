@@ -39,8 +39,9 @@ namespace PuzzleEngineAlpha.Camera.Handlers
 
         public bool? HandleRotation()
         {
-            if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.Q)
-                || InputHandler.ForwardButtonIsPressed()))
+            if (rotation.IsActive) return null;
+
+            if (InputHandler.IsKeyReleased(ConfigurationManager.Config.RotateClockwise))
             {
                 if (rotationState == 3)
                     rotationState = 0;
@@ -48,21 +49,14 @@ namespace PuzzleEngineAlpha.Camera.Handlers
 
                 return true;
             }
-            else if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.W)
-                || InputHandler.BackButtonIsPressed()))
+            else if (InputHandler.IsKeyReleased(ConfigurationManager.Config.RotateCounterClockwise))
             {
                 if (rotationState == 0)
                     rotationState = 3;
                 else rotationState--;
 
-                if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.Q)
-                    || InputHandler.ForwardButtonIsPressed()))
-                    return true;
-                else if ((InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.W)
-                    || InputHandler.BackButtonIsPressed()))
-                    return false;
 
-                return null;
+                return false;
             }
             return null;
         }

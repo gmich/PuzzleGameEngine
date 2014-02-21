@@ -47,6 +47,7 @@
     <Compile Include="Animations\IAnimation.cs" />
     <Compile Include="Animations\Rotation.cs" />
     <Compile Include="Camera\Camera.cs" />
+    <Compile Include="Camera\Handlers\Zoomer.cs" />
     <Compile Include="Camera\Handlers\ICameraHandler.cs" />
     <Compile Include="Camera\Handlers\Rotater.cs" />
     <Compile Include="Camera\Manager\CameraManager.cs" />

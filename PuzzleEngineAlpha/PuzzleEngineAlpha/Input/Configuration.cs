@@ -84,6 +84,38 @@ namespace PuzzleEngineAlpha.Input
             }
         }
 
+        public Keys ZoomIn
+        {
+            get
+            {
+                return Keys.A;
+            }
+        }
+
+        public Keys ZoomOut
+        {
+            get
+            {
+                return Keys.S;
+            }
+        }
+
+        public Keys RotateClockwise
+        {
+            get
+            {
+                return Keys.W;
+            }
+        }
+
+        public Keys RotateCounterClockwise
+        {
+            get
+            {
+                return Keys.Q;
+            }
+        }
+
         #endregion
 
         #endregion

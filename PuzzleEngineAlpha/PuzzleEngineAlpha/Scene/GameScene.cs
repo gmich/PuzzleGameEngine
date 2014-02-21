@@ -18,7 +18,6 @@ namespace PuzzleEngineAlpha.Scene
     {
         #region Declarations
 
-       // static ICameraScript cameraScript;
         RenderTarget2D renderTarget;
         CameraManager cameraManager;
         bool isActive;
@@ -40,11 +39,11 @@ namespace PuzzleEngineAlpha.Scene
             camera = new Camera.Camera( player.location,new Vector2(this.Width, this.Height), new Vector2(50000, 50000));
             cameraManager.SetCameraScript(new ChasingCamera(player.location,camera));
             cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 10));
+            cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.6f, 0.6f));
             player.Camera = cameraManager.Camera;
             tileMap = new TileMap(cameraManager.Position, cameraManager.Camera, content.Load<Texture2D>(@"Textures/PlatformTiles"), 64, 64);
             tileMap.Randomize(200, 200);
             UpdateRenderTarget();
-            clicked = false;
         }
 
         #endregion
@@ -97,22 +96,6 @@ namespace PuzzleEngineAlpha.Scene
 
         #region Properties
 
-        float ZoomStep
-        {
-            get
-            {
-                return 0.01f;
-            }
-        }
-
-        float RotationStep
-        {
-            get
-            {
-                return 0.01f;
-            }
-        }
-
         public Vector2 CameraLocation
         {
             get
@@ -132,44 +115,15 @@ namespace PuzzleEngineAlpha.Scene
             cameraManager.Camera.ViewPortHeight = ResolutionHandler.WindowHeight;
         }
 
-        //encapsulate in a camera handler
-        void HandleZoom()
-        {
-            if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
-                cameraManager.Camera.Zoom += ZoomStep;
-
-            else if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.S))
-                cameraManager.Camera.Zoom -= ZoomStep;
-        }
-
         #endregion
 
         #endregion
 
-        //TODO: remove 
-        bool clicked = false;
+
         public void Update(GameTime gameTime)
         {
-            HandleZoom();
             player.Update(gameTime);
 
-         /*   if (InputHandler.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
-            {
-                if (!clicked)
-                {
-                    clicked = true;
-                    cameraManager.SetCameraScript(new ExactCamera(player.location, camera));
-                }
-
-            }
-            else
-            {
-                if (clicked)
-                {
-                    clicked = false;
-                    cameraManager.SetCameraScript(new ChasingCamera(player.location, camera));
-                }
-            }*/
             cameraManager.TargetLocation = player.RelativeCenter;
             cameraManager.Update(gameTime);
         }
