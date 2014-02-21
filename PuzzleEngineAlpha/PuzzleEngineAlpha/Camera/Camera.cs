@@ -57,6 +57,11 @@ namespace PuzzleEngineAlpha.Camera
             }
         }
 
+        public void ExpandWorldRectangle(Vector2 expandedSize)
+        {
+            WorldSize += expandedSize;
+        }
+
         public Vector2 WorldSize
         {
             get;

@@ -13,7 +13,6 @@ namespace PuzzleEngineAlpha.Camera.Scripts
         #region Declarations
 
         Camera camera;
-        float distance;
         Vector2 targetLocation;
 
         #endregion
@@ -56,8 +55,8 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         private void RepositionCamera()
         {
-            int screenLocX = (int)Camera.WorldToScreen(targetLocation).X;
-            int screenLocY = (int)Camera.WorldToScreen(targetLocation).Y;
+            int screenLocX = (int)Camera.WorldToScreen(TargetLocation).X;
+            int screenLocY = (int)Camera.WorldToScreen(TargetLocation).Y;
 
             if (screenLocY > camera.ViewPortHeight / 2)
             {

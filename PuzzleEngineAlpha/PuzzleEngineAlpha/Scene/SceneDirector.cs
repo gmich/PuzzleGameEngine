@@ -23,14 +23,16 @@ namespace PuzzleEngineAlpha.Scene
             scenes = new Dictionary<string,IScene>();
             bgScenes = new Dictionary<string, IScene>();
 
-            scenes.Add("gamescene",new GameScene(graphicsDevice, content));
-            bgScenes.Add("diagnostics", new DiagnosticsScene(graphicsDevice, content));
+            scenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 160)));
+            //scenes.Add("gamescene",new Game.GameScene(graphicsDevice, content,Vector2.Zero));
+            bgScenes.Add("diagnostics", new Game.DiagnosticsScene(graphicsDevice, content));
         }
 
         #endregion
 
         #region Helper Methods
 
+        //TODO: updateRenderTargets only when resolution changes
         public void UpdateRenderTargets()
         {
             foreach (IScene scene in scenes.Values)

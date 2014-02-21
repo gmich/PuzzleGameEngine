@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace PuzzleEngineAlpha.Scene
+namespace PuzzleEngineAlpha.Scene.Game
 {
     using Input;
     using Level;
@@ -25,15 +25,15 @@ namespace PuzzleEngineAlpha.Scene
         TileMap tileMap;
         GraphicsDevice graphicsDevice;
         Camera.Camera camera;
-
+        Vector2 sceneryOffSet;
         #endregion
 
         #region Constructor
 
-        public GameScene(GraphicsDevice graphicsDevice,ContentManager content)
+        public GameScene(GraphicsDevice graphicsDevice, ContentManager content, Vector2 sceneryOffSet)
         {
             this.graphicsDevice = graphicsDevice;
-
+            this.sceneryOffSet = sceneryOffSet;
             player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"Textures/player"),10);
             cameraManager = new CameraManager();
             camera = new Camera.Camera( player.location,new Vector2(this.Width, this.Height), new Vector2(50000, 50000));
@@ -44,6 +44,7 @@ namespace PuzzleEngineAlpha.Scene
             tileMap = new TileMap(cameraManager.Position, cameraManager.Camera, content.Load<Texture2D>(@"Textures/PlatformTiles"), 64, 64);
             tileMap.Randomize(200, 200);
             UpdateRenderTarget();
+            this.sceneryOffSet = sceneryOffSet;
         }
 
         #endregion
@@ -64,7 +65,7 @@ namespace PuzzleEngineAlpha.Scene
         {
             get
             {
-                return ResolutionHandler.WindowWidth;
+                return ResolutionHandler.WindowWidth - (int)sceneryOffSet.X;
             }
         }
 
@@ -72,7 +73,7 @@ namespace PuzzleEngineAlpha.Scene
         {
             get
             {
-                return ResolutionHandler.WindowHeight ;
+                return ResolutionHandler.WindowHeight - (int)sceneryOffSet.Y;
             }
         }
 
@@ -111,8 +112,8 @@ namespace PuzzleEngineAlpha.Scene
         public void UpdateRenderTarget()
         {
             renderTarget = new RenderTarget2D(graphicsDevice, this.Width, this.Height);
-            cameraManager.Camera.ViewPortWidth = ResolutionHandler.WindowWidth;
-            cameraManager.Camera.ViewPortHeight = ResolutionHandler.WindowHeight;
+            cameraManager.Camera.ViewPortWidth = this.Width;
+            cameraManager.Camera.ViewPortHeight = this.Height;
         }
 
         #endregion

@@ -94,11 +94,10 @@ namespace PuzzleEngineAlpha.Components.Buttons
 
         #region Update and Draw
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
             mouseIsOver();
-
         }
 
         public override void Draw(SpriteBatch spriteBatch)

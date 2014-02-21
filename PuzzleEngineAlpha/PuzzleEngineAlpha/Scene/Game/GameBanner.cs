@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace PuzzleEngineAlpha.Scene
+namespace PuzzleEngineAlpha.Scene.Game
 {
     using Resolution;
     public class GameBanner : IScene
