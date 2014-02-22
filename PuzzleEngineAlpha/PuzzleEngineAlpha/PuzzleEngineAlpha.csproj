@@ -59,7 +59,6 @@
     <Compile Include="Components\Areas\SampleArea.cs" />
     <Compile Include="Components\Buttons\TileButton.cs" />
     <Compile Include="Components\ScrollBars\HScrollBar.cs" />
-    <Compile Include="Components\ScrollBars\IScrollBar.cs" />
     <Compile Include="Components\ScrollBars\VScrollBar.cs" />
     <Compile Include="Components\Buttons\MenuButton.cs" />
     <Compile Include="Components\DrawProperties.cs" />

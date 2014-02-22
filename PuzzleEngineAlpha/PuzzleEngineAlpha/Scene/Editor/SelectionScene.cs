@@ -22,6 +22,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         Texture2D tileSheet;
         Camera.Camera camera;
         VScrollBar vScrollBar;
+
         #endregion
 
         #region Constructor
@@ -37,6 +38,18 @@ namespace PuzzleEngineAlpha.Scene.Editor
             components = new List<AGUIComponent>();
             InitializeGUI(Content);
             UpdateRenderTarget();
+            Resolution.ResolutionHandler.Changed += ResetSizes;
+
+        }
+
+        #endregion
+
+        #region Handle Resolution Change
+
+        public void ResetSizes(object sender, EventArgs e)
+        {
+            vScrollBar.Size = new Vector2(ScrollBarWidth, Resolution.ResolutionHandler.WindowHeight - SceneLocation.Y);
+            this.scenerySize = new Vector2(170, Resolution.ResolutionHandler.WindowWidth - 165);
         }
 
         #endregion
@@ -97,13 +110,20 @@ namespace PuzzleEngineAlpha.Scene.Editor
                 DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/tileFrame"), 0.8f, 1.0f, 0.0f, Color.White);
                 components.Add(new TileButton(button, frame, new Vector2((i % 2) * (TileWidth+TileOffset) + TileOffset, i / 2 * (TileHeight + TileOffset) + TileOffset) + SceneLocation, new Vector2(TileWidth, TileHeight),TileSourceRectangle(i),this.camera));
             }
-           float scrollBarWidth = 20.0f;
-           vScrollBar = new VScrollBar(Content.Load<Texture2D>(@"ScrollBars/bullet"), Content.Load<Texture2D>(@"ScrollBars/bar"), camera, new Vector2(this.scenerySize.X - scrollBarWidth, 0) + SceneLocation, new Vector2(scrollBarWidth, Resolution.ResolutionHandler.WindowHeight-SceneLocation.Y));
+            vScrollBar = new VScrollBar(Content.Load<Texture2D>(@"ScrollBars/bullet"), Content.Load<Texture2D>(@"ScrollBars/bar"), camera, new Vector2(this.scenerySize.X - ScrollBarWidth, 0) + SceneLocation, new Vector2(ScrollBarWidth, Resolution.ResolutionHandler.WindowHeight - SceneLocation.Y));
         }
 
         #endregion
 
         #region Properties
+
+        float ScrollBarWidth
+        {
+            get
+            {
+                return 20.0f;
+            }
+        }
 
         Vector2 SceneLocation
         {

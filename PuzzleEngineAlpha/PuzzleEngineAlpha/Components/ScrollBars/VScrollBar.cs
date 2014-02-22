@@ -6,7 +6,7 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
 {
     using Input;
 
-    public class VScrollBar : IScrollBar
+    public class VScrollBar
     {
         #region Declarations
 
@@ -35,6 +35,18 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
         #endregion
 
         #region Properties
+
+        public Vector2 Size
+        {
+            get
+            {
+                return size;
+            }
+            set
+            {
+                size = value;
+            }
+        }
 
         public Camera.Camera Camera
         {

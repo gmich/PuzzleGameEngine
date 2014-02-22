@@ -6,7 +6,7 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
 {
     using Input;
 
-    public class HScrollBar : IScrollBar
+    public class HScrollBar
     {
         #region Declarations
 

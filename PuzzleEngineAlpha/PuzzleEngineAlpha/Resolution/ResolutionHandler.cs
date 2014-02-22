@@ -54,6 +54,19 @@ namespace PuzzleEngineAlpha.Resolution
 
         #endregion
 
+        #region Event
+
+        public delegate void ChangedResolutionHandler(object sender, EventArgs e);
+        public static event ChangedResolutionHandler Changed;
+
+        protected virtual void OnChanged(EventArgs e)
+        {
+            if (Changed != null)
+                Changed(this, e);
+        }
+
+        #endregion
+
         #region Methods
 
         public void SetResolution(int newWidth, int newHeight)
@@ -61,6 +74,7 @@ namespace PuzzleEngineAlpha.Resolution
             width = newWidth;
             height = newHeight;
             this.ApplyResolutionSettings();
+            OnChanged(EventArgs.Empty);
         }
 
         private void ApplyResolutionSettings()
