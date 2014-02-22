@@ -7,31 +7,31 @@ using PuzzleEngineAlpha.Input;
 namespace PuzzleEngineAlpha.Components.Buttons
 {
     using Actions;
-
+    using Camera;
     /// <summary>
     /// MenuButton responds to mouse input
     /// </summary>
-    public class MenuButton : AGUIComponent
+    public class TileButton : AGUIComponent
     {
 
         #region Declarations
 
         DrawProperties button;
         DrawProperties frame;
-        DrawProperties clickedButton;
-        DrawTextProperties defaultText;
+        Camera camera;
+        Rectangle sourceRectangle;
 
         #endregion
 
         #region Constructor
 
-        public MenuButton(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, DrawProperties clickedButtonDrawProperties, DrawTextProperties textProperties, Vector2 position, Vector2 size)
+        public TileButton(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, Vector2 position, Vector2 size,Rectangle sourceRectangle,Camera camera)
             : base()
         {
             button = buttonDrawProperties;
             frame = frameDrawProperties;
-            clickedButton = clickedButtonDrawProperties;
-            defaultText = textProperties;
+            this.sourceRectangle = sourceRectangle;
+            this.camera = camera;
             this.Size = size;
             this.Position = position;
         }
@@ -40,37 +40,31 @@ namespace PuzzleEngineAlpha.Components.Buttons
         
         #region Drawing Related Methods
 
+        Vector2 position;
+        public override Vector2 Position
+        {
+            get
+            {
+                return this.position - camera.Position;
+            }
+            set
+            {
+                position = value;
+            }
+        }
+
         #region Drawing Properties
+
 
         Rectangle ButtonRectangle
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
+                return new Rectangle((int)position.X, (int)position.Y, (int)Size.X, (int)Size.Y);
             }
         }
 
         #endregion
-
-        #endregion
-
-        #region TextProperties
-
-        Vector2 TextLocation
-        {
-            get
-            {
-                return new Vector2(Position.X + (Size.X / 2) - (FontSize.X / 2), Position.Y + (Size.Y / 2) - FontSize.Y/2);
-            }
-        }
-
-        Vector2 FontSize
-        {
-            get
-            {
-                return defaultText.font.MeasureString(defaultText.text);
-            }
-        }
 
         #endregion
 
@@ -123,22 +117,21 @@ namespace PuzzleEngineAlpha.Components.Buttons
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            DrawableEntity(spriteBatch, button);
-
+            DrawableEntity(spriteBatch,sourceRectangle, button,button.color);
+ 
             if (canRelease && IsFocused)
             {
-                DrawableEntity(spriteBatch, clickedButton);
+                DrawableEntity(spriteBatch, sourceRectangle,button,new Color(200, 200, 200));
             }
             else if (IsFocused)
             {
-                DrawableEntity(spriteBatch, frame);
+                DrawableEntity(spriteBatch,new Rectangle(0,0,frame.texture.Width,frame.texture.Height),frame, new Color(200, 200, 200));
             }
-            spriteBatch.DrawString(defaultText.font, defaultText.text, TextLocation, defaultText.textColor, 0.0f, Vector2.Zero, defaultText.textScale, SpriteEffects.None, defaultText.textLayer);
         }
 
-        void DrawableEntity(SpriteBatch spriteBatch, DrawProperties entity)
+        void DrawableEntity(SpriteBatch spriteBatch, Rectangle rect, DrawProperties entity, Color color)
         {
-            spriteBatch.Draw(entity.texture, ButtonRectangle, null, entity.color * entity.transparency, entity.rotation, Vector2.Zero, SpriteEffects.None, entity.layer);
+            spriteBatch.Draw(entity.texture, camera.WorldToScreen(ButtonRectangle), rect, color * entity.transparency, entity.rotation, Vector2.Zero, SpriteEffects.None, entity.layer);
         }
 
         #endregion

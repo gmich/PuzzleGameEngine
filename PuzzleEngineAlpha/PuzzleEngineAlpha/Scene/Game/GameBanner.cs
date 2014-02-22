@@ -9,7 +9,7 @@ namespace PuzzleEngineAlpha.Scene.Game
     {
         #region Declarations
 
-        PuzzleEngineAlpha.Camera.Camera camera;
+        //PuzzleEngineAlpha.Camera.Camera camera;
         RenderTarget2D renderTarget;
         bool isActive;
 

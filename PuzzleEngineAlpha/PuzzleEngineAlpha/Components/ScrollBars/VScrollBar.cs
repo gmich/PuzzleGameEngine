@@ -16,13 +16,12 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
         private Texture2D bulletTexture;
         private Texture2D barTexture;
         private Vector2 size;
-        private float barWidth;
 
         #endregion
 
         #region Constructor
 
-        public VScrollBar(Texture2D bulletTexture, Texture2D barTexture, Camera.Camera camera, Vector2 location, Vector2 size, float barWidth)
+        public VScrollBar(Texture2D bulletTexture, Texture2D barTexture, Camera.Camera camera, Vector2 location, Vector2 size)
         {
             this.BarLocation = location;
             this.size = size;
@@ -30,7 +29,6 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
             this.bulletLocation = location;
             this.bulletTexture = bulletTexture;
             this.barTexture = barTexture;
-            this.barWidth = barWidth;
             IsDragging = IsLocked = false;
         }
 
@@ -76,11 +74,18 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
             }
         }
 
+        private Rectangle AreaRectangle
+        {
+            get
+            {
+                return new Rectangle((int)BarLocation.X - (int)Camera.ViewPortWidth, (int)BarLocation.Y, (int)Camera.ViewPortWidth, (int)Camera.ViewPortHeight);
+            }
+        }
         private Rectangle BarRectangle
         {
             get
             {
-                return new Rectangle((int)BarLocation.X, (int)BarLocation.Y, (int)barWidth, (int)size.Y);
+                return new Rectangle((int)BarLocation.X, (int)BarLocation.Y, (int)size.X, (int)size.Y);
             }
         }
         private bool IsLocked
@@ -105,7 +110,7 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
         {
             get
             {
-                return new Vector2(barWidth, MathHelper.Max(size.Y - (camera.WorldRectangle.Height - camera.ViewPortHeight), barWidth/2));
+                return new Vector2(size.X, MathHelper.Max(size.Y - (camera.WorldRectangle.Height - camera.ViewPortHeight), size.X/ 2));
             }
         }
         public bool Show
@@ -122,12 +127,12 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
 
         public void MoveUp()
         {
-            BulletLocation += new Vector2(0,-8);
+            BulletLocation += new Vector2(0,-10);
         }
 
         public void MoveDown()
         {
-            BulletLocation += new Vector2(0, 8);
+            BulletLocation += new Vector2(0, 10);
         }
 
         #endregion
@@ -149,6 +154,14 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
 
         public void Update(GameTime gameTime)
         {
+            if (AreaRectangle.Intersects(InputHandler.MouseRectangle))
+            {
+                if (InputHandler.IsWheelMovingDown())
+                    MoveDown();
+                if (InputHandler.IsWheelMovingUp())
+                    MoveUp();
+            }
+
             if (InputHandler.LeftButtonIsClicked())
             {
                 if (InputHandler.MouseRectangle.Intersects(BulletRectangle) && !IsLocked)

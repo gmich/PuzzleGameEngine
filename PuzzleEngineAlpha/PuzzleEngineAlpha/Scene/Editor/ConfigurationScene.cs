@@ -30,10 +30,10 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
             this.graphicsDevice = graphicsDevice;
             this.scenerySize = scenerySize;
-            UpdateRenderTarget();
             components = new List<AGUIComponent>();
 
             InitializeGUI(Content);
+            UpdateRenderTarget();
 
         }
 
