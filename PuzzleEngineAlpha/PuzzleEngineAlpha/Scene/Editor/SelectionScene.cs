@@ -27,11 +27,10 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         #region Constructor
 
-        public SelectionScene(GraphicsDevice graphicsDevice, ContentManager Content,int TileWidth, int TileHeight,Vector2 sceneLocation, Vector2 scenerySize)
+        public SelectionScene(GraphicsDevice graphicsDevice, ContentManager Content,int TileWidth, int TileHeight, Vector2 scenerySize)
         {
             this.TileWidth = TileWidth;
             this.TileHeight = TileHeight;
-            this.SceneLocation = sceneLocation;
             tileSheet = Content.Load<Texture2D>(@"Textures/PlatformTilesTemp");
             this.graphicsDevice = graphicsDevice;
             this.scenerySize = scenerySize;
@@ -50,6 +49,13 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
             vScrollBar.Size = new Vector2(ScrollBarWidth, Resolution.ResolutionHandler.WindowHeight - SceneLocation.Y);
             this.scenerySize = new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 165);
+            for(int i=0;i<components.Count;i++)
+            {
+                components[i].Position = new Vector2((i % 2) * (TileWidth + TileOffset) + TileOffset, i / 2 * (TileHeight + TileOffset) + TileOffset) + SceneLocation;
+            }
+
+            vScrollBar.BarLocation = new Vector2(this.scenerySize.X - ScrollBarWidth, 0) + SceneLocation;
+            vScrollBar.bulletLocation = new Vector2(this.scenerySize.X - ScrollBarWidth, 0) + SceneLocation;
         }
 
         #endregion
@@ -127,8 +133,10 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         Vector2 SceneLocation
         {
-            get;
-            set;
+            get
+            {
+                return new Vector2(Resolution.ResolutionHandler.WindowWidth - 170,165);
+            }
         }
 
         #region Boundaries
@@ -206,7 +214,6 @@ namespace PuzzleEngineAlpha.Scene.Editor
             RasterizerState rasterizerState = new RasterizerState() { ScissorTestEnable = true };
             
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, rasterizerState);
-
 
             foreach (AGUIComponent component in components)
             {

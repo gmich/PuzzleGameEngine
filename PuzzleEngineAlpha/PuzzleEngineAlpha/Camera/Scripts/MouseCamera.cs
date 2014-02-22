@@ -56,12 +56,10 @@ namespace PuzzleEngineAlpha.Camera.Scripts
             }
             set
             {
-                //check boundaries
-                worldLocation = value;
-                /* worldLocation.X = MathHelper.Clamp(value.X, Camera.ViewPortWidth,
-                                             TileGrid.MapWidth * TileGrid.TileWidth - Camera.ViewPortWidth / 2);
+                 worldLocation.X = MathHelper.Clamp(value.X, Camera.ViewPortWidth,
+                                             Camera.WorldSize.X- Camera.ViewPortWidth / 2);
                  worldLocation.Y = MathHelper.Clamp(value.Y, Camera.ViewPortHeight / 2,
-                                             TileGrid.MapHeight * TileGrid.TileHeight - Camera.ViewPortHeight / 2);*/
+                                             Camera.WorldSize.Y - Camera.ViewPortHeight / 2);
             }
         }
 

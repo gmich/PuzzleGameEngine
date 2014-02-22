@@ -38,10 +38,8 @@ namespace PuzzleEngineAlpha.Level
 
         public override Color GetColor(Rectangle rectangle)
         {
-
             if (InputHandler.MouseRectangle.Intersects(rectangle))
             {
-
                 if (InputHandler.LeftButtonIsClicked())
                     return new Color(200, 200, 200);
                 else
@@ -57,9 +55,8 @@ namespace PuzzleEngineAlpha.Level
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (ShowGrid)
+            if (!ShowGrid)
             {
-
                 for (int x = StartX; x <= EndX; x++)
                     for (int y = StartY; y <= EndY; y++)
                     {

@@ -20,6 +20,7 @@ namespace PuzzleEngineAlpha.Components.Buttons
         DrawProperties frame;
         Camera camera;
         Rectangle sourceRectangle;
+        IEditorInputScript inputScript;
 
         #endregion
 

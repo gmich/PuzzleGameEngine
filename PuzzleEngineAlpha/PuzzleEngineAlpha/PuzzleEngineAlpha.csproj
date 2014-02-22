@@ -73,6 +73,8 @@
     <Compile Include="Input\InputUtilities.cs" />
     <Compile Include="Input\KeyboardInput.cs" />
     <Compile Include="Input\Scripts\BasicMenuInputScript.cs" />
+    <Compile Include="Input\Scripts\IEditorInputScript.cs" />
+    <Compile Include="Input\Scripts\EditorInputScript.cs" />
     <Compile Include="Input\Scripts\IMenuInputScript.cs" />
     <Compile Include="Input\Scripts\MovementScript.cs" />
     <Compile Include="Level\EditorTileMap.cs" />

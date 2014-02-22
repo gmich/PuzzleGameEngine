@@ -11,8 +11,7 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
         #region Declarations
 
         private readonly Camera.Camera camera;
-        private Vector2 BarLocation;
-        private Vector2 bulletLocation;
+        public Vector2 bulletLocation;
         private Texture2D bulletTexture;
         private Texture2D barTexture;
         private Vector2 size;
@@ -36,6 +35,12 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
 
         #region Properties
 
+        public Vector2 BarLocation
+        {
+            get;
+            set;
+        }
+
         public Vector2 Size
         {
             get
@@ -56,7 +61,7 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
             }
         }
 
-        private Vector2 BulletLocation
+        public Vector2 BulletLocation
         {
             get
             {

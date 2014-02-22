@@ -15,7 +15,6 @@ namespace PuzzleEngineAlpha.Scene.Editor
     {
         #region Declarations
 
-        RenderTarget2D renderTarget;
         bool isActive;
         GraphicsDevice graphicsDevice;
         Vector2 scenerySize;
@@ -43,20 +42,20 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         void InitializeGUI(ContentManager Content)
         {
-            textBox = new TextBox(Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Content.Load<Texture2D>(@"Textboxes/textbox"), new Vector2(5, 5), 160, 30);
+            textBox = new TextBox(Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Content.Load<Texture2D>(@"Textboxes/textbox"), new Vector2(5, 5) + SceneLocation, 160, 30);
 
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), 0.9f, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawTextProperties textProperties = new DrawTextProperties("passable", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
 
-            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 50), new Vector2(160, 40)));
+            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 50)+SceneLocation, new Vector2(160, 40)));
 
             textProperties.text = "Tiles";
-            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(0,100), new Vector2(85, 60)));
+            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(0, 100) + SceneLocation, new Vector2(85, 60)));
 
             textProperties.text = "Actors";
-            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(85, 100), new Vector2(85, 60)));
+            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(85, 100) + SceneLocation, new Vector2(85, 60)));
         }
 
         #endregion
@@ -67,7 +66,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
             get
             {
-                return Vector2.Zero;
+                return new Vector2(Resolution.ResolutionHandler.WindowWidth - scenerySize.X, 0);
             }
         }
 
@@ -109,7 +108,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         public void UpdateRenderTarget()
         {
-            renderTarget = new RenderTarget2D(graphicsDevice,this.Width, this.Height);
+            return;
         }
         
         #endregion
@@ -125,9 +124,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            graphicsDevice.SetRenderTarget(renderTarget);
-            graphicsDevice.Clear(Color.CornflowerBlue);
-
+            graphicsDevice.Clear(new Color(20,20,20));
             spriteBatch.Begin(SpriteSortMode.BackToFront,
                         BlendState.AlphaBlend);
 
@@ -138,13 +135,6 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
             spriteBatch.End();
 
-            graphicsDevice.SetRenderTarget(null);
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-
-            spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
-
-            spriteBatch.End();
         }
     }
 }
