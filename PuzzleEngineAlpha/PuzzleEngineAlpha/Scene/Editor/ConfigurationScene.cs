@@ -104,19 +104,16 @@ namespace PuzzleEngineAlpha.Scene.Editor
         }
 
         #endregion
-
-
+        
         #region Helper Methods
 
         public void UpdateRenderTarget()
         {
             renderTarget = new RenderTarget2D(graphicsDevice,this.Width, this.Height);
         }
-
-
+        
         #endregion
-
-
+        
         public void Update(GameTime gameTime)
         {
             foreach (AGUIComponent component in components)

@@ -24,7 +24,8 @@ namespace PuzzleEngineAlpha.Scene
             bgScenes = new Dictionary<string, IScene>();
 
             scenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 160)));
-            scenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content,64,64,new Vector2(0,165),new Vector2(170,Resolution.ResolutionHandler.WindowWidth-165)));
+            scenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content,64,64,new Vector2(0,165),new Vector2(170,Resolution.ResolutionHandler.WindowHeight-165)));
+            scenes.Add("map", new Editor.MapScene(graphicsDevice, content, 64, 64, new Vector2(170, 0), new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight)));
             //scenes.Add("gamescene",new Game.GameScene(graphicsDevice, content,Vector2.Zero));
             bgScenes.Add("diagnostics", new Game.DiagnosticsScene(graphicsDevice, content));
         }

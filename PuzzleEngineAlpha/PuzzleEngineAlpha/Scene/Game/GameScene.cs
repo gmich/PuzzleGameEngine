@@ -41,7 +41,8 @@ namespace PuzzleEngineAlpha.Scene.Game
             cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 10));
             cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.6f, 0.6f));
             player.Camera = cameraManager.Camera;
-            tileMap = new TileMap(cameraManager.Position, cameraManager.Camera, content.Load<Texture2D>(@"Textures/PlatformTiles"), 64, 64);
+            tileMap = new TileMap(cameraManager.Position, content, 64, 64);
+            tileMap.Camera = cameraManager.Camera;
             tileMap.Randomize(200, 200);
             UpdateRenderTarget();
             this.sceneryOffSet = sceneryOffSet;
@@ -120,7 +121,6 @@ namespace PuzzleEngineAlpha.Scene.Game
 
         #endregion
 
-
         public void Update(GameTime gameTime)
         {
             player.Update(gameTime);
@@ -128,7 +128,6 @@ namespace PuzzleEngineAlpha.Scene.Game
             cameraManager.TargetLocation = player.RelativeCenter;
             cameraManager.Update(gameTime);
         }
-
 
         //TODO: fix rendertarget order
         public void Draw(SpriteBatch spriteBatch)

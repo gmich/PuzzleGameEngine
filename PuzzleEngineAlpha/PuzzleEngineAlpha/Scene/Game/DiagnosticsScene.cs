@@ -82,6 +82,7 @@ namespace PuzzleEngineAlpha.Scene.Game
 
         public static void AddText(Vector2 location, string text)
         {
+            if(!texts.ContainsKey(location))
             DiagnosticsScene.texts.Add(location, text);
         }
 

@@ -16,27 +16,25 @@ namespace PuzzleEngineAlpha.Level
 
         public int TileWidth;
         public int TileHeight;
-        int MapWidth;
-        int MapHeight;
+        protected int MapWidth;
+        protected int MapHeight;
         MapSquare[,] mapCells;
         Texture2D tileSheet;
         Vector2 cameraPosition;
-        Camera Camera;
+
         #endregion
 
-        public TileMap(Vector2 cameraPosition, Camera camera, Texture2D tileTexture, int tileWidth, int tileHeight)
+        public TileMap(Vector2 cameraPosition, ContentManager Content, int tileWidth, int tileHeight)
         {
             this.cameraPosition = cameraPosition;
-            tileSheet = tileTexture;
+            tileSheet = Content.Load<Texture2D>(@"Textures/PlatformTiles");
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
-            this.Camera = camera;
             Scene.Game.DiagnosticsScene.AddText(new Vector2(10, 10), " ");
             Scene.Game.DiagnosticsScene.AddText(new Vector2(40, 10), " ");
             Scene.Game.DiagnosticsScene.AddText(new Vector2(70, 10), " ");
         }
-
-
+        
         #region Randomize Map
         
         //TODO: update randomize algorithm
@@ -63,6 +61,73 @@ namespace PuzzleEngineAlpha.Level
                         mapCells[x, y] = new MapSquare(2, false, " ");
                     }
                 }
+            }
+        }
+
+        #endregion
+
+        #region Draw Helper Methods
+
+        public virtual Color GetColor(Rectangle rectangle)
+        {
+            return Color.White;
+        }
+
+        #endregion
+
+        #region Draw Properties
+
+        public Camera Camera
+        {
+            get;
+            set;
+        }
+        
+        protected int StartX
+        {
+            get
+            {
+                return GetCellByPixelX((int)(this.Camera.Position.X));
+            }
+        }
+
+        protected int EndX
+        {
+            get
+            {
+                return GetCellByPixelX((int)(Camera.Position.X) + ResolutionHandler.WindowWidth);
+            }
+        }
+
+        protected int StartY
+        {
+            get
+            {
+                return GetCellByPixelY((int)(Camera.Position.Y));
+            }
+        }
+
+        protected int EndY
+        {
+            get
+            {
+                return GetCellByPixelY((int)(Camera.Position.Y) + ResolutionHandler.WindowHeight);
+            }
+        }
+
+        public int MapPixelWidth
+        {
+            get
+            {
+                return MapWidth * TileWidth;
+            }
+        }
+
+        public int MapPixelHeight
+        {
+            get
+            {
+                return MapHeight * TileHeight;
             }
         }
 
@@ -205,10 +270,12 @@ namespace PuzzleEngineAlpha.Level
             return Camera.WorldToScreen(CellWorldRectangle(cellX, cellY));
         }
 
-        public void SetTileAtCell(
-           int tileX,
-           int tileY,
-           int tileIndex)
+        public Rectangle CellScreenRectangle(Vector2 location)
+        {
+            return Camera.WorldToScreen(CellWorldRectangle(location));
+        }
+
+        public void SetTileAtCell(int tileX, int tileY, int tileIndex)
         {
             if ((tileX >= 0) && (tileX < MapWidth) &&
                 (tileY >= 0) && (tileY < MapHeight))
@@ -219,85 +286,42 @@ namespace PuzzleEngineAlpha.Level
 
         public MapSquare GetMapSquareAtPixel(int pixelX, int pixelY)
         {
-            return GetMapSquareAtCell(
-                GetCellByPixelX(pixelX),
-                GetCellByPixelY(pixelY));
+            return GetMapSquareAtCell(GetCellByPixelX(pixelX), GetCellByPixelY(pixelY));
         }
 
         public MapSquare GetMapSquareAtPixel(Vector2 pixelLocation)
         {
-            return GetMapSquareAtPixel(
-                (int)pixelLocation.X,
-                (int)pixelLocation.Y);
+            return GetMapSquareAtPixel((int)pixelLocation.X,(int)pixelLocation.Y);
         }
 
         #endregion
 
         #region Draw
 
-        //Review this Property
-        int HorizontalOffset
+
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
-            get
-            {
-                double realHorizontalTiles = Math.Ceiling((double)ResolutionHandler.WindowWidth / TileWidth);
-                double currentHorizontalTiles = Math.Ceiling(ResolutionHandler.WindowWidth / (TileWidth * Camera.Zoom));
+            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 10), "Location: {X: " + StartX + " / " + MapWidth + "  Y: " + StartY + " / " + MapHeight + "}");
+            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 40), "Scale: " + Camera.Scale);
+            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);  
+         
+       /*     int horizontalSize = EndX - StartX;
+            int verticalSize = EndY - StartY;
+            int difference = 0;
+            if (horizontalSize > verticalSize)
+                difference = horizontalSize - verticalSize;
+            else
+                difference = verticalSize - horizontalSize;*/
 
-                return (int)(Math.Ceiling(realHorizontalTiles - currentHorizontalTiles) / 2 - 3);
-            }
-        }
-
-        int VerticalOffset
-        {
-            get
-            {
-                double realVerticalTiles = Math.Ceiling((double)ResolutionHandler.WindowHeight / TileHeight);
-                double currentVerticalTiles = Math.Ceiling(ResolutionHandler.WindowHeight / (TileHeight * Camera.Zoom));
-
-                return (int)(Math.Ceiling(realVerticalTiles - currentVerticalTiles) / 2 - 3);
-            }
-        }
-           
-        public void Draw(SpriteBatch spriteBatch)
-        {
-
-            int startX = GetCellByPixelX((int)(Camera.Position.X));
-            int endX = GetCellByPixelX((int)(Camera.Position.X) + ResolutionHandler.WindowWidth);
-
-            startX += HorizontalOffset;
-            endX -= HorizontalOffset;
-
-            int startY = GetCellByPixelY((int)(Camera.Position.Y ));
-            int endY = GetCellByPixelY((int)(Camera.Position.Y) + ResolutionHandler.WindowHeight);
-            startY += VerticalOffset;
-            endY -= VerticalOffset;
+            int difference = 0;
+            DrawTiles(spriteBatch, StartX - difference, EndX + difference, StartY - difference, EndY + difference);
 
 
-            //if (Camera.IsFlipped)
-            //    DrawTiles(spriteBatch, startX, endX, startY, endY);
-          //  else
-            {
-                int horizontalSize = endX - startX;
-                int verticalSize = endY- startY;
-                int difference = 0;
-                if (horizontalSize > verticalSize)
-                    difference = horizontalSize - verticalSize;
-                else
-                    difference = verticalSize - horizontalSize;
 
-                DrawTiles(spriteBatch, startX- difference, endX + difference, startY - difference, endY + difference);
-            }
         }
 
         void DrawTiles(SpriteBatch spriteBatch, int startX, int endX, int startY, int endY)
-        {
-            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 10), "Location: {X: " + startX + " / " + MapWidth
-                                                              + "  Y: " + startY + " / " + MapHeight + "}");
-            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 40), "Scale: " + Camera.Scale);
-            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);
-            
-            //Console.WriteLine(Camera.Zoom);
-
+        {   
             for (int x = startX; x <= endX; x++)
                 for (int y = startY; y <= endY; y++)
                 {
@@ -305,7 +329,7 @@ namespace PuzzleEngineAlpha.Level
                         (x < MapWidth) && (y < MapHeight))
                     {
                         spriteBatch.Draw(tileSheet, CellScreenRectangle(x, y), TileSourceRectangle(mapCells[x, y].LayerTile),
-                          Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+                          GetColor(CellScreenRectangle(x, y)), 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
                     }
                 }
         }

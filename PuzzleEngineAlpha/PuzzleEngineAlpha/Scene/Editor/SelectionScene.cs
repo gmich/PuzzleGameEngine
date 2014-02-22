@@ -49,7 +49,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         public void ResetSizes(object sender, EventArgs e)
         {
             vScrollBar.Size = new Vector2(ScrollBarWidth, Resolution.ResolutionHandler.WindowHeight - SceneLocation.Y);
-            this.scenerySize = new Vector2(170, Resolution.ResolutionHandler.WindowWidth - 165);
+            this.scenerySize = new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 165);
         }
 
         #endregion

@@ -54,6 +54,7 @@
     <Compile Include="Camera\Scripts\ChasingCamera.cs" />
     <Compile Include="Camera\Scripts\ExactCamera.cs" />
     <Compile Include="Camera\Scripts\ICameraScript.cs" />
+    <Compile Include="Camera\Scripts\MouseCamera.cs" />
     <Compile Include="Components\AGUIComponent.cs" />
     <Compile Include="Components\Areas\IGUIArea.cs" />
     <Compile Include="Components\Areas\SampleArea.cs" />
@@ -74,6 +75,8 @@
     <Compile Include="Input\Scripts\BasicMenuInputScript.cs" />
     <Compile Include="Input\Scripts\IMenuInputScript.cs" />
     <Compile Include="Input\Scripts\MovementScript.cs" />
+    <Compile Include="Level\EditorTileMap.cs" />
+    <Compile Include="Level\Frame.cs" />
     <Compile Include="Level\MapSquare.cs" />
     <Compile Include="Level\TileMap.cs" />
     <Compile Include="Mappers\IMapper.cs" />
@@ -83,6 +86,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolution\ResolutionHandler.cs" />
     <Compile Include="Scene\Editor\ConfigurationScene.cs" />
+    <Compile Include="Scene\Editor\MapScene.cs" />
     <Compile Include="Scene\Editor\SelectionScene.cs" />
     <Compile Include="Scene\Game\DiagnosticsScene.cs" />
     <Compile Include="Scene\Game\GameBanner.cs" />
