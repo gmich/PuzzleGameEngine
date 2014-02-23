@@ -106,7 +106,7 @@ namespace PuzzleEngineAlpha.Scene.Game
         public void Update(GameTime gameTime)
         {
             fpsMonitor.Update(gameTime);
-            SetText(new Vector2(10, 100), "FPS: " + fpsMonitor.FPS);
+            SetText(new Vector2(5,5), "FPS: " + fpsMonitor.FPS);
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -54,11 +54,11 @@ namespace PuzzleEngineAlpha.Level
                 {
                     if (rand.Next(0,2)==1)
                     {
-                        mapCells[x, y] = new MapSquare(1, false, " ");
+                        mapCells[x, y] = new MapSquare(0, false, " ");
                     }
                     else
                     {
-                        mapCells[x, y] = new MapSquare(2, false, " ");
+                        mapCells[x, y] = new MapSquare(1, false, " ");
                     }
                 }
             }
@@ -87,7 +87,7 @@ namespace PuzzleEngineAlpha.Level
         {
             get
             {
-                return (int)MathHelper.Min(0,GetCellByPixelX((int)(this.Camera.Position.X)-4));
+                return (int)MathHelper.Max(0,GetCellByPixelX((int)(this.Camera.Position.X))-9);
             }
         }
 
@@ -104,7 +104,7 @@ namespace PuzzleEngineAlpha.Level
         {
             get
             {
-                return (int)MathHelper.Min(0, GetCellByPixelY((int)(Camera.Position.Y) - 7));
+                return (int)MathHelper.Max(0, GetCellByPixelY((int)(Camera.Position.Y))-9);
             }
         }
 
@@ -303,7 +303,7 @@ namespace PuzzleEngineAlpha.Level
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 10), "Location: {X: " + StartX + " / " + MapWidth + "  Y: " + StartY + " / " + MapHeight + "}");
-            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 40), "Scale: " + Camera.Scale);
+            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 40), "Scale: " + Camera.Zoom);
             Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);  
          
        /*     int horizontalSize = EndX - StartX;

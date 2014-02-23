@@ -107,7 +107,8 @@ namespace PuzzleEngineAlpha.Level
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 10), "Location: {X: " + StartX + " / " + MapWidth + "  Y: " + StartY + " / " + MapHeight + "}");
+            Scene.Game.DiagnosticsScene.SetText(new Vector2(5, 30), "Location: {X: " + StartX + " / " + MapWidth + "  Y: " + StartY + " / " + MapHeight + "}");
+            Scene.Game.DiagnosticsScene.SetText(new Vector2(5, 55), "Scale: " + Camera.Zoom);
 
             for (int x = StartX; x <= EndX; x++)
                 for (int y = StartY; y <= EndY; y++)

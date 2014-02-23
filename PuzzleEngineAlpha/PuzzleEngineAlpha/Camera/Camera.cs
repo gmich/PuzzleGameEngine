@@ -121,14 +121,6 @@ namespace PuzzleEngineAlpha.Camera
 
         #region Translation Properties
 
-        public float Scale
-        {
-            get
-            {
-                return MathHelper.Min(zoom, 1.0f);
-            }
-        }
-
         public float Zoom
         {
             get { return zoom; }
