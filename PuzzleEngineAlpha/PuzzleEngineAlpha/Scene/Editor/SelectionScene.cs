@@ -55,8 +55,8 @@ namespace PuzzleEngineAlpha.Scene.Editor
                 components[i].Position = new Vector2((i % 2) * (TileWidth + TileOffset) + TileOffset, i / 2 * (TileHeight + TileOffset) + TileOffset) + SceneLocation;
             }
 
-            vScrollBar.BarLocation = new Vector2(this.scenerySize.X - ScrollBarWidth, 0) + SceneLocation;
-            vScrollBar.bulletLocation = new Vector2(this.scenerySize.X - ScrollBarWidth, 0) + SceneLocation;
+            vScrollBar.BarLocation = new Vector2(this.scenerySize.X - ScrollBarWidth,0) + SceneLocation;
+            vScrollBar.bulletLocation = new Vector2(this.scenerySize.X - ScrollBarWidth + SceneLocation.X, vScrollBar.BulletLocation.Y);
         }
 
         #endregion
