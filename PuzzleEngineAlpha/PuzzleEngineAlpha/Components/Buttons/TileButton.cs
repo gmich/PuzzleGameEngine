@@ -99,13 +99,15 @@ namespace PuzzleEngineAlpha.Components.Buttons
                 IsFocused = false;
                 return;
             }
+            Vector2 CurrentMousePosition = Vector2.Transform(InputHandler.MousePosition,
+                                    Matrix.Invert(camera.GetTransformation()));
 
-            if (this.Intersects(InputHandler.MousePosition) && !IsFocused)
+            if (this.Intersects(CurrentMousePosition) && !IsFocused)
             {
                 OnFocus();
                 IsFocused = true;
             }
-            else if (!this.Intersects(InputHandler.MousePosition) && IsFocused)
+            else if (!this.Intersects(CurrentMousePosition) && IsFocused)
             {
                 OnFocusLeave();
                 IsFocused = false;

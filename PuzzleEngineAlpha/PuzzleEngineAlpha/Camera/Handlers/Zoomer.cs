@@ -54,18 +54,18 @@ namespace PuzzleEngineAlpha.Camera.Handlers
         #region Helper Methods
 
         void HandleZoom(float step)
-        {
-            if (InputHandler.IsKeyDown(ConfigurationManager.Config.ZoomIn))
+        {  
+            if (InputHandler.IsKeyDown(ConfigurationManager.Config.ZoomIn) || InputHandler.IsWheelMovingUp())
                 Scale += step;
 
-            else if (InputHandler.IsKeyDown(ConfigurationManager.Config.ZoomOut))
+            else if (InputHandler.IsKeyDown(ConfigurationManager.Config.ZoomOut) || InputHandler.IsWheelMovingDown())
                 Scale -= step; 
         }
 
         #endregion
 
         public void Update(GameTime gameTime)
-        {
+        {  
             HandleZoom(scaleStep * (float)gameTime.ElapsedGameTime.TotalSeconds);
             Camera.Zoom = Scale;
         }

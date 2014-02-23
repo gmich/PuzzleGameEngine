@@ -143,7 +143,7 @@ namespace PuzzleEngineAlpha.Scene.Game
                         null,
                         null,
                         null,
-                        cameraManager.Camera.GetTransformation(graphicsDevice));
+                        cameraManager.Camera.GetTransformation());
 
             tileMap.Draw(spriteBatch);
             player.Draw(spriteBatch);

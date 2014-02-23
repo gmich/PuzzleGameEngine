@@ -213,7 +213,8 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
 
             RasterizerState rasterizerState = new RasterizerState() { ScissorTestEnable = true };
-            
+
+
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, rasterizerState);
 
             foreach (AGUIComponent component in components)

@@ -16,13 +16,11 @@ namespace PuzzleEngineAlpha.Camera.Managers
 
         List<ICameraHandler> cameraHandlers;
         ICameraScript cameraScript;
-        List<Configuration> inputConfiguration;
 
         #endregion
 
         public CameraManager()
         {
-            inputConfiguration = new List<Configuration>();
             cameraHandlers = new List<ICameraHandler>(); 
         }
 

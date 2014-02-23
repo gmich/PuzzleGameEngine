@@ -220,7 +220,7 @@ namespace PuzzleEngineAlpha.Camera
 
         #region 3D Transformation
 
-        public Matrix GetTransformation(GraphicsDevice graphicsDevice)
+        public Matrix GetTransformation()
         {
             transform = Matrix.CreateTranslation(new Vector3(-ViewPortWidth/2,-ViewPortHeight/2, 0)) *
                                          Matrix.CreateRotationZ(Rotation) *

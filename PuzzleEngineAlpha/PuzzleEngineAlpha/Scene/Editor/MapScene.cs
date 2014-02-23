@@ -33,10 +33,11 @@ namespace PuzzleEngineAlpha.Scene.Editor
             tileMap = new EditorTileMap(Vector2.Zero, Content, TileWidth, TileHeight, true);
 
             //TODO: remove after debugging
-            tileMap.Randomize(500, 500);
+            tileMap.Randomize(100, 100);
             camera = new Camera.Camera(Vector2.Zero, scenerySize, new Vector2(this.Width, this.Height));
             cameraManager = new Camera.Managers.CameraManager();
             cameraManager.SetCameraScript(new Camera.Scripts.MouseCamera(camera));
+            cameraManager.AddCameraHandler(new Camera.Handlers.Zoomer(1.0f,1.0f,0.6f,0.5f));
             tileMap.Camera = camera;
 
             this.SceneLocation = sceneLocation;
@@ -57,6 +58,8 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
             this.scenerySize = new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight);
             this.tileMap.HandleResolutionChange(SceneRectangle);
+            camera.ViewPortWidth = (int)this.scenerySize.X;
+            camera.ViewPortHeight = (int)this.scenerySize.Y;
         }
 
         #endregion
@@ -168,10 +171,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
 
             RasterizerState rasterizerState = new RasterizerState() { ScissorTestEnable = true };
-            
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, rasterizerState);
-            
-            //vScrollBar.Draw(spriteBatch);
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointWrap, null, rasterizerState, null, cameraManager.Camera.GetTransformation( ));
             
             tileMap.Draw(spriteBatch);
 

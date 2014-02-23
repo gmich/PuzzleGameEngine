@@ -33,6 +33,7 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         #region Properties
 
+        
         Rectangle GeneralArea
         {
             get
@@ -64,7 +65,7 @@ namespace PuzzleEngineAlpha.Camera.Scripts
             }
             set
             {
-                 worldLocation.X = MathHelper.Clamp(value.X, Camera.ViewPortWidth,
+                 worldLocation.X = MathHelper.Clamp(value.X, Camera.ViewPortWidth /2 ,
                                              Camera.WorldSize.X- Camera.ViewPortWidth / 2);
                  worldLocation.Y = MathHelper.Clamp(value.Y, Camera.ViewPortHeight / 2,
                                              Camera.WorldSize.Y - Camera.ViewPortHeight / 2);
