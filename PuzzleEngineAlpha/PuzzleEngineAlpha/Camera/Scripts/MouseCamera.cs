@@ -143,13 +143,15 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
             if (InputHandler.RightButtonIsClicked() && !scrolling)
             {
+                Vector2 CurrentMousePosition = Vector2.Transform(InputHandler.MousePosition, Matrix.Invert(camera.GetTransformation()));
                 scrolling = true;
-                initialPos = InputHandler.MousePosition;
+                initialPos = CurrentMousePosition;
             }
             else if (InputHandler.RightButtonIsClicked() && scrolling)
             {
-                velocity = initialPos - InputHandler.MousePosition;
-                initialPos = InputHandler.MousePosition;
+                Vector2 CurrentMousePosition = Vector2.Transform(InputHandler.MousePosition, Matrix.Invert(camera.GetTransformation()));
+                velocity = initialPos - CurrentMousePosition;
+                initialPos = CurrentMousePosition;
             }
 
         }

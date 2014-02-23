@@ -115,8 +115,9 @@ namespace PuzzleEngineAlpha
         }
 
         private void OnWindowClientSizeChanged(object sender, System.EventArgs e)
-        {
+        { 
             this.resolutionHandler.SetResolution(this.Window.ClientBounds.Width, this.Window.ClientBounds.Height);
+
             sceneDirector.UpdateRenderTargets();
         }
     }

@@ -130,11 +130,19 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
                 return new Vector2(size.X, MathHelper.Max(size.Y - (camera.WorldRectangle.Height - camera.ViewPortHeight), size.X/ 2));
             }
         }
+
         public bool Show
         {
             get
             {
-                return (camera.WorldRectangle.Height > camera.ViewPortHeight);
+                if (camera.WorldRectangle.Height > camera.ViewPortHeight)
+                {
+                    return true;
+                }
+
+                camera.Position = new Vector2(0, 0);
+                bulletLocation = new Vector2(bulletLocation.X, BarLocation.Y);
+                return false;
             }
         }
 

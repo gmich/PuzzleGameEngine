@@ -46,8 +46,11 @@ namespace PuzzleEngineAlpha.Scene.Editor
         #region Handle Resolution Change
 
         public void ResetSizes(object sender, EventArgs e)
-        {
+        {        
             vScrollBar.Size = new Vector2(ScrollBarWidth, Resolution.ResolutionHandler.WindowHeight - SceneLocation.Y);
+ 
+            this.camera.ViewPortHeight = (int)(Resolution.ResolutionHandler.WindowHeight - SceneLocation.Y);
+
             this.scenerySize = new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 165);
             for(int i=0;i<components.Count;i++)
             {

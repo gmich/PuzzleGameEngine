@@ -91,9 +91,10 @@ namespace PuzzleEngineAlpha.Resolution
                 if ((width <= GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width)
                     && (height <= GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height))
                 {
+                    this.graphicsDeviceManager.IsFullScreen = this.isFullScreen;
                     this.graphicsDeviceManager.PreferredBackBufferWidth = (int)MathHelper.Max(1, (float)width);
                     this.graphicsDeviceManager.PreferredBackBufferHeight = (int)MathHelper.Max(1, (float)height);
-                    this.graphicsDeviceManager.IsFullScreen = this.isFullScreen;
+
                     this.graphicsDeviceManager.ApplyChanges();
                 }
             }
@@ -103,9 +104,10 @@ namespace PuzzleEngineAlpha.Resolution
                 {
                     if ((dm.Width == width) && (dm.Height == height))
                     {
+                        this.graphicsDeviceManager.IsFullScreen = this.isFullScreen;
                         this.graphicsDeviceManager.PreferredBackBufferWidth = width;
                         this.graphicsDeviceManager.PreferredBackBufferHeight = height;
-                        this.graphicsDeviceManager.IsFullScreen = this.isFullScreen;
+
                         this.graphicsDeviceManager.ApplyChanges();
                         break;
                     }
@@ -131,7 +133,7 @@ namespace PuzzleEngineAlpha.Resolution
                 SetResolution(displayM.Width, displayM.Height);
             }
             else
-            {
+            {               
                 this.isFullScreen = false;
                 SetResolution(vwidth, vheight);
             }
@@ -146,6 +148,10 @@ namespace PuzzleEngineAlpha.Resolution
             if (InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.F11))
             {
                 ToggleFullScreen();
+            }
+            if (InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.F10))
+            {
+                SetResolution(1024,700);
             }
         }
 
