@@ -25,7 +25,7 @@ namespace PuzzleEngineAlpha.Components.Buttons
 
         #region Constructor
 
-        public MenuButton(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, DrawProperties clickedButtonDrawProperties, DrawTextProperties textProperties, Vector2 position, Vector2 size)
+        public MenuButton(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, DrawProperties clickedButtonDrawProperties, DrawTextProperties textProperties, Vector2 position, Vector2 size,Rectangle generalArea)
             : base()
         {
             button = buttonDrawProperties;
@@ -34,6 +34,7 @@ namespace PuzzleEngineAlpha.Components.Buttons
             defaultText = textProperties;
             this.Size = size;
             this.Position = position;
+            this.GeneralArea = generalArea;
         }
 
         #endregion
@@ -99,6 +100,12 @@ namespace PuzzleEngineAlpha.Components.Buttons
 
         void mouseIsOver()
         {
+            if (!this.GeneralArea.Intersects(InputHandler.MouseRectangle))
+            {
+                IsFocused = false;
+                return;
+            }
+
             if (this.Intersects(InputHandler.MousePosition) && !IsFocused)
             {
                 OnFocus();

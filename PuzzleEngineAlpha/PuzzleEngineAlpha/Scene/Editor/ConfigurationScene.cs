@@ -33,7 +33,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
             InitializeGUI(Content);
             UpdateRenderTarget();
-
+            Resolution.ResolutionHandler.Changed += ResetSizes;
         }
 
         #endregion
@@ -49,13 +49,32 @@ namespace PuzzleEngineAlpha.Scene.Editor
             DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawTextProperties textProperties = new DrawTextProperties("passable", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
 
-            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 50)+SceneLocation, new Vector2(160, 40)));
+            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 50) + SceneLocation, new Vector2(160, 40),this.SceneRectangle));
 
             textProperties.text = "Tiles";
-            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(0, 100) + SceneLocation, new Vector2(85, 60)));
+            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(0, 100) + SceneLocation, new Vector2(85, 60),this.SceneRectangle));
 
             textProperties.text = "Actors";
-            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(85, 100) + SceneLocation, new Vector2(85, 60)));
+            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(85, 100) + SceneLocation, new Vector2(85, 60),this.SceneRectangle));
+            
+        }
+
+        #endregion
+
+        #region Handle Resolution Change
+
+        public void ResetSizes(object sender, EventArgs e)
+        {
+            components[0].Position = new Vector2(5, 50) + SceneLocation;
+            components[0].GeneralArea = SceneRectangle;
+
+            components[1].Position = new Vector2(0, 100) + SceneLocation;
+            components[1].GeneralArea = SceneRectangle;
+
+            components[2].Position = new Vector2(85, 100) + SceneLocation;
+            components[2].GeneralArea = SceneRectangle;
+
+            textBox.Location = new Vector2(5, 5) + SceneLocation;
         }
 
         #endregion
@@ -67,6 +86,14 @@ namespace PuzzleEngineAlpha.Scene.Editor
             get
             {
                 return new Vector2(Resolution.ResolutionHandler.WindowWidth - scenerySize.X, 0);
+            }
+        }
+
+        Rectangle SceneRectangle
+        {
+            get
+            {
+                return new Rectangle((int)this.SceneLocation.X, (int)this.SceneLocation.Y, (int)this.scenerySize.X, (int)this.scenerySize.Y);
             }
         }
 

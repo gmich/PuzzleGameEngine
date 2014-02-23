@@ -8,12 +8,14 @@ namespace PuzzleEngineAlpha.Level
 {
     using Camera;
     using Input;
+    using Components;
 
     public class EditorTileMap : TileMap
     {
         #region Declarations
 
         Texture2D frameTexture;
+        EditorMapSquare[,] editorMapSquares;
 
         #endregion
 
@@ -24,6 +26,43 @@ namespace PuzzleEngineAlpha.Level
         {
             this.frameTexture = Content.Load<Texture2D>(@"Buttons/tileFrame");
             this.ShowGrid = showGrid;
+   
+        }
+
+        #endregion
+
+        #region Initialize Map
+
+        public override void Randomize(int mapWidth, int mapHeight)
+        {
+            base.Randomize(mapWidth, mapHeight);
+            editorMapSquares = new EditorMapSquare[mapWidth, mapHeight];
+            
+        }
+
+        public void HandleResolutionChange(Rectangle newSceneRectangle)
+        {
+            for (int x = 0; x < MapWidth; x++)
+            {
+                for (int y = 0; y < MapHeight; y++)
+                {
+                    editorMapSquares[x, y].GeneralArea = newSceneRectangle;
+                }
+            } 
+        }
+
+        public void InitializeButtons(ContentManager Content, Rectangle sceneRectangle)
+        {
+            DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Textures/PlatformTilesTemp"), 0.9f, 1.0f, 0.0f, Color.White);
+            DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/tileFrame"), 0.8f, 1.0f, 0.0f, Color.White);
+
+            for (int x = 0; x < MapWidth; x++)
+            {
+                for (int y = 0; y < MapHeight; y++)
+                {
+                    editorMapSquares[x, y] = new EditorMapSquare(button, frame, new Vector2(x * TileWidth, y * TileHeight), new Vector2(TileWidth, TileHeight), TileSourceRectangle(mapCells[x, y].LayerTile), this.Camera, sceneRectangle);
+                }
+            }
         }
 
         #endregion
@@ -36,17 +75,30 @@ namespace PuzzleEngineAlpha.Level
             set;
         }
 
-        public override Color GetColor(Rectangle rectangle)
+        /*  public override Color GetColor(Rectangle rectangle)
+          {
+              if (InputHandler.MouseRectangle.Intersects(rectangle))
+              {
+                  if (InputHandler.LeftButtonIsClicked())
+                      return new Color(200, 200, 200);
+                  else
+                      return new Color(220, 220, 220);
+              }
+              else
+                  return Color.White;
+          }*/
+
+        #endregion
+
+        #region Update
+
+        public void Update(GameTime gameTime)
         {
-            if (InputHandler.MouseRectangle.Intersects(rectangle))
-            {
-                if (InputHandler.LeftButtonIsClicked())
-                    return new Color(200, 200, 200);
-                else
-                    return new Color(220, 220, 220);
-            }
-            else
-                return Color.White;
+            for (int x = StartX; x <= EndX; x++)
+                for (int y = StartY; y <= EndY; y++)
+                {
+                    editorMapSquares[x, y].Update(gameTime);
+                }
         }
 
         #endregion
@@ -55,20 +107,21 @@ namespace PuzzleEngineAlpha.Level
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!ShowGrid)
-            {
-                for (int x = StartX; x <= EndX; x++)
-                    for (int y = StartY; y <= EndY; y++)
+            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 10), "Location: {X: " + StartX + " / " + MapWidth + "  Y: " + StartY + " / " + MapHeight + "}");
+
+            for (int x = StartX; x <= EndX; x++)
+                for (int y = StartY; y <= EndY; y++)
+                {
                     {
-                        if ((x >= 0) && (y >= 0) &&
-                            (x < MapWidth) && (y < MapHeight))
-                        {
+                        if (ShowGrid)
                             spriteBatch.Draw(frameTexture, CellScreenRectangle(x, y), null,
                                    Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
-                        }
+                        editorMapSquares[x, y].Draw(spriteBatch);
+
                     }
-            }
-            base.Draw(spriteBatch);
+                }
+
+            // base.Draw(spriteBatch);
         }
 
         #endregion

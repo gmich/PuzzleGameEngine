@@ -20,13 +20,12 @@ namespace PuzzleEngineAlpha.Components.Buttons
         DrawProperties frame;
         Camera camera;
         Rectangle sourceRectangle;
-        IEditorInputScript inputScript;
 
         #endregion
 
         #region Constructor
 
-        public TileButton(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, Vector2 position, Vector2 size,Rectangle sourceRectangle,Camera camera)
+        public TileButton(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, Vector2 position, Vector2 size,Rectangle sourceRectangle,Camera camera, Rectangle generalArea)
             : base()
         {
             button = buttonDrawProperties;
@@ -35,6 +34,7 @@ namespace PuzzleEngineAlpha.Components.Buttons
             this.camera = camera;
             this.Size = size;
             this.Position = position;
+            this.GeneralArea = generalArea;
         }
 
         #endregion
@@ -93,7 +93,13 @@ namespace PuzzleEngineAlpha.Components.Buttons
         }
 
         void mouseIsOver()
-        {
+        {  
+            if (!this.GeneralArea.Intersects(InputHandler.MouseRectangle))
+            {
+                IsFocused = false;
+                return;
+            }
+
             if (this.Intersects(InputHandler.MousePosition) && !IsFocused)
             {
                 OnFocus();

@@ -51,6 +51,13 @@ namespace PuzzleEngineAlpha.Resolution
             }
         }
 
+        public static Rectangle ScreenRectangle
+        {
+            get
+            {
+                return new Rectangle(0, 0, WindowWidth, WindowHeight);
+            }
+        }
 
         #endregion
 

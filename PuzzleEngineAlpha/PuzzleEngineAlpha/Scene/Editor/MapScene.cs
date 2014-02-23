@@ -20,8 +20,6 @@ namespace PuzzleEngineAlpha.Scene.Editor
         Vector2 scenerySize;
         Camera.Camera camera;
         Camera.Managers.CameraManager cameraManager;
-        VScrollBar vScrollBar;
-        HScrollBar hScrollBar;
         EditorTileMap tileMap;
 
         #endregion
@@ -45,6 +43,8 @@ namespace PuzzleEngineAlpha.Scene.Editor
             this.graphicsDevice = graphicsDevice;
             this.scenerySize = scenerySize;
             UpdateRenderTarget();
+            tileMap.InitializeButtons(Content,this.SceneRectangle);
+
             Resolution.ResolutionHandler.Changed += ResetSizes;
 
         }
@@ -56,7 +56,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         public void ResetSizes(object sender, EventArgs e)
         {
             this.scenerySize = new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight);
-
+            this.tileMap.HandleResolutionChange(SceneRectangle);
         }
 
         #endregion
@@ -160,6 +160,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         public void Update(GameTime gameTime)
         {
             //vScrollBar.Update(gameTime);
+            tileMap.Update(gameTime);
             cameraManager.Update(gameTime);
         }
         

@@ -49,6 +49,12 @@ namespace PuzzleEngineAlpha.Components
             set;
         }
 
+        public Rectangle GeneralArea
+        {
+            get;
+            set;
+        }
+
         protected Vector2 Size
         {
             get;

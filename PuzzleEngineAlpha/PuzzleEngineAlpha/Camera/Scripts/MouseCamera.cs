@@ -33,6 +33,14 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         #region Properties
 
+        Rectangle GeneralArea
+        {
+            get
+            {
+                return camera.ScreenRectangle;
+            }
+        }
+
         public Camera Camera
         {
             get
@@ -67,10 +75,9 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         #region Scrolling
 
-        private void ReduceVector(ref Vector2 vector)
+        private void ReduceVector(ref Vector2 vector,float maxAcceleration)
         {
             float reduceAmount = 15.0f;
-            float maxAcceleration = 2000f;
             if (vector.X > 0)
                 vector.X = MathHelper.Clamp(vector.X - reduceAmount, 0, maxAcceleration);
             else
@@ -113,6 +120,26 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         public void Update(GameTime gameTime)
         {
+            if (velocity != Vector2.Zero)
+            {
+                WorldLocation += velocity;
+                RepositionCamera();
+            }
+
+            bool mouseInBounds = InputHandler.MouseRectangle.Intersects(GeneralArea);
+            if (!mouseInBounds || !InputHandler.RightButtonIsClicked())
+            {
+                if (scrolling)
+                    deSquareerating = velocity * 50;
+                velocity = (float)gameTime.ElapsedGameTime.TotalSeconds * deSquareerating;
+                if (!mouseInBounds)
+                    ReduceVector(ref deSquareerating, 100f);
+                else
+                    ReduceVector(ref deSquareerating, 2000f);
+                scrolling = false;
+                return;
+            }
+
             if (InputHandler.RightButtonIsClicked() && !scrolling)
             {
                 scrolling = true;
@@ -122,20 +149,6 @@ namespace PuzzleEngineAlpha.Camera.Scripts
             {
                 velocity = initialPos - InputHandler.MousePosition;
                 initialPos = InputHandler.MousePosition;
-            }
-            else if (!InputHandler.RightButtonIsClicked())
-            {
-                if (scrolling)
-                    deSquareerating = velocity * 50;
-                velocity = (float)gameTime.ElapsedGameTime.TotalSeconds * deSquareerating;
-                ReduceVector(ref deSquareerating);
-                scrolling = false;
-            }
-
-            if (velocity != Vector2.Zero)
-            {
-                WorldLocation += velocity;
-                RepositionCamera();
             }
 
         }

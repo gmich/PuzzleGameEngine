@@ -26,13 +26,13 @@ namespace PuzzleEngineAlpha.GUIManager
             DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawTextProperties textProperties = new DrawTextProperties("button 1", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
 
-            guiComponents.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(40, 20), new Vector2(90, 90)));
+            guiComponents.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(40, 20), new Vector2(90, 90), Resolution.ResolutionHandler.ScreenRectangle));
 
             textProperties.text = "button 2";
-            guiComponents.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(40, 120), new Vector2(90, 90)));
+            guiComponents.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(40, 120), new Vector2(90, 90), Resolution.ResolutionHandler.ScreenRectangle));
 
             textProperties.text = "button 3";
-            guiComponents.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(40, 220), new Vector2(90, 90)));
+            guiComponents.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(40, 220), new Vector2(90, 90), Resolution.ResolutionHandler.ScreenRectangle));
             Initialize();
         }
 

@@ -18,7 +18,7 @@ namespace PuzzleEngineAlpha.Level
         public int TileHeight;
         protected int MapWidth;
         protected int MapHeight;
-        MapSquare[,] mapCells;
+        protected MapSquare[,] mapCells;
         Texture2D tileSheet;
         Vector2 cameraPosition;
 
@@ -38,7 +38,7 @@ namespace PuzzleEngineAlpha.Level
         #region Randomize Map
         
         //TODO: update randomize algorithm
-        public void Randomize(int mapWidth, int mapHeight)
+        public virtual void Randomize(int mapWidth, int mapHeight)
         {
             this.MapWidth = mapWidth;
             this.MapHeight = mapHeight;
