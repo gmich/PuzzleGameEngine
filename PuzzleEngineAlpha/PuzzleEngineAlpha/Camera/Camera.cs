@@ -127,7 +127,7 @@ namespace PuzzleEngineAlpha.Camera
             set
             {
                 zoom = MathHelper.Clamp(value, 0.45f, 2.0f);
-                //zoom = (float)Decimal.Round((Decimal)zoom, 2);
+                zoom = (float)Decimal.Round((Decimal)zoom, 2);
             }
         }
 

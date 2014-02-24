@@ -131,6 +131,7 @@ namespace PuzzleEngineAlpha.Components.Buttons
             if (canRelease && IsFocused)
             {
                 DrawableEntity(spriteBatch, sourceRectangle,button,new Color(200, 200, 200));
+                DrawableEntity(spriteBatch, new Rectangle(0, 0, frame.texture.Width, frame.texture.Height), frame, new Color(200, 200, 200));
             }
             else if (IsFocused)
             {

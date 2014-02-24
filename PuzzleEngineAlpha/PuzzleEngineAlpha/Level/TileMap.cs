@@ -31,6 +31,9 @@ namespace PuzzleEngineAlpha.Level
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
 
+            this.SourceTileWidth = tileWidth;
+            this.SourceTileHeight = tileHeight;
+
         }
         
         #region Randomize Map
@@ -142,10 +145,10 @@ namespace PuzzleEngineAlpha.Level
         public Rectangle TileSourceRectangle(int tileIndex)
         {
             return new Rectangle(
-                (tileIndex % TilesPerRow) * TileWidth,
-                (tileIndex / TilesPerRow) * TileHeight,
-                TileWidth,
-                TileHeight);
+                (tileIndex % TilesPerRow) * SourceTileWidth,
+                (tileIndex / TilesPerRow) * SourceTileHeight,
+                SourceTileWidth,
+                SourceTileHeight);
         }
 
         #endregion
@@ -183,6 +186,17 @@ namespace PuzzleEngineAlpha.Level
                 (int)cell.Y);
         }
 
+        int SourceTileWidth
+        {
+            get;
+            set;
+        }
+
+        int SourceTileHeight
+        {
+            get;
+            set;
+        }
         public Rectangle CellWorldRectangle(int cellX, int cellY)
         {
             return new Rectangle(
