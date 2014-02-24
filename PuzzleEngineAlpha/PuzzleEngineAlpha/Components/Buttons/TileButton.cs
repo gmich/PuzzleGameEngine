@@ -126,7 +126,7 @@ namespace PuzzleEngineAlpha.Components.Buttons
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            DrawableEntity(spriteBatch,sourceRectangle, button,button.color);
+           
  
             if (canRelease && IsFocused)
             {
@@ -134,8 +134,11 @@ namespace PuzzleEngineAlpha.Components.Buttons
             }
             else if (IsFocused)
             {
+                DrawableEntity(spriteBatch, sourceRectangle, button, button.color);
                 DrawableEntity(spriteBatch,new Rectangle(0,0,frame.texture.Width,frame.texture.Height),frame, new Color(200, 200, 200));
             }
+            else
+                DrawableEntity(spriteBatch, sourceRectangle, button, button.color);
         }
 
         void DrawableEntity(SpriteBatch spriteBatch, Rectangle rect, DrawProperties entity, Color color)
