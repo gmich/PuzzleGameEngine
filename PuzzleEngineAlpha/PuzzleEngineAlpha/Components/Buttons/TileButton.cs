@@ -16,8 +16,8 @@ namespace PuzzleEngineAlpha.Components.Buttons
 
         #region Declarations
 
-        DrawProperties button;
-        DrawProperties frame;
+        protected DrawProperties button;
+        protected DrawProperties frame;
         Camera camera;
         Rectangle sourceRectangle;
 
@@ -54,6 +54,10 @@ namespace PuzzleEngineAlpha.Components.Buttons
             {
                 return sourceRectangle;
             }
+            set
+            {
+                sourceRectangle = value;
+            }
         }
 
         Vector2 position;
@@ -88,6 +92,11 @@ namespace PuzzleEngineAlpha.Components.Buttons
 
         public override void IsClicking()
         {
+            if (IsFocused && InputHandler.LeftButtonIsClicked())
+            {
+                OnMouseDown();
+            }
+
             if (IsFocused && InputHandler.LeftButtonIsClicked() && !isClicking)
             {
                 OnClick();
@@ -140,9 +149,7 @@ namespace PuzzleEngineAlpha.Components.Buttons
         }
 
         public override void Draw(SpriteBatch spriteBatch)
-        {
-           
- 
+        {         
             if (canRelease && IsFocused)
             {
                 DrawableEntity(spriteBatch, sourceRectangle,button,new Color(200, 200, 200));

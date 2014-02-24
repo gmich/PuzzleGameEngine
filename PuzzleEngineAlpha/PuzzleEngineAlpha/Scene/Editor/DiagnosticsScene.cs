@@ -38,7 +38,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             SelectedTexture = null;
             bgTransparency = new Animations.SmoothTransaction(0.5f, 0.002f, 0.0f, 0.5f);
             fontTransparency = new Animations.SmoothTransaction(1.0f, 0.004f, 0.0f, 1.0f);
-
+            Level.Editor.TileManager.ShowPassable = true;
         }
 
         #endregion
@@ -193,13 +193,16 @@ namespace PuzzleEngineAlpha.Scene.Editor
             spriteBatch.Begin(SpriteSortMode.BackToFront,
                         BlendState.AlphaBlend);
 
-            spriteBatch.Draw(background, SceneRectangle,null,Color.White*bgTransparency.Value, 0.0f,Vector2.Zero,SpriteEffects.None,0.9f);
+          
 
             if (Level.Editor.TileManager.MapSquare != null)
             {
+                spriteBatch.Draw(Level.Editor.TileManager.TileSheet, new Rectangle(145, 65, 64, 64), Level.Editor.TileManager.SourceRectangle, Color.White * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, 0.9f);
                 spriteBatch.Draw(background, new Rectangle(142, 62, 70, 70), Level.Editor.TileManager.SourceRectangle, Color.Black * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
-                spriteBatch.Draw(Level.Editor.TileManager.TileSheet, new Rectangle(145, 65, 64, 64), Level.Editor.TileManager.SourceRectangle, Color.White * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+             
             }
+            spriteBatch.Draw(background, SceneRectangle, null, Color.White * bgTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, 0.9f);
+
             foreach (KeyValuePair<Vector2, string> item in texts)
             {
                 spriteBatch.DrawString(font, item.Value, item.Key, Color.Black * fontTransparency.Value);

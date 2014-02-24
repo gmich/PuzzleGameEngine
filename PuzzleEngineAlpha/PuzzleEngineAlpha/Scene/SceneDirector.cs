@@ -56,9 +56,16 @@ namespace PuzzleEngineAlpha.Scene
 
             if (Input.InputHandler.IsKeyReleased(Input.ConfigurationManager.Config.ToggleDiagnostics))
             {
-                if (scenes.ContainsKey("diagnostics")) scenes.Remove("diagnostics");
+                if (scenes.ContainsKey("diagnostics"))
+                {
+                    Level.Editor.TileManager.ShowPassable = false;
+                    scenes.Remove("diagnostics");
+                }
                 else
+                {
+                    Level.Editor.TileManager.ShowPassable = true;
                     scenes.Add("diagnostics", bgScenes["diagnostics"]);
+                }
             }
         }
 

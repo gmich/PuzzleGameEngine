@@ -18,6 +18,12 @@ namespace PuzzleEngineAlpha.Level.Editor
             get;
             set;
         }
+
+        static public bool ShowPassable
+        {
+            get;
+            set;
+        }
         
         static MapSquare mapSquare;
         static public MapSquare MapSquare

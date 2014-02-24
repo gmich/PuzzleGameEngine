@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace PuzzleEngineAlpha.Components.TextBoxes
 {
     using Input;
-
+    using Actions;
     public class TextBox
     {
 
@@ -17,7 +18,7 @@ namespace PuzzleEngineAlpha.Components.TextBoxes
         private bool MouseOver;
         private float Transparency;
         private bool lastActive;
-
+        private List<IAction> textChange;
         #endregion
 
         #region Constructor
@@ -35,7 +36,23 @@ namespace PuzzleEngineAlpha.Components.TextBoxes
             lastActive = Active = ShowPrompt = false;
             TextColor = Color.Black;
             AlphaChangeRate=0.04f;
+            textChange = new List<IAction>();
 
+        }
+
+        #endregion
+
+        #region Custom Events
+
+        protected void OnTextChange()
+        {
+            foreach (IAction action in textChange)
+                action.Execute();
+        }
+
+        public void StoreAndExecuteOnTextChange(IAction action)
+        {
+            textChange.Add(action);
         }
 
         #endregion
@@ -132,7 +149,7 @@ namespace PuzzleEngineAlpha.Components.TextBoxes
                 return keyboardManager.Text;
             }
             set
-            {
+            {     
                 keyboardManager.Text = value;
             }
         }
@@ -210,7 +227,7 @@ namespace PuzzleEngineAlpha.Components.TextBoxes
         #region Update
 
         public bool IsTextBoxUpdated()
-        {
+        {        
             return (lastActive != Active && Active == false);
         }
 
@@ -230,6 +247,8 @@ namespace PuzzleEngineAlpha.Components.TextBoxes
             {
                 keyboardManager.Update(gameTime);
             }
+
+            if(IsTextBoxUpdated()) OnTextChange();
             
         }
 

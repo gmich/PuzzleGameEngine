@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B37063EC-5888-4B43-9A50-D835581D9E6B}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PuzzleEngineAlpha</RootNamespace>
     <AssemblyName>PuzzleEngineAlpha</AssemblyName>
@@ -38,6 +38,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Actions\SetSelectedCodeValueAction.cs" />
+    <Compile Include="Actions\SetSelectedEditorTileAction.cs" />
+    <Compile Include="Actions\SetEditorMapSquare.cs" />
     <Compile Include="Actions\UnSelectedTileAction.cs" />
     <Compile Include="Actions\TogglePassableAction.cs" />
     <Compile Include="Actions\SetSelectedTileAction.cs" />
@@ -76,7 +79,7 @@
     <Compile Include="Input\Scripts\BasicMenuInputScript.cs" />
     <Compile Include="Input\Scripts\IMenuInputScript.cs" />
     <Compile Include="Input\Scripts\MovementScript.cs" />
-    <Compile Include="Components\Buttons\EditorMapSquare.cs" />
+    <Compile Include="Level\Editor\EditorMapSquare.cs" />
     <Compile Include="Level\Editor\EditorTileMap.cs" />
     <Compile Include="Level\Editor\TileManager.cs" />
     <Compile Include="Level\MapSquare.cs" />

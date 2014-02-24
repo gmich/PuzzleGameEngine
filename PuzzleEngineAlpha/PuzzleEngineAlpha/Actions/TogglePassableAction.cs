@@ -19,6 +19,12 @@
         public void Execute()
         {        
             Scene.Editor.ConfigurationScene.Passable = !Scene.Editor.ConfigurationScene.Passable;
+
+            if (TileManager.MapSquare != null)
+            {
+                TileManager.MapSquare = new Level.MapSquare(TileManager.MapSquare.LayerTile, Scene.Editor.ConfigurationScene.Passable, TileManager.MapSquare.CodeValue);
+            }
+
             if (Scene.Editor.ConfigurationScene.Passable)
             {
                 button.SetText("is passable");

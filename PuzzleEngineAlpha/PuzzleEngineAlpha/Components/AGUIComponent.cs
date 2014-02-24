@@ -22,6 +22,7 @@ namespace PuzzleEngineAlpha.Components
             clickActions = new List<IAction>();
             releaseActions = new List<IAction>();
             focusLeaveActions = new List<IAction>();
+            mouseDownActions = new List<IAction>();
             IsFocused = false;
             isClicking = false;
             canRelease =false;
@@ -83,6 +84,12 @@ namespace PuzzleEngineAlpha.Components
                 action.Execute();
         }
 
+        protected void OnMouseDown()
+        {
+            foreach (IAction action in mouseDownActions)
+                action.Execute();
+        }
+
         protected void OnRelease()
         {
             foreach (IAction action in releaseActions)
@@ -99,6 +106,7 @@ namespace PuzzleEngineAlpha.Components
         List<IAction> clickActions;
         List<IAction> releaseActions;
         List<IAction> focusLeaveActions;
+        List<IAction> mouseDownActions;
 
         #endregion
 
@@ -107,6 +115,11 @@ namespace PuzzleEngineAlpha.Components
         public void StoreAndExecuteOnMouseOver(IAction action)
         {
             focusActions.Add(action);
+        }
+
+        public void StoreAndExecuteOnMouseDown(IAction action)
+        {
+            mouseDownActions.Add(action);
         }
 
         public void StoreAndExecuteOnMouseClick(IAction action)
@@ -135,6 +148,18 @@ namespace PuzzleEngineAlpha.Components
                 if (focusActions[i] == action)
                 {
                     focusActions.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+
+        public void RemoveActionOnMouseDown(IAction action)
+        {
+            for (int i = 0; i < mouseDownActions.Count; i++)
+            {
+                if (mouseDownActions[i] == action)
+                {
+                    mouseDownActions.RemoveAt(i);
                     break;
                 }
             }

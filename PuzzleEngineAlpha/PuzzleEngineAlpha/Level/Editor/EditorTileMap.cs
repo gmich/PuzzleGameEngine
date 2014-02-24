@@ -54,12 +54,17 @@ namespace PuzzleEngineAlpha.Level.Editor
         {
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Textures/PlatformTilesTemp"), 0.9f, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/tileFrame"), 0.8f, 1.0f, 0.0f, Color.White);
-
+            DrawTextProperties passableText = new DrawTextProperties("x", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
+            DrawTextProperties codeValueText = new DrawTextProperties("", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
+            Texture2D background = Content.Load<Texture2D>(@"Textures/whiteRectangle");
             for (int x = 0; x < MapWidth; x++)
             {
                 for (int y = 0; y < MapHeight; y++)
                 {
-                    editorMapSquares[x, y] = new EditorMapSquare(button, frame, new Vector2(x * TileWidth, y * TileHeight), new Vector2(TileWidth, TileHeight), TileSourceRectangle(mapCells[x, y].LayerTile), this.Camera, sceneRectangle,mapCells[x, y].LayerTile);
+                    editorMapSquares[x, y] = new EditorMapSquare(passableText,codeValueText,background,button, frame, new Vector2(x * TileWidth, y * TileHeight), new Vector2(TileWidth, TileHeight), TileSourceRectangle(mapCells[x, y].LayerTile), this.Camera, sceneRectangle, mapCells[x, y].LayerTile);
+                    editorMapSquares[x, y].MapSquare = mapCells[x, y];
+                    editorMapSquares[x, y].StoreAndExecuteOnMouseDown(new Actions.SetEditorMapSquare(editorMapSquares[x, y]));
+                    editorMapSquares[x, y].StoreAndExecuteOnMouseRelease(new Actions.SetEditorSelectedTileAction(editorMapSquares[x, y]));
                 }
             }
         }

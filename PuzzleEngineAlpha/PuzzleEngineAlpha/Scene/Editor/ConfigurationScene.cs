@@ -46,6 +46,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
             Passable = true;
             textBox = new TextBox(Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Content.Load<Texture2D>(@"Textboxes/textbox"), new Vector2(5, 5) + SceneLocation, 160, 30);
+            textBox.StoreAndExecuteOnTextChange(new Actions.SetSelectedCodeValueAction(textBox));
 
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), 0.9f, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), 0.8f, 1.0f, 0.0f, Color.White);

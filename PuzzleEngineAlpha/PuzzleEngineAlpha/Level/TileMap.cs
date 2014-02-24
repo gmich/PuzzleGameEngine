@@ -55,11 +55,11 @@ namespace PuzzleEngineAlpha.Level
                 {
                     if (rand.Next(0,2)==1)
                     {
-                        mapCells[x, y] = new MapSquare(0, false, " ");
+                        mapCells[x, y] = new MapSquare(0, true, "");
                     }
                     else
                     {
-                        mapCells[x, y] = new MapSquare(1, false, " ");
+                        mapCells[x, y] = new MapSquare(1, true, "");
                     }
                 }
             }
