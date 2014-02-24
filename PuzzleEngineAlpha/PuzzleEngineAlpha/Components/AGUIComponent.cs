@@ -184,8 +184,8 @@ namespace PuzzleEngineAlpha.Components
 
         public bool Intersects(Vector2 otherLocation)
         {
-            return ((Position.X <= otherLocation.X && Position.Y <= otherLocation.Y)
-                    && (Position.X + Size.X >= otherLocation.X && Position.Y + Size.Y >= otherLocation.Y));
+            return ((Position.X <= otherLocation.X && Position.Y < otherLocation.Y)
+                    && (Position.X + Size.X > otherLocation.X && Position.Y + Size.Y >= otherLocation.Y));
         }
 
         #endregion

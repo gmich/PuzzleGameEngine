@@ -51,14 +51,24 @@ namespace PuzzleEngineAlpha.Camera.Handlers
 
         #endregion
 
+        #region Intersection
+
+        public bool Intersects(Vector2 otherLocation)
+        {
+            return ((Camera.ScreenRectangle.X < otherLocation.X && Camera.ScreenRectangle.Y < otherLocation.Y)
+                    && (Camera.ScreenRectangle.X + Camera.ScreenRectangle.Width > otherLocation.X && Camera.ScreenRectangle.Y + Camera.ScreenRectangle.Height > otherLocation.Y));
+        }
+
+        #endregion
+
         #region Helper Methods
 
         void HandleZoom(float step)
         {  
-            if (InputHandler.IsKeyDown(ConfigurationManager.Config.ZoomIn) || InputHandler.IsWheelMovingUp())
+            if ((InputHandler.IsKeyDown(ConfigurationManager.Config.ZoomIn) || InputHandler.IsWheelMovingUp()) && this.Intersects(InputHandler.MousePosition))
                 Scale += step;
 
-            else if (InputHandler.IsKeyDown(ConfigurationManager.Config.ZoomOut) || InputHandler.IsWheelMovingDown())
+            else if ((InputHandler.IsKeyDown(ConfigurationManager.Config.ZoomOut) || InputHandler.IsWheelMovingDown() )&& this.Intersects(InputHandler.MousePosition))
                 Scale -= step; 
         }
 

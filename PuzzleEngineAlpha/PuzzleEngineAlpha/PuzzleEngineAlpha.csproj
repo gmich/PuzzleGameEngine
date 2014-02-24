@@ -46,6 +46,7 @@
     <Compile Include="Animations\EventArguments\RotationArgs.cs" />
     <Compile Include="Animations\IAnimation.cs" />
     <Compile Include="Animations\Rotation.cs" />
+    <Compile Include="Animations\SmoothTransaction.cs" />
     <Compile Include="Camera\Camera.cs" />
     <Compile Include="Camera\Handlers\Zoomer.cs" />
     <Compile Include="Camera\Handlers\ICameraHandler.cs" />
@@ -151,18 +152,23 @@
     <Content Include="Content\Textures\player.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Textures\whiteRectangle.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Fonts\font1.spritefont">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\Fonts\font.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Fonts\menuButtonFont.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\diagnosticsFont.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

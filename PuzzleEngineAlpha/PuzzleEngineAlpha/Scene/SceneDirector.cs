@@ -23,11 +23,14 @@ namespace PuzzleEngineAlpha.Scene
             scenes = new Dictionary<string,IScene>();
             bgScenes = new Dictionary<string, IScene>();
 
-            scenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 160)));
-            scenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content, 64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 165)));
-            scenes.Add("map", new Editor.MapScene(graphicsDevice, content, 64, 64, Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight)));
-            //scenes.Add("gamescene",new Game.GameScene(graphicsDevice, content,Vector2.Zero));
             bgScenes.Add("diagnostics", new Game.DiagnosticsScene(graphicsDevice, content));
+
+            scenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 210)));
+            scenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content, 64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 215)));
+            scenes.Add("map", new Editor.MapScene(graphicsDevice, content, 64, 64, Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight)));
+
+            BringToFront("diagnostics");
+
         }
 
         #endregion
@@ -39,6 +42,13 @@ namespace PuzzleEngineAlpha.Scene
         {
             foreach (IScene scene in scenes.Values)
                 scene.UpdateRenderTarget();
+        }
+
+        public void BringToFront(string scene)
+        {
+            if (!scenes.ContainsKey(scene) && bgScenes.ContainsKey(scene))
+                scenes.Add(scene, bgScenes[scene]);
+                
         }
 
         public void ManageScenes()

@@ -51,11 +51,14 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
             components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 50) + SceneLocation, new Vector2(160, 40),this.SceneRectangle));
 
-            textProperties.text = "Tiles";
-            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(0, 100) + SceneLocation, new Vector2(85, 60),this.SceneRectangle));
+            textProperties.text = "unselect";
+            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 100) + SceneLocation, new Vector2(160, 40), this.SceneRectangle));
 
-            textProperties.text = "Actors";
-            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(85, 100) + SceneLocation, new Vector2(85, 60),this.SceneRectangle));
+            textProperties.text = "tiles";
+            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(0, 150) + SceneLocation, new Vector2(85, 60),this.SceneRectangle));
+
+            textProperties.text = "actors";
+            components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(85, 150) + SceneLocation, new Vector2(85, 60),this.SceneRectangle));
             
         }
 
@@ -68,11 +71,14 @@ namespace PuzzleEngineAlpha.Scene.Editor
             components[0].Position = new Vector2(5, 50) + SceneLocation;
             components[0].GeneralArea = SceneRectangle;
 
-            components[1].Position = new Vector2(0, 100) + SceneLocation;
+            components[1].Position = new Vector2(5, 100) + SceneLocation;
             components[1].GeneralArea = SceneRectangle;
 
-            components[2].Position = new Vector2(85, 100) + SceneLocation;
+            components[2].Position = new Vector2(0, 150) + SceneLocation;
             components[2].GeneralArea = SceneRectangle;
+
+            components[3].Position = new Vector2(85, 150) + SceneLocation;
+            components[3].GeneralArea = SceneRectangle;
 
             textBox.Location = new Vector2(5, 5) + SceneLocation;
         }

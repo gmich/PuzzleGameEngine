@@ -26,7 +26,9 @@ namespace PuzzleEngineAlpha.Level
         {
             this.frameTexture = Content.Load<Texture2D>(@"Buttons/tileFrame");
             this.ShowGrid = showGrid;
-   
+            Scene.Game.DiagnosticsScene.AddText(new Vector2(10, 10), " ");
+            Scene.Game.DiagnosticsScene.AddText(new Vector2(40, 10), " ");
+            Scene.Game.DiagnosticsScene.AddText(new Vector2(70, 10), " ");
         }
 
         #endregion

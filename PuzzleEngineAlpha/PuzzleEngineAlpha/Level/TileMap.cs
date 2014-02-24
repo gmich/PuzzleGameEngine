@@ -30,9 +30,7 @@ namespace PuzzleEngineAlpha.Level
             tileSheet = Content.Load<Texture2D>(@"Textures/PlatformTiles");
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
-            Scene.Game.DiagnosticsScene.AddText(new Vector2(10, 10), " ");
-            Scene.Game.DiagnosticsScene.AddText(new Vector2(40, 10), " ");
-            Scene.Game.DiagnosticsScene.AddText(new Vector2(70, 10), " ");
+
         }
         
         #region Randomize Map
