@@ -10,7 +10,6 @@ namespace PuzzleEngineAlpha.GUIManager
 {
     using Actions;
     using Components;
-    using ActionReceivers;
     using Components.Buttons;
 
     public class GUIHandler
@@ -38,22 +37,7 @@ namespace PuzzleEngineAlpha.GUIManager
 
         public void Initialize()
         {
-            Player player = new Player();
-            guiComponents[0].StoreAndExecuteOnMouseClick(new AppendConsoleText("button1 - clicked"));
-            guiComponents[1].StoreAndExecuteOnMouseClick(new AppendConsoleText("button2 - clicked"));
-            guiComponents[2].StoreAndExecuteOnMouseClick(new AppendConsoleText("button2 - clicked"));
 
-            guiComponents[0].StoreAndExecuteOnMouseRelease(new AppendConsoleText("button1 - released"));
-            guiComponents[1].StoreAndExecuteOnMouseRelease(new AppendConsoleText("button2 - released"));
-            guiComponents[2].StoreAndExecuteOnMouseRelease(new AppendConsoleText("button3 - released"));
-
-            guiComponents[0].StoreAndExecuteOnMouseOver(new AppendConsoleText("button1 - mouserOver"));
-            guiComponents[1].StoreAndExecuteOnMouseOver(new AppendConsoleText("button2 - mouserOver"));
-            guiComponents[2].StoreAndExecuteOnMouseOver(new AppendConsoleText("button3 - mouserOver"));
-
-            guiComponents[0].StoreAndExecuteOnMouseLeave(new AppendConsoleText("button1 - mouserLeave"));
-            guiComponents[1].StoreAndExecuteOnMouseLeave(new AppendConsoleText("button2 - mouserLeave"));
-            guiComponents[2].StoreAndExecuteOnMouseLeave(new AppendConsoleText("button3 - mouserLeave"));
         }
 
         public void Update(GameTime gameTime)

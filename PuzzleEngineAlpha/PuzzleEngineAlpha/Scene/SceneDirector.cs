@@ -23,7 +23,7 @@ namespace PuzzleEngineAlpha.Scene
             scenes = new Dictionary<string,IScene>();
             bgScenes = new Dictionary<string, IScene>();
 
-            bgScenes.Add("diagnostics", new Game.DiagnosticsScene(graphicsDevice, content));
+            bgScenes.Add("diagnostics", new Editor.DiagnosticsScene(graphicsDevice, content));
 
             scenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 210)));
             scenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content, 64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 215)));

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace PuzzleEngineAlpha.Level
+namespace PuzzleEngineAlpha.Level.Editor
 {
     using Camera;
     using Input;
@@ -25,10 +25,7 @@ namespace PuzzleEngineAlpha.Level
             : base(cameraPosition, Content, tileWidth, tileHeight)
         {
             this.frameTexture = Content.Load<Texture2D>(@"Buttons/tileFrame");
-            this.ShowGrid = showGrid;
-            Scene.Game.DiagnosticsScene.AddText(new Vector2(10, 10), " ");
-            Scene.Game.DiagnosticsScene.AddText(new Vector2(40, 10), " ");
-            Scene.Game.DiagnosticsScene.AddText(new Vector2(70, 10), " ");
+            this.ShowGrid = showGrid;      
         }
 
         #endregion
@@ -62,7 +59,7 @@ namespace PuzzleEngineAlpha.Level
             {
                 for (int y = 0; y < MapHeight; y++)
                 {
-                    editorMapSquares[x, y] = new EditorMapSquare(button, frame, new Vector2(x * TileWidth, y * TileHeight), new Vector2(TileWidth, TileHeight), TileSourceRectangle(mapCells[x, y].LayerTile), this.Camera, sceneRectangle);
+                    editorMapSquares[x, y] = new EditorMapSquare(button, frame, new Vector2(x * TileWidth, y * TileHeight), new Vector2(TileWidth, TileHeight), TileSourceRectangle(mapCells[x, y].LayerTile), this.Camera, sceneRectangle,mapCells[x, y].LayerTile);
                 }
             }
         }
@@ -76,19 +73,6 @@ namespace PuzzleEngineAlpha.Level
             get;
             set;
         }
-
-        /*  public override Color GetColor(Rectangle rectangle)
-          {
-              if (InputHandler.MouseRectangle.Intersects(rectangle))
-              {
-                  if (InputHandler.LeftButtonIsClicked())
-                      return new Color(200, 200, 200);
-                  else
-                      return new Color(220, 220, 220);
-              }
-              else
-                  return Color.White;
-          }*/
 
         #endregion
 
@@ -109,8 +93,8 @@ namespace PuzzleEngineAlpha.Level
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Scene.Game.DiagnosticsScene.SetText(new Vector2(5, 30), "Location: {X: " + StartX + " / " + MapWidth + "  Y: " + StartY + " / " + MapHeight + "}");
-            Scene.Game.DiagnosticsScene.SetText(new Vector2(5, 55), "Scale: " + Camera.Zoom);
+            Scene.Editor.DiagnosticsScene.SetText(new Vector2(5, 30), "X: " + StartX + " / " + MapWidth + "  Y: " + StartY + " / " + MapHeight);
+            Scene.Editor.DiagnosticsScene.SetText(new Vector2(5, 55), "scale: " + Camera.Zoom);
 
             for (int x = StartX; x <= EndX; x++)
                 for (int y = StartY; y <= EndY; y++)

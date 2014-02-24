@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace PuzzleEngineAlpha.Scene.Game
+namespace PuzzleEngineAlpha.Scene.Editor
 {
     using Diagnostics;
     using Resolution;
@@ -21,6 +21,7 @@ namespace PuzzleEngineAlpha.Scene.Game
         Texture2D background;
         Animations.SmoothTransaction bgTransparency;
         Animations.SmoothTransaction fontTransparency;
+
         #endregion
 
         #region Constructor
@@ -76,13 +77,13 @@ namespace PuzzleEngineAlpha.Scene.Game
             }
         }
 
-        static int LargestWidth
+        public static int LargestWidth
         {
             get;
             set;
         }
 
-        static int LargestHeight
+        public static int LargestHeight
         {
             get;
             set;
@@ -92,7 +93,7 @@ namespace PuzzleEngineAlpha.Scene.Game
         {
             get
             {
-                return new Rectangle(0, 0, LargestWidth + 10, LargestHeight + 10);
+                return new Rectangle(0, 0, LargestWidth + 30, LargestHeight + 10);
             }
         }
 
@@ -180,7 +181,7 @@ namespace PuzzleEngineAlpha.Scene.Game
         public void Update(GameTime gameTime)
         {
             fpsMonitor.Update(gameTime);
-            SetText(new Vector2(5,5), "FPS: " + fpsMonitor.FPS);
+            SetText(new Vector2(5,5), "fps: " + fpsMonitor.FPS);
             UpdateTransparency(gameTime);
         }
 
@@ -194,6 +195,11 @@ namespace PuzzleEngineAlpha.Scene.Game
 
             spriteBatch.Draw(background, SceneRectangle,null,Color.White*bgTransparency.Value, 0.0f,Vector2.Zero,SpriteEffects.None,0.9f);
 
+            if (Level.Editor.TileManager.MapSquare != null)
+            {
+                spriteBatch.Draw(background, new Rectangle(142, 62, 70, 70), Level.Editor.TileManager.SourceRectangle, Color.Black * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+                spriteBatch.Draw(Level.Editor.TileManager.TileSheet, new Rectangle(145, 65, 64, 64), Level.Editor.TileManager.SourceRectangle, Color.White * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+            }
             foreach (KeyValuePair<Vector2, string> item in texts)
             {
                 spriteBatch.DrawString(font, item.Value, item.Key, Color.Black * fontTransparency.Value);

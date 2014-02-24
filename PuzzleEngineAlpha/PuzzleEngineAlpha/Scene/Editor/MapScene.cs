@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace PuzzleEngineAlpha.Scene.Editor
 {
-    using Level;
+    using Level.Editor;
     using Components;
     using Components.Buttons;
     using Components.ScrollBars;
@@ -37,7 +37,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             camera = new Camera.Camera(Vector2.Zero, scenerySize, new Vector2(this.Width, this.Height));
             cameraManager = new Camera.Managers.CameraManager();
             cameraManager.SetCameraScript(new Camera.Scripts.MouseCamera(camera));
-            cameraManager.AddCameraHandler(new Camera.Handlers.Zoomer(1.0f,1.5f,0.6f,0.5f));
+            cameraManager.AddCameraHandler(new Camera.Handlers.Zoomer(1.0f,1.5f,0.6f,0.01f));
             tileMap.Camera = camera;
 
             this.SceneLocation = sceneLocation;

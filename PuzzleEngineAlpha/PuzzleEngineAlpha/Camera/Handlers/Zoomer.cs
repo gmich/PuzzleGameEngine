@@ -76,7 +76,7 @@ namespace PuzzleEngineAlpha.Camera.Handlers
 
         public void Update(GameTime gameTime)
         {  
-            HandleZoom(scaleStep * (float)gameTime.ElapsedGameTime.TotalSeconds);
+            HandleZoom(scaleStep);
             Camera.Zoom = Scale;
         }
 

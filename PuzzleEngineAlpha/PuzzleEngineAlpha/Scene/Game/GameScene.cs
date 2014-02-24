@@ -39,7 +39,7 @@ namespace PuzzleEngineAlpha.Scene.Game
             camera = new Camera.Camera( player.location,new Vector2(this.Width, this.Height), new Vector2(50000, 50000));
             cameraManager.SetCameraScript(new ChasingCamera(player.location,camera));
             cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 10));
-            cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.6f, 0.6f));
+            cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.01f, 0.6f));
             player.Camera = cameraManager.Camera;
             tileMap = new TileMap(cameraManager.Position, content, 64, 64);
             tileMap.Camera = cameraManager.Camera;

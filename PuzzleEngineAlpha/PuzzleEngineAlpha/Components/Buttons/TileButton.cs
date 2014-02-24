@@ -25,7 +25,7 @@ namespace PuzzleEngineAlpha.Components.Buttons
 
         #region Constructor
 
-        public TileButton(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, Vector2 position, Vector2 size,Rectangle sourceRectangle,Camera camera, Rectangle generalArea)
+        public TileButton(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, Vector2 position, Vector2 size,Rectangle sourceRectangle,Camera camera, Rectangle generalArea, int layertile)
             : base()
         {
             button = buttonDrawProperties;
@@ -35,11 +35,26 @@ namespace PuzzleEngineAlpha.Components.Buttons
             this.Size = size;
             this.Position = position;
             this.GeneralArea = generalArea;
+            this.LayerTile = layertile;
         }
 
         #endregion
         
         #region Drawing Related Methods
+
+        public int LayerTile
+        {
+            get;
+            private set;
+        }
+
+        public Rectangle SourceRectangle
+        {
+            get
+            {
+                return sourceRectangle;
+            }
+        }
 
         Vector2 position;
         public override Vector2 Position

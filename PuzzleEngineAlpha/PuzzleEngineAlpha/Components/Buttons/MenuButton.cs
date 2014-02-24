@@ -41,6 +41,11 @@ namespace PuzzleEngineAlpha.Components.Buttons
         
         #region Drawing Related Methods
 
+        public void SetText(string newText)
+        {
+            defaultText.text = newText;
+        }
+
         #region Drawing Properties
 
         Rectangle ButtonRectangle

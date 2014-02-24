@@ -314,9 +314,9 @@ namespace PuzzleEngineAlpha.Level
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 10), "Location: {X: " + StartX + " / " + MapWidth + "  Y: " + StartY + " / " + MapHeight + "}");
-            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 40), "Scale: " + Camera.Zoom);
-            Scene.Game.DiagnosticsScene.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);  
+            Scene.Editor.DiagnosticsScene.SetText(new Vector2(10, 10), "Location: {X: " + StartX + " / " + MapWidth + "  Y: " + StartY + " / " + MapHeight + "}");
+            Scene.Editor.DiagnosticsScene.SetText(new Vector2(10, 40), "Scale: " + Camera.Zoom);
+            Scene.Editor.DiagnosticsScene.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);  
          
        /*     int horizontalSize = EndX - StartX;
             int verticalSize = EndY - StartY;

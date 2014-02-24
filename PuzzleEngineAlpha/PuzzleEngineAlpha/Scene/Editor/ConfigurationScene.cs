@@ -19,7 +19,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         GraphicsDevice graphicsDevice;
         Vector2 scenerySize;
         List<AGUIComponent> components;
-        TextBox textBox;
+        static TextBox textBox;
 
         #endregion
 
@@ -27,6 +27,8 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         public ConfigurationScene(GraphicsDevice graphicsDevice, ContentManager Content, Vector2 scenerySize)
         {
+            Level.Editor.TileManager.MapSquare = null;
+            Level.Editor.TileManager.TileSheet = Content.Load<Texture2D>(@"Textures/PlatformTilesTemp");
             this.graphicsDevice = graphicsDevice;
             this.scenerySize = scenerySize;
             components = new List<AGUIComponent>();
@@ -42,17 +44,20 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         void InitializeGUI(ContentManager Content)
         {
+            Passable = true;
             textBox = new TextBox(Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Content.Load<Texture2D>(@"Textboxes/textbox"), new Vector2(5, 5) + SceneLocation, 160, 30);
 
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), 0.9f, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), 0.8f, 1.0f, 0.0f, Color.White);
-            DrawTextProperties textProperties = new DrawTextProperties("passable", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
+            DrawTextProperties textProperties = new DrawTextProperties("is passable", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
 
             components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 50) + SceneLocation, new Vector2(160, 40),this.SceneRectangle));
+            components[0].StoreAndExecuteOnMouseRelease(new Actions.TogglePassableAction((MenuButton)components[0]));
 
             textProperties.text = "unselect";
             components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 100) + SceneLocation, new Vector2(160, 40), this.SceneRectangle));
+            components[1].StoreAndExecuteOnMouseRelease(new Actions.UnSelectedTileAction());
 
             textProperties.text = "tiles";
             components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(0, 150) + SceneLocation, new Vector2(85, 60),this.SceneRectangle));
@@ -62,6 +67,23 @@ namespace PuzzleEngineAlpha.Scene.Editor
             
         }
 
+        #endregion
+
+        #region Public Static Information
+
+        public static bool Passable
+        {
+            get;
+            set;
+        }
+
+        public static string TextBoxText
+        {
+            get
+            {
+                return textBox.Text;
+            }
+        }
         #endregion
 
         #region Handle Resolution Change

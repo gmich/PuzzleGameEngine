@@ -11,8 +11,8 @@ namespace PuzzleEngineAlpha.Level
     {
         #region Public Constructors
 
-        public EditorMapSquare(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, Vector2 position, Vector2 size,Rectangle sourceRectangle,Camera.Camera camera, Rectangle generalArea)
-            : base(buttonDrawProperties,frameDrawProperties,position,size,sourceRectangle,camera,generalArea)
+        public EditorMapSquare(DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, Vector2 position, Vector2 size,Rectangle sourceRectangle,Camera.Camera camera, Rectangle generalArea,int layerTile)
+            : base(buttonDrawProperties,frameDrawProperties,position,size,sourceRectangle,camera,generalArea,layerTile)
         {
 
         }
