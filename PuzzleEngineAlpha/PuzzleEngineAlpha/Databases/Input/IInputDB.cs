@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PuzzleEngineAlpha.Mappers
+namespace PuzzleEngineAlpha.Databases.Input
 {
-    interface IMapper
+    interface IInputDB
     {
         void Load(object entity);
 

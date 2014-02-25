@@ -79,7 +79,6 @@ namespace PuzzleEngineAlpha.Scene.Game
 
         #endregion
 
-
         #region Helper Methods
 
         public void UpdateRenderTarget()
@@ -92,7 +91,7 @@ namespace PuzzleEngineAlpha.Scene.Game
 
         public void Update(GameTime gameTime)
         {
-                guiHandler.Update(gameTime);
+            guiHandler.Update(gameTime);
         }
 
         //TODO: fix rendertarget order

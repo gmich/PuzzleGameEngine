@@ -68,6 +68,8 @@
     <Compile Include="Components\Buttons\MenuButton.cs" />
     <Compile Include="Components\DrawProperties.cs" />
     <Compile Include="Components\Textboxes\TextBox.cs" />
+    <Compile Include="Databases\Level\ILevelInfoDB.cs" />
+    <Compile Include="Databases\Level\IMapDB.cs" />
     <Compile Include="Diagnostics\FPSMonitor.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="GUIHandler\GUIHandler.cs" />
@@ -82,10 +84,12 @@
     <Compile Include="Level\Editor\EditorMapSquare.cs" />
     <Compile Include="Level\Editor\EditorTileMap.cs" />
     <Compile Include="Level\Editor\TileManager.cs" />
+    <Compile Include="Level\LevelInfo.cs" />
     <Compile Include="Level\MapSquare.cs" />
     <Compile Include="Level\TileMap.cs" />
-    <Compile Include="Mappers\IMapper.cs" />
-    <Compile Include="Mappers\InputXMLMapper.cs" />
+    <Compile Include="Databases\Input\IInputDB.cs" />
+    <Compile Include="Databases\Input\InputXMLMapper.cs" />
+    <Compile Include="Databases\Level\BinaryMapSerialization.cs" />
     <Compile Include="Player\DummyPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

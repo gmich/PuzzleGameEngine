@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace PuzzleEngineAlpha.Level
 {
@@ -35,7 +36,17 @@ namespace PuzzleEngineAlpha.Level
             this.SourceTileHeight = tileHeight;
 
         }
-        
+
+        #region Load Map
+
+        public void LoadMap(FileStream fileStream)
+        {
+            //pass this as a readonly value in the constructor
+            Databases.Level.BinaryMapSerialization mapDeSerializer = new Databases.Level.BinaryMapSerialization();
+        }
+
+        #endregion
+
         #region Randomize Map
         
         //TODO: update randomize algorithm

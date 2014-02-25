@@ -5,9 +5,9 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace PuzzleEngineAlpha.Mappers
+namespace PuzzleEngineAlpha.Databases.Input
 {
-    public class InputXMLMapper : IMapper
+    public class InputXMLMapper : IInputDB
     {
 
         public void Load(object entity)

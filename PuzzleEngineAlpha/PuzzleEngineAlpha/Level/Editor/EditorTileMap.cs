@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
+using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace PuzzleEngineAlpha.Level.Editor
 {
@@ -16,7 +19,7 @@ namespace PuzzleEngineAlpha.Level.Editor
 
         Texture2D frameTexture;
         EditorMapSquare[,] editorMapSquares;
-
+     
         #endregion
 
         #region Constructor
@@ -27,6 +30,16 @@ namespace PuzzleEngineAlpha.Level.Editor
             this.frameTexture = Content.Load<Texture2D>(@"Buttons/tileFrame");
             this.ShowGrid = showGrid;      
         }
+
+        #endregion
+
+        #region Save
+
+        public void SaveMap(FileStream fileStream)
+        {
+            //pass this as a readonly value in the constructor
+            Databases.Level.IMapDB mapDB = new Databases.Level.BinaryMapSerialization();
+        }       
 
         #endregion
 
