@@ -30,7 +30,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
             this.TileWidth = TileWidth;
             this.TileHeight = TileHeight;
-            tileMap = new EditorTileMap(Vector2.Zero, Content, TileWidth, TileHeight, true);
+            tileMap = new EditorTileMap(Vector2.Zero, Content,64,64, TileWidth, TileHeight, true);
 
             //TODO: remove after debugging
             tileMap.Randomize(100, 100);
@@ -178,8 +178,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             spriteBatch.GraphicsDevice.ScissorRectangle = SceneRectangle;
 
             spriteBatch.End();
-
-       
+                   
         }
     }
 }

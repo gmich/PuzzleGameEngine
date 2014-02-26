@@ -25,15 +25,15 @@ namespace PuzzleEngineAlpha.Level
 
         #endregion
 
-        public TileMap(Vector2 cameraPosition, ContentManager Content, int tileWidth, int tileHeight)
+        public TileMap(Vector2 cameraPosition, ContentManager Content, int sourceTileWidth, int sourceTileHeigh, int tileWidth, int tileHeight)
         {
             this.cameraPosition = cameraPosition;
             tileSheet = Content.Load<Texture2D>(@"Textures/PlatformTiles");
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
 
-            this.SourceTileWidth = tileWidth;
-            this.SourceTileHeight = tileHeight;
+            this.SourceTileWidth = sourceTileWidth;
+            this.SourceTileHeight = sourceTileHeigh;
 
         }
 

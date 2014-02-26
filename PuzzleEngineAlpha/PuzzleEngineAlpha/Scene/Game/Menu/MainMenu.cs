@@ -97,26 +97,25 @@ namespace PuzzleEngineAlpha.Scene.Game
         //TODO: fix rendertarget order
         public void Draw(SpriteBatch spriteBatch)
         {
-                graphicsDevice.Clear(Color.CornflowerBlue);
-                graphicsDevice.SetRenderTarget(renderTarget);
+            graphicsDevice.Clear(Color.CornflowerBlue);
+            graphicsDevice.SetRenderTarget(renderTarget);
 
 
-                spriteBatch.Begin(SpriteSortMode.BackToFront,
-                            BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.BackToFront,
+                        BlendState.AlphaBlend);
 
+            guiHandler.Draw(spriteBatch);
 
-                guiHandler.Draw(spriteBatch);
+            spriteBatch.End();
 
-                spriteBatch.End();
+            graphicsDevice.SetRenderTarget(null);
 
-                graphicsDevice.SetRenderTarget(null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
 
-                spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
-
-                spriteBatch.End();
-
+            spriteBatch.End();
+            
         }
     }
 }

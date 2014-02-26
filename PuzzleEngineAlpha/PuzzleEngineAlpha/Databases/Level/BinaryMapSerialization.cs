@@ -11,7 +11,7 @@ namespace PuzzleEngineAlpha.Databases.Level
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-         MapSquare[,] Load(FileStream fileStream)
+         public MapSquare[,] Load(FileStream fileStream)
         {
             try
             {                
@@ -27,7 +27,7 @@ namespace PuzzleEngineAlpha.Databases.Level
             }
         }
 
-         void Save(FileStream fileStream,MapSquare[,] mapCells)
+        public void Save(FileStream fileStream,MapSquare[,] mapCells)
         {
             try
             {
@@ -40,6 +40,6 @@ namespace PuzzleEngineAlpha.Databases.Level
                 log.Error("Saving Map " + fileStream + "failed due to " + ex.Message);
             }
         }
-    
+
     }
 }

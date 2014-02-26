@@ -8,7 +8,7 @@ namespace PuzzleEngineAlpha.Scene
 {
     public class SceneDirector
     {
-
+        
         #region Declarations
 
         Dictionary<string,IScene> scenes;
@@ -24,11 +24,11 @@ namespace PuzzleEngineAlpha.Scene
             bgScenes = new Dictionary<string, IScene>();
 
             bgScenes.Add("diagnostics", new Editor.DiagnosticsScene(graphicsDevice, content));
-
+            bgScenes.Add("editorMenu", new Editor.Menu.MenuHandler(content, graphicsDevice));
             scenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 210)));
             scenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content, 64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 215)));
             scenes.Add("map", new Editor.MapScene(graphicsDevice, content, 64, 64, Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight)));
-
+            
             BringToFront("diagnostics");
 
         }
@@ -36,13 +36,6 @@ namespace PuzzleEngineAlpha.Scene
         #endregion
 
         #region Helper Methods
-
-        //TODO: updateRenderTargets only when resolution changes
-        public void UpdateRenderTargets()
-        {
-            foreach (IScene scene in scenes.Values)
-                scene.UpdateRenderTarget();
-        }
 
         public void BringToFront(string scene)
         {
@@ -65,6 +58,18 @@ namespace PuzzleEngineAlpha.Scene
                 {
                     Level.Editor.TileManager.ShowPassable = true;
                     scenes.Add("diagnostics", bgScenes["diagnostics"]);
+                }
+            }
+
+            if (Input.InputHandler.IsKeyReleased(Input.ConfigurationManager.Config.ToggleMenu))
+            {
+                if (scenes.ContainsKey("editorMenu"))
+                {
+                    scenes.Remove("editorMenu");
+                }
+                else
+                {
+                    scenes.Add("editorMenu", bgScenes["editorMenu"]);
                 }
             }
         }

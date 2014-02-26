@@ -41,7 +41,7 @@ namespace PuzzleEngineAlpha.Scene.Game
             cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 10));
             cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.01f, 0.6f));
             player.Camera = cameraManager.Camera;
-            tileMap = new TileMap(cameraManager.Position, content, 64, 64);
+            tileMap = new TileMap(cameraManager.Position, content, 64, 64,64,64);
             tileMap.Camera = cameraManager.Camera;
             tileMap.Randomize(200, 200);
             UpdateRenderTarget();
@@ -135,8 +135,7 @@ namespace PuzzleEngineAlpha.Scene.Game
 
             graphicsDevice.Clear(Color.CornflowerBlue);
             graphicsDevice.SetRenderTarget(renderTarget);
-
-
+            
             spriteBatch.Begin(SpriteSortMode.BackToFront,
                         BlendState.AlphaBlend,
                         SamplerState.PointWrap,

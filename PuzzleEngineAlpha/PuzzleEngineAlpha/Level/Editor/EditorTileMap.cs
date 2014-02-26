@@ -24,8 +24,8 @@ namespace PuzzleEngineAlpha.Level.Editor
 
         #region Constructor
 
-        public EditorTileMap(Vector2 cameraPosition, ContentManager Content, int tileWidth, int tileHeight,bool showGrid)
-            : base(cameraPosition, Content, tileWidth, tileHeight)
+        public EditorTileMap(Vector2 cameraPosition, ContentManager Content, int sourceTileWidth, int sourceTileHeight, int tileWidth, int tileHeight, bool showGrid)
+            : base(cameraPosition, Content, sourceTileWidth, sourceTileHeight, tileWidth, tileHeight)
         {
             this.frameTexture = Content.Load<Texture2D>(@"Buttons/tileFrame");
             this.ShowGrid = showGrid;      

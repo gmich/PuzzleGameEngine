@@ -89,8 +89,8 @@ namespace PuzzleEngineAlpha
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+               // Exit();
 
             InputHandler.Update(gameTime);
             resolutionHandler.Update(gameTime);
@@ -118,7 +118,6 @@ namespace PuzzleEngineAlpha
         { 
             this.resolutionHandler.SetResolution(this.Window.ClientBounds.Width, this.Window.ClientBounds.Height);
 
-            sceneDirector.UpdateRenderTargets();
         }
     }
 }

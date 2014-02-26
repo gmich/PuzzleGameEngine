@@ -55,16 +55,5 @@ namespace PuzzleEngineAlpha.Scene.Game
             throw new NotImplementedException();
         }
 
-        bool IScene.IsActive
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-
-        public void UpdateRenderTarget()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

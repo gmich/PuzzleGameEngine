@@ -76,6 +76,14 @@ namespace PuzzleEngineAlpha.Input
             }
         }
 
+        public Keys ToggleMenu
+        {
+            get
+            {
+                return Keys.Escape;
+            }
+        }
+
         public Keys Trigger
         {
             get

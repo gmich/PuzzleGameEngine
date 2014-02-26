@@ -34,16 +34,16 @@ namespace PuzzleEngineAlpha.Animations
             set;
         }
 
-        float MinValue
+        public float MinValue
         {
             get;
-            set;
+            private set;
         }
 
-        float MaxValue
+        public float MaxValue
         {
             get;
-            set;
+            private set;
         }
 
         #endregion
