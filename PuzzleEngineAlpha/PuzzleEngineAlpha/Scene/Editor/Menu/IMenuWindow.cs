@@ -20,6 +20,11 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             get;
         }
 
+        MenuStateEnum State
+        {
+            get;
+        }
+
         void Update(GameTime gameTime);
 
         void Draw(SpriteBatch spriteBatch);

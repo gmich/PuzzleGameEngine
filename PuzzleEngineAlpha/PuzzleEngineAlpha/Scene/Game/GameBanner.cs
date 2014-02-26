@@ -36,6 +36,11 @@ namespace PuzzleEngineAlpha.Scene.Game
             }
         }
 
+        public void GoInactive()
+        {
+            this.IsActive=false;
+        }
+
         public static int Height
         {
             get

@@ -39,6 +39,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             bgTransparency = new Animations.SmoothTransaction(0.5f, 0.002f, 0.0f, 0.5f);
             fontTransparency = new Animations.SmoothTransaction(1.0f, 0.004f, 0.0f, 1.0f);
             Level.Editor.TileManager.ShowPassable = true;
+            isActive = true;
         }
 
         #endregion
@@ -133,6 +134,11 @@ namespace PuzzleEngineAlpha.Scene.Editor
         #endregion
 
         #region Helper Methods
+
+        public void GoInactive()
+        {
+            this.IsActive = false;
+        }
 
         static int StringScreenWidth(string stringToMeasure)
         {

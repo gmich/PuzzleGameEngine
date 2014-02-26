@@ -87,6 +87,11 @@ namespace PuzzleEngineAlpha.Scene.Game
 
         }
 
+        public void GoInactive()
+        {
+            this.IsActive = false;
+        }
+
         #endregion
 
         public void Update(GameTime gameTime)

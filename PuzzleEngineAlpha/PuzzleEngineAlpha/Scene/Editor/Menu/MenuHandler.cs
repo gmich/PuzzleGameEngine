@@ -17,8 +17,35 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         public MenuHandler(ContentManager Content, GraphicsDevice graphicsDevice)
         {
             menuWindows = new List<IMenuWindow>();
-            menuWindows.Add(new MainMenu(Content, graphicsDevice, new Vector2(200, 400), new Vector2(100, 100)));
+            menuWindows.Add(new MainMenu(Content, graphicsDevice));
             menuWindows[0].Show();
+            IsActive = false;
+        }
+
+        bool isActive;
+        public bool IsActive
+        {
+            get
+            {
+                return isActive;
+            }
+            set
+            {
+                isActive = value;
+
+                if (isActive)
+                {
+                    foreach (IMenuWindow menuWindow in menuWindows)
+                    {
+                        menuWindow.Show();
+                    }
+                }
+            }
+        }
+
+        public void GoInactive()
+        {
+            menuWindows[0].Hide();
         }
         
         public void Update(GameTime gameTime)
@@ -29,8 +56,15 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             if(Input.InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.X))
             menuWindows[0].Hide();
 
+            if (menuWindows[0].State == MenuStateEnum.Hidden)
+            {
+                this.IsActive = false;
+            }
+            
             foreach (IMenuWindow menuWindow in menuWindows)
+            {
                 menuWindow.Update(gameTime);
+            }
         }
         
         public void Draw(SpriteBatch spriteBatch)

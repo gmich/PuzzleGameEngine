@@ -32,7 +32,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             this.graphicsDevice = graphicsDevice;
             this.scenerySize = scenerySize;
             components = new List<AGUIComponent>();
-
+            isActive = true;
             InitializeGUI(Content);
             UpdateRenderTarget();
             Resolution.ResolutionHandler.Changed += ResetSizes;
@@ -161,6 +161,11 @@ namespace PuzzleEngineAlpha.Scene.Editor
         #endregion
         
         #region Helper Methods
+
+        public void GoInactive()
+        {
+            this.IsActive = false;
+        }
 
         public void UpdateRenderTarget()
         {

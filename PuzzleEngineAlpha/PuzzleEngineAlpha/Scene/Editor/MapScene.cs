@@ -45,7 +45,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             this.scenerySize = scenerySize;
             UpdateRenderTarget();
             tileMap.InitializeButtons(Content,this.SceneRectangle);
-
+            isActive = true;
             Resolution.ResolutionHandler.Changed += ResetSizes;
 
         }
@@ -151,6 +151,11 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         #region Helper Methods
 
+        public void GoInactive()
+        {
+            this.IsActive = false;
+
+        }
         public void UpdateRenderTarget()
         {
             return;
@@ -158,8 +163,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
 
         #endregion
-
-
+        
         public void Update(GameTime gameTime)
         {
             //vScrollBar.Update(gameTime);

@@ -38,6 +38,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             InitializeGUI(Content);
             UpdateRenderTarget();
             Resolution.ResolutionHandler.Changed += ResetSizes;
+            isActive = true;
 
         }
 
@@ -197,6 +198,11 @@ namespace PuzzleEngineAlpha.Scene.Editor
         #endregion
 
         #region Helper Methods
+
+        public void GoInactive()
+        {
+            this.IsActive = false;
+        }
 
         public void UpdateRenderTarget()
         {

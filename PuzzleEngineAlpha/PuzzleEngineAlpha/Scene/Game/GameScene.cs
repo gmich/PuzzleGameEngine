@@ -49,7 +49,12 @@ namespace PuzzleEngineAlpha.Scene.Game
         }
 
         #endregion
-        
+
+        public void GoInactive()
+        {
+            this.IsActive = false;
+        }
+
         #region Properties
 
         Vector2 SceneLocation

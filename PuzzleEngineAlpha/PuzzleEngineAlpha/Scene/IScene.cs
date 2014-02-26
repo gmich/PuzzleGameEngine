@@ -5,6 +5,15 @@ namespace PuzzleEngineAlpha.Scene
 {
     interface IScene
     {
+
+        bool IsActive
+        {
+            get;
+            set;
+        }
+
+        void GoInactive();
+
         void Update(GameTime gameTime);
 
         void Draw(SpriteBatch spriteBatch);

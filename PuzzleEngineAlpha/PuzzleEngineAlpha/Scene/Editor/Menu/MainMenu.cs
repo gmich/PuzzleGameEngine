@@ -16,26 +16,43 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         MenuStateEnum currentState;
         Animations.SmoothTransaction transaction;
         List<AGUIComponent> components;
-        RenderTarget2D renderTarget;
         Camera.Camera camera;
         GraphicsDevice graphicsDevice;
+        Texture2D backGround;
 
         #endregion
 
         #region Constructor
 
-        public MainMenu(ContentManager Content,GraphicsDevice graphicsDevice,Vector2 size,Vector2 location )
+        public MainMenu(ContentManager Content,GraphicsDevice graphicsDevice)
         {
-            this.Size = size;
+            this.backGround = Content.Load<Texture2D>(@"Textures/whiteRectangle");
             this.graphicsDevice = graphicsDevice;
-            this.Location = location;
             currentState = new MenuStateEnum();
             currentState = MenuStateEnum.Hidden;
             transaction = new Animations.SmoothTransaction(0.0f, 0.01f, 0.0f, 1.0f);
             components = new List<AGUIComponent>();
-            this.camera = new Camera.Camera(Vector2.Zero, size, size);
-            renderTarget = new RenderTarget2D(graphicsDevice, (int)this.Size.X, (int)this.Size.Y);
             InitializeGUI(Content);
+
+            Resolution.ResolutionHandler.Changed += ResetSizes;
+            this.camera = new Camera.Camera(Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight), new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight));
+            camera.Zoom = transaction.Value;
+        }
+
+        #endregion
+
+        #region Handle Resolution Change
+
+        public void ResetSizes(object sender, EventArgs e)
+        {
+            for (int i = 0; i < components.Count; i++)
+            {
+                components[i].Position = this.Location + new Vector2(ButtonOffSet, (ButtonSize.Y + ButtonOffSet) * i);
+                components[i].GeneralArea = this.MenuRectangle;
+            }
+
+            this.camera = new Camera.Camera(Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight), new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight));
+            camera.Zoom = transaction.Value;
         }
 
         #endregion
@@ -82,16 +99,46 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         #region Properties
 
+        public MenuStateEnum State
+        {
+            get
+            {
+                return currentState;
+            }
+        }
+
+        Vector2 ButtonSize
+        {
+            get
+            {
+                return new Vector2(160, 100);
+            }
+        }
+
+        float ButtonOffSet
+        {
+            get
+            {
+                return 5.0f;
+            }
+        }
+
         Vector2 Size
         {
-            get;
-            set;
+            get
+            {
+                return new Vector2(ButtonSize.X + ButtonOffSet * 2, 5 * (ButtonSize.Y + ButtonOffSet));
+            }
+
         }
 
         Vector2 Location
         {
-            get;
-            set;
+            get
+            {
+                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y / 2);
+            }
+           
         }
 
         Rectangle MenuRectangle
@@ -124,9 +171,21 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), 0.9f, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), 0.8f, 1.0f, 0.0f, Color.White);
-            DrawTextProperties textProperties = new DrawTextProperties("new map", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
+            DrawTextProperties textProperties = new DrawTextProperties("editor", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
 
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 50) + Location, new Vector2(160, 40), this.MenuRectangle));
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(ButtonOffSet, ButtonOffSet),ButtonSize, this.MenuRectangle));
+
+            textProperties.text = "new";
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(ButtonOffSet, ButtonSize.Y + ButtonOffSet), ButtonSize, this.MenuRectangle));
+
+            textProperties.text = "load";
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(ButtonOffSet, (ButtonSize.Y + ButtonOffSet) * 2), ButtonSize, this.MenuRectangle));
+
+            textProperties.text = "save";
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location +  new Vector2(ButtonOffSet, (ButtonSize.Y + ButtonOffSet) * 3), ButtonSize, this.MenuRectangle));
+
+            textProperties.text = "settings";
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location +  new Vector2(ButtonOffSet, (ButtonSize.Y + ButtonOffSet) * 4), ButtonSize, this.MenuRectangle));
         }
 
         #endregion
@@ -143,9 +202,6 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         public void Draw(SpriteBatch spriteBatch)
         {
-       
-            graphicsDevice.SetRenderTarget(renderTarget);
-            graphicsDevice.Clear(Color.Transparent);
 
             spriteBatch.Begin(SpriteSortMode.BackToFront,
                         BlendState.AlphaBlend,
@@ -154,20 +210,16 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
                         null,
                         null,
                         camera.GetTransformation());
-
+                       
             foreach (AGUIComponent component in components)
             {
                 component.Draw(spriteBatch);
             }
-            spriteBatch.End();
 
-            graphicsDevice.SetRenderTarget(null);
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-
-            spriteBatch.Draw(renderTarget, MenuRectangle,null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(backGround, MenuRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
 
             spriteBatch.End();
+
         }
     }
 }

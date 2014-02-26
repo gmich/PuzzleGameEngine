@@ -24,11 +24,11 @@ namespace PuzzleEngineAlpha.Scene
             bgScenes = new Dictionary<string, IScene>();
 
             bgScenes.Add("diagnostics", new Editor.DiagnosticsScene(graphicsDevice, content));
-            bgScenes.Add("editorMenu", new Editor.Menu.MenuHandler(content, graphicsDevice));
             scenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 210)));
             scenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content, 64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 215)));
             scenes.Add("map", new Editor.MapScene(graphicsDevice, content, 64, 64, Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight)));
-            
+            scenes.Add("editorMenu", new Editor.Menu.MenuHandler(content, graphicsDevice));    
+
             BringToFront("diagnostics");
 
         }
@@ -65,11 +65,18 @@ namespace PuzzleEngineAlpha.Scene
             {
                 if (scenes.ContainsKey("editorMenu"))
                 {
-                    scenes.Remove("editorMenu");
-                }
-                else
-                {
-                    scenes.Add("editorMenu", bgScenes["editorMenu"]);
+                    if (scenes["editorMenu"].IsActive)
+                    {
+                        foreach (IScene scene in scenes.Values)
+                            scene.IsActive = true;
+                        scenes["editorMenu"].GoInactive();
+                    }
+                    else
+                    {
+                        foreach (IScene scene in scenes.Values)
+                            scene.IsActive = false;
+                        scenes["editorMenu"].IsActive = true;
+                    }
                 }
             }
         }
@@ -81,7 +88,10 @@ namespace PuzzleEngineAlpha.Scene
             ManageScenes();
 
             foreach (IScene scene in scenes.Values)
-                scene.Update(gameTime);
+            {
+                if(scene.IsActive)
+                    scene.Update(gameTime);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
