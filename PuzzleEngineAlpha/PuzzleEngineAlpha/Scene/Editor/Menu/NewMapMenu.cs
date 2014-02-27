@@ -38,7 +38,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         {
             for (int i = 0; i < components.Count; i++)
             {
-                components[i].Position = this.Location + new Vector2(ButtonOffSet, (ButtonSize.Y + ButtonOffSet) * i);
+                components[i].Position = this.Location + new Vector2(0, ButtonSize.Y * i);
                 components[i].GeneralArea = this.MenuRectangle;
             }
         }
@@ -64,19 +64,11 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             }
         }
 
-        float ButtonOffSet
-        {
-            get
-            {
-                return 5.0f;
-            }
-        }
-
         Vector2 Size
         {
             get
             {
-                return new Vector2(ButtonSize.X + ButtonOffSet * 2, 2 * (ButtonSize.Y + ButtonOffSet));
+                return new Vector2(ButtonSize.X , 2 * ButtonSize.Y);
             }
 
         }
@@ -95,6 +87,15 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             get
             {
                 return new Rectangle((int)Location.X, (int)Location.Y, (int)Size.X, (int)Size.Y);
+            }
+        }
+
+        Rectangle FrameRectangle
+        {
+            get
+            {
+                int offSet = 1;
+                return new Rectangle((int)Location.X - offSet, (int)Location.Y - offSet, (int)Size.X + offSet * 2, (int)Size.Y + offSet * 2);
             }
         }
 
@@ -122,10 +123,10 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawTextProperties textProperties = new DrawTextProperties("new map", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
 
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(ButtonOffSet, ButtonOffSet), ButtonSize, this.MenuRectangle));
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 0), ButtonSize, this.MenuRectangle));
 
             textProperties.text = "back";
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(ButtonOffSet, ButtonSize.Y + ButtonOffSet), ButtonSize, this.MenuRectangle));
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, ButtonSize.Y ), ButtonSize, this.MenuRectangle));
             components[1].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "mainMenu"));
 
         }
@@ -149,7 +150,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             }
 
             spriteBatch.Draw(backGround, MenuRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
-
+            spriteBatch.Draw(backGround, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
         }
 
 
