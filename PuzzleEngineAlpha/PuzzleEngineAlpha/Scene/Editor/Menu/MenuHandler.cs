@@ -1,26 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace PuzzleEngineAlpha.Scene.Editor.Menu
 {
-    class MenuHandler : IScene
+    public class MenuHandler : IScene
     {
+
         #region Declarations
 
-        List<IMenuWindow> menuWindows;
+        MenuStateEnum currentState;
+        Animations.SmoothTransaction transaction;
+        Camera.Camera camera;
+        GraphicsDevice graphicsDevice;
+        Dictionary<string, IScene> menuWindows;
+        IScene activeWindow;
+        IScene pendingWindow;
 
         #endregion
 
+        #region Constructor
+
         public MenuHandler(ContentManager Content, GraphicsDevice graphicsDevice)
         {
-            menuWindows = new List<IMenuWindow>();
-            menuWindows.Add(new MainMenu(Content, graphicsDevice));
-            menuWindows[0].Show();
+            this.graphicsDevice = graphicsDevice;
+            menuWindows = new Dictionary<string, IScene>();
+            menuWindows.Add("mainMenu", new MainMenu(Content,this));
+            menuWindows.Add("newMap", new NewMapMenu(Content,this));
+            activeWindow = menuWindows["mainMenu"];
             IsActive = false;
+            currentState = new MenuStateEnum();
+            currentState = MenuStateEnum.Hidden;
+            transaction = new Animations.SmoothTransaction(0.0f, 0.011f, 0.0f, 1.0f);
+
+            this.camera = new Camera.Camera(Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight), new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight));
+            camera.Zoom = transaction.Value;
+            Resolution.ResolutionHandler.Changed += ResetSizes;
         }
+
+        #endregion
+        
+        #region Handle Resolution Change
+
+        void ResetSizes(object sender, EventArgs e)
+        {
+            this.camera = new Camera.Camera(Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight), new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight));
+            camera.Zoom = transaction.Value;
+        }
+
+        #endregion
 
         bool isActive;
         public bool IsActive
@@ -35,42 +65,107 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
                 if (isActive)
                 {
-                    foreach (IMenuWindow menuWindow in menuWindows)
-                    {
-                        menuWindow.Show();
-                    }
+                    activeWindow = menuWindows["mainMenu"];
+                    currentState = MenuStateEnum.Maximizing;
                 }
+            }
+        }
+
+        #region Helper Methods
+        
+        public void SwapWindow(string window)
+        {
+            if (menuWindows.ContainsKey(window))
+            {
+                pendingWindow = menuWindows[window];
+                this.currentState = MenuStateEnum.Minimizing;
             }
         }
 
         public void GoInactive()
         {
-            menuWindows[0].Hide();
+            currentState = MenuStateEnum.Minimizing;
+            pendingWindow = null;
         }
-        
+
+        #endregion
+
+        #region Private State Manipulation Methods
+
+        void ManipulateScale(GameTime gameTime)
+        {
+            switch (currentState)
+            {
+                case MenuStateEnum.Maximizing:
+                    transaction.Increase(gameTime);
+                    break;
+                case MenuStateEnum.Minimizing:
+                    transaction.Decrease(gameTime);
+                    break;
+            }
+            if (transaction.Value == 0.0f)
+            {
+                if (pendingWindow == null)
+                    currentState = MenuStateEnum.Hidden;
+                else
+                {
+                    activeWindow = pendingWindow;
+                    this.currentState = MenuStateEnum.Maximizing;
+                }
+            }
+            else if (transaction.Value == transaction.MaxValue)
+            {
+                currentState = MenuStateEnum.Focused;
+            }
+            camera.Zoom = transaction.Value;
+        }
+
+        #endregion
+
+        #region Properties
+
+        MenuStateEnum State
+        {
+            get
+            {
+                return currentState;
+            }
+        }
+
+        #endregion
+
+        #region Update
+
         public void Update(GameTime gameTime)
         {
-            if(Input.InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.Z))
-            menuWindows[0].Show();
+            ManipulateScale(gameTime);
 
-            if(Input.InputHandler.IsKeyReleased(Microsoft.Xna.Framework.Input.Keys.X))
-            menuWindows[0].Hide();
-
-            if (menuWindows[0].State == MenuStateEnum.Hidden)
+            if (this.State == MenuStateEnum.Hidden)
             {
                 this.IsActive = false;
             }
-            
-            foreach (IMenuWindow menuWindow in menuWindows)
+
+            if (this.State == MenuStateEnum.Focused)
             {
-                menuWindow.Update(gameTime);
+                activeWindow.Update(gameTime);
             }
         }
-        
+
+        #endregion
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (IMenuWindow menuWindow in menuWindows)
-                menuWindow.Draw(spriteBatch);
+            spriteBatch.Begin(SpriteSortMode.BackToFront,
+            BlendState.AlphaBlend,
+            SamplerState.PointWrap,
+            null,
+            null,
+            null,
+            camera.GetTransformation());
+
+            activeWindow.Draw(spriteBatch);
+
+            spriteBatch.End();
         }
     }
 }

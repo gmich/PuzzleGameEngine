@@ -68,13 +68,19 @@ namespace PuzzleEngineAlpha.Scene
                     if (scenes["editorMenu"].IsActive)
                     {
                         foreach (IScene scene in scenes.Values)
+                        {
+                            if(scene!=scenes["editorMenu"])
                             scene.IsActive = true;
+                        }
                         scenes["editorMenu"].GoInactive();
                     }
                     else
                     {
                         foreach (IScene scene in scenes.Values)
-                            scene.IsActive = false;
+                        {
+                            if (scene != scenes["editorMenu"])
+                                scene.IsActive = false;
+                        }
                         scenes["editorMenu"].IsActive = true;
                     }
                 }
