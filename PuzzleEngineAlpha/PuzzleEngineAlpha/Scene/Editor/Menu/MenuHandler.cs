@@ -12,7 +12,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         #region Declarations
 
         MenuStateEnum currentState;
-        Animations.SmoothTransaction transaction;
+        Animations.SmoothTransition transition;
         Camera.Camera camera;
         GraphicsDevice graphicsDevice;
         Dictionary<string, IScene> menuWindows;
@@ -37,10 +37,10 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             IsActive = false;
             currentState = new MenuStateEnum();
             currentState = MenuStateEnum.Hidden;
-            transaction = new Animations.SmoothTransaction(0.0f, 0.011f, 0.0f, 1.0f);
+            transition = new Animations.SmoothTransition(0.0f, 0.011f, 0.0f, 1.0f);
 
             this.camera = new Camera.Camera(Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight), new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight));
-            camera.Zoom = transaction.Value;
+            camera.Zoom = transition.Value;
             Resolution.ResolutionHandler.Changed += ResetSizes;
         }
 
@@ -51,7 +51,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         void ResetSizes(object sender, EventArgs e)
         {
             this.camera = new Camera.Camera(Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight), new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight));
-            camera.Zoom = transaction.Value;
+            camera.Zoom = transition.Value;
         }
 
         #endregion
@@ -101,13 +101,13 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             switch (currentState)
             {
                 case MenuStateEnum.Maximizing:
-                    transaction.Increase(gameTime);
+                    transition.Increase(gameTime);
                     break;
                 case MenuStateEnum.Minimizing:
-                    transaction.Decrease(gameTime);
+                    transition.Decrease(gameTime);
                     break;
             }
-            if (transaction.Value == 0.0f)
+            if (transition.Value == 0.0f)
             {
                 if (pendingWindow == null)
                     currentState = MenuStateEnum.Hidden;
@@ -117,11 +117,11 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
                     this.currentState = MenuStateEnum.Maximizing;
                 }
             }
-            else if (transaction.Value == transaction.MaxValue)
+            else if (transition.Value == transition.MaxValue)
             {
                 currentState = MenuStateEnum.Focused;
             }
-            camera.Zoom = transaction.Value;
+            camera.Zoom = transition.Value;
         }
 
         #endregion

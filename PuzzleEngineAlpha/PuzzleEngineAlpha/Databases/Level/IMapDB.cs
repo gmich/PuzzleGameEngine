@@ -4,7 +4,7 @@ namespace PuzzleEngineAlpha.Databases.Level
 {
     using PuzzleEngineAlpha.Level;
 
-    interface IMapDB
+    public interface IMapDB
     {
         MapSquare[,] Load(FileStream fileStream);
 

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PuzzleEngineAlpha.Level
 {
+    [Serializable]
     public class MapSquare
     {
         #region Public Constructors

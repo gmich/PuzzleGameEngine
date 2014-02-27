@@ -5,12 +5,12 @@ using System.Text;
 
 namespace PuzzleEngineAlpha.Level
 {
+    [Serializable]
     public class LevelInfo
     {
 
-        public LevelInfo(string serializationMethod, int mapWidth, int mapHeight, int tileWidth, int tileHeight)
+        public LevelInfo(int mapWidth, int mapHeight, int tileWidth, int tileHeight)
         {
-            this.SerializationMethod = serializationMethod;
             this.MapWidth = mapWidth;
             this.MapHeight = mapHeight;
             this.TileWidth = tileWidth;
@@ -18,12 +18,6 @@ namespace PuzzleEngineAlpha.Level
         }
 
         #region Public Properties
-
-        public string SerializationMethod
-        {
-            get;
-            set;
-        }
 
         public int MapWidth
         {

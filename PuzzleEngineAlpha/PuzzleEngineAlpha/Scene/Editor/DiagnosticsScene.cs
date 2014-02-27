@@ -19,8 +19,8 @@ namespace PuzzleEngineAlpha.Scene.Editor
         GraphicsDevice graphicsDevice;
         FpsMonitor fpsMonitor;
         Texture2D background;
-        Animations.SmoothTransaction bgTransparency;
-        Animations.SmoothTransaction fontTransparency;
+        Animations.SmoothTransition bgTransparency;
+        Animations.SmoothTransition fontTransparency;
 
         #endregion
 
@@ -36,8 +36,8 @@ namespace PuzzleEngineAlpha.Scene.Editor
             LargestWidth = 0;
             LargestHeight = 0;
             SelectedTexture = null;
-            bgTransparency = new Animations.SmoothTransaction(0.5f, 0.002f, 0.0f, 0.5f);
-            fontTransparency = new Animations.SmoothTransaction(1.0f, 0.004f, 0.0f, 1.0f);
+            bgTransparency = new Animations.SmoothTransition(0.5f, 0.002f, 0.0f, 0.5f);
+            fontTransparency = new Animations.SmoothTransition(1.0f, 0.004f, 0.0f, 1.0f);
             Level.Editor.TileManager.ShowPassable = true;
             isActive = true;
         }

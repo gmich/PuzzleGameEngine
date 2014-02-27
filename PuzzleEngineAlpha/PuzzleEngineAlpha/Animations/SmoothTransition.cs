@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 
 namespace PuzzleEngineAlpha.Animations
 {
-    public class SmoothTransaction 
+    public class SmoothTransition 
     {
-        public SmoothTransaction(float initialValue,float step,float minValue,float maxValue)       
+        public SmoothTransition(float initialValue,float step,float minValue,float maxValue)       
         {
             this.Value = initialValue;
             this.Step = step;

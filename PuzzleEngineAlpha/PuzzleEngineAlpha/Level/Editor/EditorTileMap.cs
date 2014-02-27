@@ -33,16 +33,6 @@ namespace PuzzleEngineAlpha.Level.Editor
 
         #endregion
 
-        #region Save
-
-        public void SaveMap(FileStream fileStream)
-        {
-            //pass this as a readonly value in the constructor
-            Databases.Level.IMapDB mapDB = new Databases.Level.BinaryMapSerialization();
-        }       
-
-        #endregion
-
         #region Initialize Map
 
         public override void Randomize(int mapWidth, int mapHeight)

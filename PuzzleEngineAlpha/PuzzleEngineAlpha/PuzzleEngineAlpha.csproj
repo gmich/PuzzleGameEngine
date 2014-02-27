@@ -38,6 +38,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Actions\SaveMapAction.cs" />
     <Compile Include="Actions\TerminateGameAction.cs" />
     <Compile Include="Actions\GoToEditorAction.cs" />
     <Compile Include="Actions\SetSelectedCodeValueAction.cs" />
@@ -48,11 +49,15 @@
     <Compile Include="Actions\TogglePassableAction.cs" />
     <Compile Include="Actions\SetSelectedTileAction.cs" />
     <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Actors\DummyActor.cs" />
+    <Compile Include="Actors\IActor.cs" />
     <Compile Include="Animations\AnimationStrip.cs" />
+    <Compile Include="Animations\CircularAnimation.cs" />
     <Compile Include="Animations\EventArguments\RotationArgs.cs" />
     <Compile Include="Animations\IAnimation.cs" />
+    <Compile Include="Animations\LoadingAnimation.cs" />
     <Compile Include="Animations\Rotation.cs" />
-    <Compile Include="Animations\SmoothTransaction.cs" />
+    <Compile Include="Animations\SmoothTransition.cs" />
     <Compile Include="Camera\Camera.cs" />
     <Compile Include="Camera\Handlers\Zoomer.cs" />
     <Compile Include="Camera\Handlers\ICameraHandler.cs" />
@@ -71,6 +76,10 @@
     <Compile Include="Components\Buttons\MenuButton.cs" />
     <Compile Include="Components\DrawProperties.cs" />
     <Compile Include="Components\Textboxes\TextBox.cs" />
+    <Compile Include="Components\Titles\CenteredTitle.cs" />
+    <Compile Include="Components\Titles\Title.cs" />
+    <Compile Include="Databases\Level\BinaryGenericSerialization.cs" />
+    <Compile Include="Databases\Level\BinaryLevelInfoSerialization.cs" />
     <Compile Include="Databases\Level\ILevelInfoDB.cs" />
     <Compile Include="Databases\Level\IMapDB.cs" />
     <Compile Include="Diagnostics\FPSMonitor.cs" />
@@ -88,11 +97,15 @@
     <Compile Include="Level\Editor\EditorTileMap.cs" />
     <Compile Include="Level\Editor\TileManager.cs" />
     <Compile Include="Level\LevelInfo.cs" />
+    <Compile Include="Level\LevelManager.cs" />
+    <Compile Include="Level\MapHandler.cs" />
     <Compile Include="Level\MapSquare.cs" />
+    <Compile Include="Level\MiniMap.cs" />
     <Compile Include="Level\TileMap.cs" />
     <Compile Include="Databases\Input\IInputDB.cs" />
     <Compile Include="Databases\Input\InputXMLMapper.cs" />
     <Compile Include="Databases\Level\BinaryMapSerialization.cs" />
+    <Compile Include="Parsers\InputParser.cs" />
     <Compile Include="Player\DummyPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

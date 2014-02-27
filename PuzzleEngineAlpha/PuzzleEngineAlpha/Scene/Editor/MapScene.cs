@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace PuzzleEngineAlpha.Scene.Editor
 {
+    using Level;
     using Level.Editor;
     using Components;
     using Components.Buttons;
@@ -15,6 +16,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
     {
         #region Declarations
 
+        MapHandler mapHandler;
         bool isActive;
         GraphicsDevice graphicsDevice;
         Vector2 scenerySize;
@@ -28,6 +30,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         public MapScene(GraphicsDevice graphicsDevice, ContentManager Content, int TileWidth, int TileHeight, Vector2 sceneLocation, Vector2 scenerySize)
         {
+            mapHandler = new MapHandler(Content, this.tileMap, new Databases.Level.BinaryLevelInfoSerialization(), new Databases.Level.BinaryMapSerialization());
             this.TileWidth = TileWidth;
             this.TileHeight = TileHeight;
             tileMap = new EditorTileMap(Vector2.Zero, Content,64,64, TileWidth, TileHeight, true);
@@ -156,12 +159,12 @@ namespace PuzzleEngineAlpha.Scene.Editor
             this.IsActive = false;
 
         }
+
         public void UpdateRenderTarget()
         {
             return;
         }
-
-
+        
         #endregion
         
         public void Update(GameTime gameTime)

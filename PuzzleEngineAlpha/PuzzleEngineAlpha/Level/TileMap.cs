@@ -17,9 +17,9 @@ namespace PuzzleEngineAlpha.Level
 
         public int TileWidth;
         public int TileHeight;
-        protected int MapWidth;
-        protected int MapHeight;
-        protected MapSquare[,] mapCells;
+        public int MapWidth;
+        public int MapHeight;
+        public MapSquare[,] mapCells;
         Texture2D tileSheet;
         Vector2 cameraPosition;
 
@@ -36,16 +36,6 @@ namespace PuzzleEngineAlpha.Level
             this.SourceTileHeight = sourceTileHeigh;
 
         }
-
-        #region Load Map
-
-        public void LoadMap(FileStream fileStream)
-        {
-            //pass this as a readonly value in the constructor
-            Databases.Level.BinaryMapSerialization mapDeSerializer = new Databases.Level.BinaryMapSerialization();
-        }
-
-        #endregion
 
         #region Randomize Map
         

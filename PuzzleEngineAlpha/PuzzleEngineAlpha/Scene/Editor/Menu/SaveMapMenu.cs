@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace PuzzleEngineAlpha.Scene.Editor.Menu
 {
     using Components;
+    using Components.TextBoxes;
 
     class SaveMapMenu : IScene
     {
@@ -15,7 +16,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         List<AGUIComponent> components;
         Texture2D backGround;
-
+        TextBox textBox;
         #endregion
 
         #region Constructor
@@ -25,7 +26,6 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             components = new List<AGUIComponent>();
             InitializeGUI(Content,menuHandler);
             backGround = Content.Load<Texture2D>(@"textures/whiteRectangle");
-
             Resolution.ResolutionHandler.Changed += ResetSizes;
 
         }
@@ -38,9 +38,10 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         {
             for (int i = 0; i < components.Count; i++)
             {
-                components[i].Position = this.Location + new Vector2(0, ButtonSize.Y * i);
+                components[i].Position = this.Location + new Vector2(0, ButtonSize.Y * i + 30);
                 components[i].GeneralArea = this.MenuRectangle;
             }
+            textBox.Location = Location;
         }
 
         #endregion    
@@ -68,7 +69,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         {
             get
             {
-                return new Vector2(ButtonSize.X , 2 * ButtonSize.Y);
+                return new Vector2(ButtonSize.X , 2 * ButtonSize.Y + 30);
             }
 
         }
@@ -118,16 +119,19 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         void InitializeGUI(ContentManager Content, MenuHandler menuHandler)
         {
+            textBox = new TextBox(Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Content.Load<Texture2D>(@"Textboxes/textbox"), Location, (int)ButtonSize.X, 30);
+            textBox.Text = "mapName";
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), 0.9f, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawTextProperties textProperties = new DrawTextProperties("save", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
 
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 0), ButtonSize, this.MenuRectangle));
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 30), ButtonSize, this.MenuRectangle));
 
             textProperties.text = "back";
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, ButtonSize.Y ), ButtonSize, this.MenuRectangle));
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, ButtonSize.Y+30 ), ButtonSize, this.MenuRectangle));
             components[1].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "mainMenu"));
+
 
         }
 
@@ -139,11 +143,13 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             {
                 component.Update(gameTime);
             }
+            textBox.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-                                   
+            textBox.Draw(spriteBatch);
+       
             foreach (AGUIComponent component in components)
             {
                 component.Draw(spriteBatch);

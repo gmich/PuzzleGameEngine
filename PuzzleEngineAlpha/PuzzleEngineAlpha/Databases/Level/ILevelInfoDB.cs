@@ -4,7 +4,7 @@ namespace PuzzleEngineAlpha.Databases.Level
 {
     using PuzzleEngineAlpha.Level;
 
-    interface ILevelInfoDB
+    public interface ILevelInfoDB
     {
         LevelInfo Load(FileStream fileStream);
 

@@ -1,14 +1,35 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PuzzleEngineAlpha.Animations
 {
-    interface IAnimation
+    public interface IAnimation
     {
-        void Remove(IAnimation animation);
+        #region Properties
 
-        void Add(IAnimation animation);
+        bool Alive
+        {
+            get;
+        }
+
+        string Text
+        {
+            set;
+        }
+
+        Vector2 InitialLocation
+        {
+            set;
+        }
+
+        Vector2 Location
+        {
+            get;
+            set;
+        }
+
+        #endregion
 
         void Update(GameTime gameTime);
 
