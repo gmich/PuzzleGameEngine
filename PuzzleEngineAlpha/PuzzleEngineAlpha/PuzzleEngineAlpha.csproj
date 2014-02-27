@@ -38,6 +38,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Actions\TerminateGameAction.cs" />
+    <Compile Include="Actions\GoToEditorAction.cs" />
     <Compile Include="Actions\SetSelectedCodeValueAction.cs" />
     <Compile Include="Actions\SetSelectedEditorTileAction.cs" />
     <Compile Include="Actions\SetEditorMapSquare.cs" />
@@ -97,6 +99,9 @@
     <Compile Include="Resolution\ResolutionHandler.cs" />
     <Compile Include="Scene\Editor\ConfigurationScene.cs" />
     <Compile Include="Scene\Editor\MapScene.cs" />
+    <Compile Include="Scene\Editor\Menu\SettingsMenu.cs" />
+    <Compile Include="Scene\Editor\Menu\SaveMapMenu.cs" />
+    <Compile Include="Scene\Editor\Menu\LoadMapMenu.cs" />
     <Compile Include="Scene\Editor\Menu\NewMapMenu.cs" />
     <Compile Include="Scene\Editor\Menu\MenuHandler.cs" />
     <Compile Include="Scene\Editor\Menu\MainMenu.cs" />

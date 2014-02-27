@@ -8,7 +8,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 {
     using Components;
 
-    class MainMenu : IScene
+    class SaveMapMenu : IScene
     {
 
         #region Declarations
@@ -20,13 +20,14 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         #region Constructor
 
-        public MainMenu(ContentManager Content,MenuHandler menuHandler)
+        public SaveMapMenu(ContentManager Content, MenuHandler menuHandler)
         {
             components = new List<AGUIComponent>();
-            InitializeGUI(Content, menuHandler);
+            InitializeGUI(Content,menuHandler);
             backGround = Content.Load<Texture2D>(@"textures/whiteRectangle");
 
             Resolution.ResolutionHandler.Changed += ResetSizes;
+
         }
 
         #endregion
@@ -67,7 +68,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         {
             get
             {
-                return new Vector2(ButtonSize.X , 6 * (ButtonSize.Y));
+                return new Vector2(ButtonSize.X , 2 * ButtonSize.Y);
             }
 
         }
@@ -94,7 +95,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             get
             {
                 int offSet = 1;
-                return new Rectangle((int)Location.X - offSet, (int)Location.Y - offSet, (int)Size.X + offSet * 2, (int)Size.Y + offSet*2);
+                return new Rectangle((int)Location.X - offSet, (int)Location.Y - offSet, (int)Size.X + offSet * 2, (int)Size.Y + offSet * 2);
             }
         }
 
@@ -120,30 +121,14 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), 0.9f, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), 0.8f, 1.0f, 0.0f, Color.White);
-            DrawTextProperties textProperties = new DrawTextProperties("editor", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
+            DrawTextProperties textProperties = new DrawTextProperties("save", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
 
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0,0),ButtonSize, this.MenuRectangle));
-            components[0].StoreAndExecuteOnMouseRelease(new Actions.GoToEditorAction());
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 0), ButtonSize, this.MenuRectangle));
 
-            textProperties.text = "new";
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, ButtonSize.Y), ButtonSize, this.MenuRectangle));
-            components[1].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "newMap"));
+            textProperties.text = "back";
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, ButtonSize.Y ), ButtonSize, this.MenuRectangle));
+            components[1].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "mainMenu"));
 
-            textProperties.text = "load";
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, (ButtonSize.Y) * 2), ButtonSize, this.MenuRectangle));
-            components[2].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "loadMap"));
-
-            textProperties.text = "save";
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location +  new Vector2(0, (ButtonSize.Y ) * 3), ButtonSize, this.MenuRectangle));
-            components[3].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "saveMap"));
-
-            textProperties.text = "settings";
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location +  new Vector2(0, (ButtonSize.Y) * 4), ButtonSize, this.MenuRectangle));
-            components[4].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "settings"));
-
-            textProperties.text = "exit";
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, (ButtonSize.Y) * 5), ButtonSize, this.MenuRectangle));
-            components[5].StoreAndExecuteOnMouseRelease(new Actions.TerminateGameAction());
         }
 
         #endregion
@@ -166,7 +151,6 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
             spriteBatch.Draw(backGround, MenuRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
             spriteBatch.Draw(backGround, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
-
         }
 
 

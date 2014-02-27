@@ -23,6 +23,7 @@ namespace PuzzleEngineAlpha.Scene
             scenes = new Dictionary<string,IScene>();
             bgScenes = new Dictionary<string, IScene>();
 
+            ToggleMenuTrigger = false;
             bgScenes.Add("diagnostics", new Editor.DiagnosticsScene(graphicsDevice, content));
             scenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 210)));
             scenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content, 64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 215)));
@@ -44,6 +45,12 @@ namespace PuzzleEngineAlpha.Scene
                 
         }
 
+        public static bool ToggleMenuTrigger
+        {
+            get;
+            set;
+        }
+
         public void ManageScenes()
         {
 
@@ -61,8 +68,10 @@ namespace PuzzleEngineAlpha.Scene
                 }
             }
 
-            if (Input.InputHandler.IsKeyReleased(Input.ConfigurationManager.Config.ToggleMenu))
+            if (Input.InputHandler.IsKeyReleased(Input.ConfigurationManager.Config.ToggleMenu) || ToggleMenuTrigger)
             {
+                ToggleMenuTrigger = false;
+
                 if (scenes.ContainsKey("editorMenu"))
                 {
                     if (scenes["editorMenu"].IsActive)
@@ -88,6 +97,12 @@ namespace PuzzleEngineAlpha.Scene
         }
 
         #endregion
+
+        public static bool ShowMenu
+        {
+            get;
+            set;
+        }
 
         public void Update(GameTime gameTime)
         {

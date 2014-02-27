@@ -24,6 +24,7 @@ namespace PuzzleEngineAlpha
         SpriteBatch spriteBatch;
         SceneDirector sceneDirector;
         ResolutionHandler resolutionHandler;
+        public static bool Terminate = false;
 
         public Engine()
             : base()
@@ -89,8 +90,8 @@ namespace PuzzleEngineAlpha
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-               // Exit();
+            if (Terminate)
+                Exit();
 
             InputHandler.Update(gameTime);
             resolutionHandler.Update(gameTime);
@@ -108,7 +109,6 @@ namespace PuzzleEngineAlpha
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             sceneDirector.Draw(spriteBatch);
-
             base.Draw(gameTime);
 
 
@@ -119,5 +119,6 @@ namespace PuzzleEngineAlpha
             this.resolutionHandler.SetResolution(this.Window.ClientBounds.Width, this.Window.ClientBounds.Height);
 
         }
+
     }
 }

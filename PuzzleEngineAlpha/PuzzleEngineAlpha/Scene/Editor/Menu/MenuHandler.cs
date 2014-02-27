@@ -29,6 +29,10 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             menuWindows = new Dictionary<string, IScene>();
             menuWindows.Add("mainMenu", new MainMenu(Content,this));
             menuWindows.Add("newMap", new NewMapMenu(Content,this));
+            menuWindows.Add("loadMap", new LoadMapMenu(Content, this));
+            menuWindows.Add("saveMap", new SaveMapMenu(Content, this));
+            menuWindows.Add("settings", new SettingsMenu(Content, this));
+
             activeWindow = menuWindows["mainMenu"];
             IsActive = false;
             currentState = new MenuStateEnum();
