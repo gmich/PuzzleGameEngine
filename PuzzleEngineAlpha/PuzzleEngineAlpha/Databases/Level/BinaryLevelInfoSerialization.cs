@@ -15,7 +15,8 @@ namespace PuzzleEngineAlpha.Databases.Level
         {
             try
             {
-                FileStream fileStream = new FileStream(path, FileMode.Open);
+                 string editedName = Parsers.DBPathParser.LevelInfoNameParser(path);
+                 FileStream fileStream = new FileStream(editedName, FileMode.Open);
                 BinaryFormatter formatter = new BinaryFormatter();
                 LevelInfo levelInfo = (LevelInfo)formatter.Deserialize(fileStream);
                 fileStream.Close();
@@ -23,6 +24,7 @@ namespace PuzzleEngineAlpha.Databases.Level
             }
             catch (Exception ex)
             {
+     
                 log.Error("Loading " + path + "failed due to " + ex.Message);
                 return null;
             }
@@ -32,10 +34,13 @@ namespace PuzzleEngineAlpha.Databases.Level
         {
             try
             {
+
                 string folder = Parsers.DBPathParser.MapFolderPath;
                 if (!System.IO.Directory.Exists(folder))
                     System.IO.Directory.CreateDirectory(folder);
-                FileStream fileStream = new FileStream(folder + path, FileMode.Create);
+
+                string editedName = Parsers.DBPathParser.LevelInfoNameParser(path);
+                FileStream fileStream = new FileStream(folder + editedName, FileMode.Create);
 
                 BinaryFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(fileStream, levelInfo);

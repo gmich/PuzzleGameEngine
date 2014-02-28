@@ -29,7 +29,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             menuWindows = new Dictionary<string, IScene>();
             menuWindows.Add("mainMenu", new MainMenu(Content,this));
             menuWindows.Add("newMap", new NewMapMenu(Content,this));
-            menuWindows.Add("loadMap", new LoadMapMenu(Content, this,mapHandler));
+            menuWindows.Add("loadMap", new LoadMapMenu(graphicsDevice,Content, this,mapHandler));
             menuWindows.Add("saveMap", new SaveMapMenu(Content, this,mapHandler));
             menuWindows.Add("settings", new SettingsMenu(Content, this));
 

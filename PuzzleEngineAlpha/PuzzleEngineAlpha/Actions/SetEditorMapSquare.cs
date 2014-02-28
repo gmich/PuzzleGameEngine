@@ -20,7 +20,10 @@
         {
             if (TileManager.MapSquare != null)
             {
-                button.MapSquare = TileManager.MapSquare;
+                button.MapSquare.LayerTile = TileManager.MapSquare.LayerTile;
+                button.MapSquare.CodeValue = TileManager.MapSquare.CodeValue;
+                button.MapSquare.Passable = TileManager.MapSquare.Passable;
+
                 button.SourceRectangle = TileManager.SourceRectangle;
             }
         }

@@ -13,8 +13,7 @@
 
         public void Execute()
         {
-            string path = Parsers.DBPathParser.MapNameParser(textBox.Text);
-            mapHandler.SaveMapAsynchronously(path);
+            mapHandler.SaveMapAsynchronously(textBox.Text);
         }
     }
 }

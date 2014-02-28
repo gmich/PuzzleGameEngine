@@ -15,12 +15,10 @@ namespace PuzzleEngineAlpha.Level
     {
         #region Declarations
 
-        public int TileWidth;
-        public int TileHeight;
         public int MapWidth;
         public int MapHeight;
         public MapSquare[,] mapCells;
-        Texture2D tileSheet;
+        protected Texture2D tileSheet;
         Vector2 cameraPosition;
 
         #endregion
@@ -28,7 +26,7 @@ namespace PuzzleEngineAlpha.Level
         public TileMap(Vector2 cameraPosition, ContentManager Content, int sourceTileWidth, int sourceTileHeigh, int tileWidth, int tileHeight)
         {
             this.cameraPosition = cameraPosition;
-            tileSheet = Content.Load<Texture2D>(@"Textures/PlatformTiles");
+            tileSheet = Content.Load<Texture2D>(@"Textures/PlatformTilesTemp");
             this.TileWidth = tileWidth;
             this.TileHeight = tileHeight;
 
@@ -84,7 +82,19 @@ namespace PuzzleEngineAlpha.Level
             get;
             set;
         }
-        
+
+        public virtual int TileWidth
+        {
+            get;
+            set;
+        }
+
+        public virtual int TileHeight
+        {
+            get;
+            set;
+        }
+
         protected int StartX
         {
             get
@@ -198,6 +208,7 @@ namespace PuzzleEngineAlpha.Level
             get;
             set;
         }
+
         public Rectangle CellWorldRectangle(int cellX, int cellY)
         {
             return new Rectangle(

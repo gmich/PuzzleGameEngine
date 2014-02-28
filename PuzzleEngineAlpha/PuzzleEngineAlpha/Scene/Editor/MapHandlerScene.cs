@@ -43,6 +43,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
             get
             {
+
                 if (handlerThread == null && !displayMessage.IsAlive)
                     return false;
 
@@ -77,13 +78,13 @@ namespace PuzzleEngineAlpha.Scene.Editor
                 tileMap.MapWidth = levelInfo.MapWidth;
                 tileMap.TileHeight = levelInfo.TileHeight;
                 tileMap.TileWidth = levelInfo.TileWidth;
-
                 tileMap.mapCells = new MapSquare[tileMap.MapWidth, tileMap.MapHeight];
                 tileMap.mapCells = mapDB.Load(path);
-                displayMessage.StartAnimation("map successfully loaded", 1.5f);
+             //   displayMessage.StartAnimation("map successfully loaded", 1.5f);
+              
             }
             catch (Exception ex)
-            {
+            { 
                 displayMessage.StartAnimation("loading failed :( ", 1.5f);
             }
             handlerThread = null; 
@@ -94,7 +95,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             try
             {
                 mapDB.Save(path, tileMap.mapCells);
-                //levelInfoDB.Save(fileStream, new LevelInfo(tileMap.MapWidth, tileMap.MapHeight, tileMap.TileWidth, tileMap.TileHeight));
+                levelInfoDB.Save(path, new LevelInfo(tileMap.MapWidth, tileMap.MapHeight, tileMap.TileWidth, tileMap.TileHeight));
                 displayMessage.StartAnimation("map successfully saved", 1.5f);
             }
             catch (Exception ex)

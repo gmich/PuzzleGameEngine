@@ -15,11 +15,13 @@ namespace PuzzleEngineAlpha.Databases.Level
         {
             try
             {
-                FileStream fileStream = new FileStream(path, FileMode.Open);
+                string editedName = Parsers.DBPathParser.MapNameParser(path);
+                FileStream fileStream = new FileStream(editedName, FileMode.Open);
 
                 BinaryFormatter formatter = new BinaryFormatter();
                 MapSquare[,] mapCells = (MapSquare[,])formatter.Deserialize(fileStream);
                 fileStream.Close();
+
                 return mapCells;
             }
             catch (Exception ex)
@@ -36,7 +38,9 @@ namespace PuzzleEngineAlpha.Databases.Level
                 string folder = Parsers.DBPathParser.MapFolderPath;
                 if (!System.IO.Directory.Exists(folder))
                     System.IO.Directory.CreateDirectory(folder);
-                FileStream fileStream = new FileStream(folder+path, FileMode.Create);
+
+                string editedName = Parsers.DBPathParser.MapNameParser(path);
+                FileStream fileStream = new FileStream(folder + editedName, FileMode.Create);
 
                 BinaryFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(fileStream, mapCells);
@@ -48,6 +52,5 @@ namespace PuzzleEngineAlpha.Databases.Level
                 throw ex;
             }
         }
-
     }
 }

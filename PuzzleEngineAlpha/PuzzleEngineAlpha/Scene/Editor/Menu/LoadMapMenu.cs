@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace PuzzleEngineAlpha.Scene.Editor.Menu
 {
     using Components;
-
+    using Components.ScrollBars;
     class LoadMapMenu : IScene
     {
 
@@ -16,13 +16,15 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         List<AGUIComponent> components;
         Texture2D backGround;
         Editor.MapHandlerScene mapHandler;
+        Level.MiniMap miniMap;
 
         #endregion
 
         #region Constructor
 
-        public LoadMapMenu(ContentManager Content, MenuHandler menuHandler,Editor.MapHandlerScene mapHandler)
+        public LoadMapMenu(GraphicsDevice graphicsDevice,ContentManager Content, MenuHandler menuHandler,Editor.MapHandlerScene mapHandler)
         {
+            miniMap = new Level.MiniMap(Content,graphicsDevice,new Vector2(400,300),new Databases.Level.BinaryMapSerialization(),new Databases.Level.BinaryLevelInfoSerialization());
             components = new List<AGUIComponent>();
             InitializeGUI(Content,menuHandler);
             backGround = Content.Load<Texture2D>(@"textures/whiteRectangle");
@@ -151,24 +153,27 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawTextProperties textProperties = new DrawTextProperties("previous", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location - new Vector2(0, 0), ButtonSize, this.MenuRectangle));
+            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 0), ButtonSize, this.MenuRectangle));
+            components[0].StoreAndExecuteOnMouseRelease(new Actions.ChangeMiniMapAction(this.miniMap,-1));
 
             textProperties.text = "load";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X, 0), ButtonSize, this.MenuRectangle));
 
             textProperties.text = "next";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X*2, 0), ButtonSize, this.MenuRectangle));
+            components[2].StoreAndExecuteOnMouseRelease(new Actions.ChangeMiniMapAction(this.miniMap, +1));
 
             textProperties.text = "back";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X, ButtonSize.Y), ButtonSize, this.MenuRectangle));
             components[3].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "mainMenu"));
-
         }
 
         #endregion
 
         public void Update(GameTime gameTime)
         {
+            miniMap.Update(gameTime);
+
             foreach (AGUIComponent component in components)
             {
                 component.Update(gameTime);
@@ -177,7 +182,13 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         public void Draw(SpriteBatch spriteBatch)
         {
-                                   
+
+            spriteBatch.End();
+
+            miniMap.Draw(spriteBatch);
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+
             foreach (AGUIComponent component in components)
             {
                 component.Draw(spriteBatch);

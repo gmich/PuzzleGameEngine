@@ -7,7 +7,6 @@ namespace PuzzleEngineAlpha.Animations
 {
     public class DisplayMessage
     {
-
         #region Declarations
 
         SpriteFont font;
