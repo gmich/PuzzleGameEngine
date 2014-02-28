@@ -83,7 +83,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         {
             get
             {
-                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y / 2);
+                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y / 2+70);
             }
            
         }
@@ -140,6 +140,9 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             set
             {
                 isActive = value;
+
+                if(value==true)
+                    miniMap.Refresh();
             }
         }
 
@@ -183,11 +186,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.End();
-
             miniMap.Draw(spriteBatch);
-
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             foreach (AGUIComponent component in components)
             {

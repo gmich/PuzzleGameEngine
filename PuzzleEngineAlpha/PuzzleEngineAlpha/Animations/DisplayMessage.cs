@@ -23,6 +23,7 @@ namespace PuzzleEngineAlpha.Animations
             font = Content.Load<SpriteFont>(@"Fonts/menuButtonFont");
             background = Content.Load<Texture2D>(@"Textures/whiteRectangle");
             transition=new SmoothTransition(0.0f,0.002f,0.0f,1.0f);
+            OffSet = Vector2.Zero;
         }
         
         #endregion
@@ -81,8 +82,14 @@ namespace PuzzleEngineAlpha.Animations
         {
             get
             {
-                return new Vector2(Resolution.ResolutionHandler.WindowWidth/2 - MessageSize.X/2, Resolution.ResolutionHandler.WindowHeight/2 - MessageSize.Y/2-150);
+                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - MessageSize.X / 2 - OffSet.X, Resolution.ResolutionHandler.WindowHeight / 2 - MessageSize.Y / 2 - OffSet.Y);
             }
+        }
+
+        public Vector2 OffSet
+        {
+            get;
+            set;
         }
 
         #endregion
@@ -108,8 +115,9 @@ namespace PuzzleEngineAlpha.Animations
         {
             if (this.IsAlive)
             {
-                timePassed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (Duration < 0.0f) return;
 
+                timePassed += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (timePassed > Duration)
                 {
                     transition.Decrease(gameTime);

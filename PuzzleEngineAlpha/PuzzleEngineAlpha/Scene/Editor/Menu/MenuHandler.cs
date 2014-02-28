@@ -114,6 +114,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
                 else
                 {
                     activeWindow = pendingWindow;
+                    activeWindow.IsActive = true;
                     this.currentState = MenuStateEnum.Maximizing;
                 }
             }

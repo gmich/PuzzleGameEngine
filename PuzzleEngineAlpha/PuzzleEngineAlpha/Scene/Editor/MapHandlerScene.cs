@@ -33,6 +33,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             this.animation = new Animations.CircularAnimation(Content.Load<SpriteFont>(@"Fonts/font"), 40.0f);
             this.tileMap = tileMap;
             displayMessage = new Animations.DisplayMessage(Content);
+            displayMessage.OffSet=new Vector2(0, +145);
         }
 
         #endregion
@@ -153,18 +154,18 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             if (IsActive)
             {
-                spriteBatch.Begin(SpriteSortMode.BackToFront,  BlendState.AlphaBlend);
-
                  if (ShowAnimation)
                 this.animation.Draw(spriteBatch);
 
                 this.displayMessage.Draw(spriteBatch);
 
-                spriteBatch.End();
             }
+
+            spriteBatch.End();
         }
 
         #endregion

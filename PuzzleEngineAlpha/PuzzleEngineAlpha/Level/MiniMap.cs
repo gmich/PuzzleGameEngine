@@ -19,6 +19,7 @@ namespace PuzzleEngineAlpha.Level
         Scene.Editor.MapHandlerScene mapHandler;
         GraphicsDevice graphicsDevice;
         Texture2D background;
+        Animations.DisplayMessage message;
 
         #endregion
 
@@ -32,9 +33,10 @@ namespace PuzzleEngineAlpha.Level
             this.Camera = new Camera.Camera(Vector2.Zero, size, size);
             miniMaps = new Dictionary<string, Texture2D>();
             activeMiniMap = null;
-            currentMapID=-1;
-            LoadMaps();
+            message = new Animations.DisplayMessage(Content);
+            CurrentMapID=0;
             background = Content.Load<Texture2D>(@"Textures/whiteRectangle");
+            message.OffSet=new Vector2(0, 350);
         }
 
         #endregion
@@ -48,6 +50,13 @@ namespace PuzzleEngineAlpha.Level
 
         #endregion
 
+        public void Refresh()
+        {
+            miniMaps = new Dictionary<string, Texture2D>();
+            maps = null;
+            CurrentMapID = CurrentMapID;
+        }
+
         #region Properties
 
         int currentMapID;
@@ -60,9 +69,10 @@ namespace PuzzleEngineAlpha.Level
             set
             {
                 LoadMaps();
-
-                if (maps == null)
+                
+                if (maps == null || maps.Length == 0)
                 {
+                    message.StartAnimation("no saved maps", -1.0f); 
                     currentMapID = -1;
                     return;
                 }
@@ -75,6 +85,7 @@ namespace PuzzleEngineAlpha.Level
 
                 mapHandler.LoadMapAsynchronously(Parsers.DBPathParser.GetMapNameFromPath(maps[currentMapID]));
                 activeMiniMap = maps[currentMapID];
+                message.StartAnimation(MapTitle, -1.0f);
             }
         }
 
@@ -96,6 +107,17 @@ namespace PuzzleEngineAlpha.Level
             set { }
         }
 
+        string MapTitle
+        {
+            get
+            {
+                if (maps == null || maps.Length == 0)
+                    return "no saved maps";
+                else
+                    return maps[currentMapID] + " " + (CurrentMapID+1) + "/" + maps.Length;
+            }
+        }
+
         Rectangle MinimapScreenRectangle
         {
             get
@@ -104,11 +126,20 @@ namespace PuzzleEngineAlpha.Level
             }
         }
 
+        Rectangle FrameRectangle
+        {
+            get
+            {
+                int offSet = 1;
+                return new Rectangle((int)Location.X - offSet, (int)Location.Y - offSet, (int)Size.X + offSet * 2, (int)Size.Y + offSet);
+            }
+        }
+
         Vector2 Location
         {
             get
             {
-                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y-100);
+                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y-30);
             }
         }
 
@@ -132,8 +163,10 @@ namespace PuzzleEngineAlpha.Level
             if (miniMaps.ContainsKey(map)) return;
 
             RenderTarget2D miniMapRenderTarget = new RenderTarget2D(graphicsDevice, (int)Size.X, (int)Size.Y);
+
+            spriteBatch.End();
             graphicsDevice.SetRenderTarget(miniMapRenderTarget);
-            graphicsDevice.Clear(Color.Black);
+            //graphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             for (int x = 0; x < MapWidth; x++)
@@ -148,21 +181,17 @@ namespace PuzzleEngineAlpha.Level
             spriteBatch.End();
 
             graphicsDevice.SetRenderTarget(null);
-
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             miniMaps.Add(map, (Texture2D)miniMapRenderTarget);
             activeMiniMap = map;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
-        {
-   
-            mapHandler.Draw(spriteBatch);
-
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-
-            spriteBatch.Draw(background, MinimapScreenRectangle, Color.White);
-
-            spriteBatch.End();
+        {   
+          //  mapHandler.Draw(spriteBatch);
+            spriteBatch.Draw(background, FrameRectangle, Color.Black);
+            spriteBatch.Draw(background, MinimapScreenRectangle, Color.White);        
+            message.Draw(spriteBatch);
 
             if (activeMiniMap == null || mapHandler.IsActive)
             {
@@ -170,15 +199,14 @@ namespace PuzzleEngineAlpha.Level
             }
 
             DrawMinimap(spriteBatch, activeMiniMap);
-
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                     
 
             if (currentMapID!=-1)
             {
                 if (miniMaps.ContainsKey(activeMiniMap))
                     spriteBatch.Draw(miniMaps[activeMiniMap], MinimapScreenRectangle, Color.White);
             }
-            spriteBatch.End();
+
         }
 
         #endregion
