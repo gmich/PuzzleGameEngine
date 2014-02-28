@@ -1,14 +1,11 @@
-﻿using System.IO;
-
-namespace PuzzleEngineAlpha.Actions
+﻿namespace PuzzleEngineAlpha.Actions
 {
     class SaveMapAction : IAction
     {
-
-        Level.MapHandler mapHandler;
+        Scene.Editor.MapHandlerScene mapHandler;
         Components.TextBoxes.TextBox textBox;
 
-        public SaveMapAction(Level.MapHandler mapHandler, Components.TextBoxes.TextBox textBox)
+        public SaveMapAction(Scene.Editor.MapHandlerScene mapHandler, Components.TextBoxes.TextBox textBox)
         {
             this.mapHandler = mapHandler;
             this.textBox = textBox;
@@ -16,8 +13,8 @@ namespace PuzzleEngineAlpha.Actions
 
         public void Execute()
         {
-            string path = Parsers.InputParser.MapPathParser(textBox.Text);
-            mapHandler.SaveMapAsynchronously(new FileStream(path, FileMode.Create));
+            string path = Parsers.DBPathParser.MapNameParser(textBox.Text);
+            mapHandler.SaveMapAsynchronously(path);
         }
     }
 }

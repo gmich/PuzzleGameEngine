@@ -30,7 +30,7 @@ namespace PuzzleEngineAlpha.Animations
         
         #region Properties
 
-        public bool Alive
+        public bool IsAlive
         {
             get
             {

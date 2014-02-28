@@ -11,10 +11,12 @@ namespace PuzzleEngineAlpha.Databases.Level
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-         public MapSquare[,] Load(FileStream fileStream)
+        public MapSquare[,] Load(string path)
         {
             try
-            {                
+            {
+                FileStream fileStream = new FileStream(path, FileMode.Open);
+
                 BinaryFormatter formatter = new BinaryFormatter();
                 MapSquare[,] mapCells = (MapSquare[,])formatter.Deserialize(fileStream);
                 fileStream.Close();
@@ -22,22 +24,28 @@ namespace PuzzleEngineAlpha.Databases.Level
             }
             catch (Exception ex)
             {
-                log.Error("Loading Map " + fileStream + "failed due to " + ex.Message);
-                return null;
+                log.Error("Loading Map " + path + "failed due to " + ex.Message);
+                throw ex;
             }
         }
 
-        public void Save(FileStream fileStream,MapSquare[,] mapCells)
+        public void Save(string path, MapSquare[,] mapCells)
         {
             try
             {
+                string folder = Parsers.DBPathParser.MapFolderPath;
+                if (!System.IO.Directory.Exists(folder))
+                    System.IO.Directory.CreateDirectory(folder);
+                FileStream fileStream = new FileStream(folder+path, FileMode.Create);
+
                 BinaryFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(fileStream, mapCells);
                 fileStream.Close();
             }
             catch (Exception ex)
             {
-                log.Error("Saving Map " + fileStream + "failed due to " + ex.Message);
+                log.Error("Saving Map " + path + "failed due to " + ex.Message);
+                throw ex;
             }
         }
 

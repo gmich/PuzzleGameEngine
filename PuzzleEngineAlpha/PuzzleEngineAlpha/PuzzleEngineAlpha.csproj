@@ -53,6 +53,7 @@
     <Compile Include="Actors\IActor.cs" />
     <Compile Include="Animations\AnimationStrip.cs" />
     <Compile Include="Animations\CircularAnimation.cs" />
+    <Compile Include="Animations\DisplayMessage.cs" />
     <Compile Include="Animations\EventArguments\RotationArgs.cs" />
     <Compile Include="Animations\IAnimation.cs" />
     <Compile Include="Animations\LoadingAnimation.cs" />
@@ -98,14 +99,14 @@
     <Compile Include="Level\Editor\TileManager.cs" />
     <Compile Include="Level\LevelInfo.cs" />
     <Compile Include="Level\LevelManager.cs" />
-    <Compile Include="Level\MapHandler.cs" />
+    <Compile Include="Scene\Editor\MapHandlerScene.cs" />
     <Compile Include="Level\MapSquare.cs" />
     <Compile Include="Level\MiniMap.cs" />
     <Compile Include="Level\TileMap.cs" />
     <Compile Include="Databases\Input\IInputDB.cs" />
     <Compile Include="Databases\Input\InputXMLMapper.cs" />
     <Compile Include="Databases\Level\BinaryMapSerialization.cs" />
-    <Compile Include="Parsers\InputParser.cs" />
+    <Compile Include="Parsers\DBPathParser.cs" />
     <Compile Include="Player\DummyPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

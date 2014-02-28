@@ -6,8 +6,8 @@ namespace PuzzleEngineAlpha.Databases.Level
 
     public interface IMapDB
     {
-        MapSquare[,] Load(FileStream fileStream);
+        MapSquare[,] Load(string path);
 
-        void Save(FileStream fileStream, MapSquare[,] mapCells);
+        void Save(string path, MapSquare[,] mapCells);
     }
 }

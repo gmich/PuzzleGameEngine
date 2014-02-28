@@ -15,17 +15,18 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         List<AGUIComponent> components;
         Texture2D backGround;
+        Editor.MapHandlerScene mapHandler;
 
         #endregion
 
         #region Constructor
 
-        public LoadMapMenu(ContentManager Content, MenuHandler menuHandler)
+        public LoadMapMenu(ContentManager Content, MenuHandler menuHandler,Editor.MapHandlerScene mapHandler)
         {
             components = new List<AGUIComponent>();
             InitializeGUI(Content,menuHandler);
             backGround = Content.Load<Texture2D>(@"textures/whiteRectangle");
-
+            this.mapHandler = mapHandler;
             Resolution.ResolutionHandler.Changed += ResetSizes;
 
         }

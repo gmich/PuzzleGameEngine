@@ -16,7 +16,6 @@ namespace PuzzleEngineAlpha.Scene.Editor
     {
         #region Declarations
 
-        MapHandler mapHandler;
         bool isActive;
         GraphicsDevice graphicsDevice;
         Vector2 scenerySize;
@@ -28,13 +27,12 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         #region Constructor
 
-        public MapScene(GraphicsDevice graphicsDevice, ContentManager Content, int TileWidth, int TileHeight, Vector2 sceneLocation, Vector2 scenerySize)
+        public MapScene(EditorTileMap tileMap,GraphicsDevice graphicsDevice, ContentManager Content, int TileWidth, int TileHeight, Vector2 sceneLocation, Vector2 scenerySize)
         {
-            mapHandler = new MapHandler(Content, this.tileMap, new Databases.Level.BinaryLevelInfoSerialization(), new Databases.Level.BinaryMapSerialization());
+            this.tileMap = tileMap;
             this.TileWidth = TileWidth;
             this.TileHeight = TileHeight;
-            tileMap = new EditorTileMap(Vector2.Zero, Content,64,64, TileWidth, TileHeight, true);
-
+          
             //TODO: remove after debugging
             tileMap.Randomize(100, 100);
             camera = new Camera.Camera(Vector2.Zero, scenerySize, new Vector2(this.Width, this.Height));
@@ -169,7 +167,6 @@ namespace PuzzleEngineAlpha.Scene.Editor
         
         public void Update(GameTime gameTime)
         {
-            //vScrollBar.Update(gameTime);
             tileMap.Update(gameTime);
             cameraManager.Update(gameTime);
         }

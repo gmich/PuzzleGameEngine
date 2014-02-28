@@ -17,13 +17,16 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         List<AGUIComponent> components;
         Texture2D backGround;
         TextBox textBox;
+        Editor.MapHandlerScene mapHandler;
+
         #endregion
 
         #region Constructor
 
-        public SaveMapMenu(ContentManager Content, MenuHandler menuHandler)
+        public SaveMapMenu(ContentManager Content, MenuHandler menuHandler,Editor.MapHandlerScene mapHandler)
         {
             components = new List<AGUIComponent>();
+            this.mapHandler = mapHandler;
             InitializeGUI(Content,menuHandler);
             backGround = Content.Load<Texture2D>(@"textures/whiteRectangle");
             Resolution.ResolutionHandler.Changed += ResetSizes;
@@ -127,6 +130,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             DrawTextProperties textProperties = new DrawTextProperties("save", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
 
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 30), ButtonSize, this.MenuRectangle));
+            components[0].StoreAndExecuteOnMouseRelease(new Actions.SaveMapAction(this.mapHandler,this.textBox));
 
             textProperties.text = "back";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, ButtonSize.Y+30 ), ButtonSize, this.MenuRectangle));

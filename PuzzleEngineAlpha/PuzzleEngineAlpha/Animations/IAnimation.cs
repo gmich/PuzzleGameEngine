@@ -8,17 +8,12 @@ namespace PuzzleEngineAlpha.Animations
     {
         #region Properties
 
-        bool Alive
+        bool IsAlive
         {
             get;
         }
 
         string Text
-        {
-            set;
-        }
-
-        Vector2 InitialLocation
         {
             set;
         }

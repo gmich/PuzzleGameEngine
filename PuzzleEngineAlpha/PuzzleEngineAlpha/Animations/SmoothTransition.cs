@@ -50,6 +50,11 @@ namespace PuzzleEngineAlpha.Animations
 
         #region Public Methods
 
+        public void Reset()
+        {
+            this.value = MaxValue;
+        }
+
         public void Increase(GameTime gameTime)
         {
             this.Value += Step * (float)gameTime.ElapsedGameTime.TotalMilliseconds;

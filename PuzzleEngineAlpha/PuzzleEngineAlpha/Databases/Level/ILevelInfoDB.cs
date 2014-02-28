@@ -6,8 +6,8 @@ namespace PuzzleEngineAlpha.Databases.Level
 
     public interface ILevelInfoDB
     {
-        LevelInfo Load(FileStream fileStream);
+        LevelInfo Load(string path);
 
-        void Save(FileStream fileStream, LevelInfo levelInfo);
+        void Save(string path, LevelInfo levelInfo);
     }
 }

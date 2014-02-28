@@ -23,13 +23,16 @@ namespace PuzzleEngineAlpha.Scene
             scenes = new Dictionary<string,IScene>();
             bgScenes = new Dictionary<string, IScene>();
 
+            Level.Editor.EditorTileMap tileMap = new Level.Editor.EditorTileMap(Vector2.Zero, content, 64, 64, 64, 64, true);
+            Editor.MapHandlerScene mapHandler = new Editor.MapHandlerScene(content, tileMap, new Databases.Level.BinaryLevelInfoSerialization(), new Databases.Level.BinaryMapSerialization());
+            
             ToggleMenuTrigger = false;
             bgScenes.Add("diagnostics", new Editor.DiagnosticsScene(graphicsDevice, content));
             scenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 210)));
             scenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content, 64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 215)));
-            scenes.Add("map", new Editor.MapScene(graphicsDevice, content, 64, 64, Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight)));
-            scenes.Add("editorMenu", new Editor.Menu.MenuHandler(content, graphicsDevice));    
-
+            scenes.Add("map", new Editor.MapScene(tileMap,graphicsDevice, content, 64, 64, Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight)));
+            scenes.Add("editorMenu", new Editor.Menu.MenuHandler(content, graphicsDevice, mapHandler));
+            scenes.Add("mapHandler", mapHandler);    
             BringToFront("diagnostics");
 
         }
