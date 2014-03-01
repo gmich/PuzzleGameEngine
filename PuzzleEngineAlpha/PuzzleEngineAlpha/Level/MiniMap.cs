@@ -8,7 +8,7 @@ namespace PuzzleEngineAlpha.Level
 {
     using Databases.Level;
 
-    public class MiniMap :TileMap
+    public class MiniMap : TileMap
     {
         #region Declarations
 
@@ -25,18 +25,19 @@ namespace PuzzleEngineAlpha.Level
 
         #region Constructor
 
-        public MiniMap(ContentManager Content,GraphicsDevice graphicsDevice,Vector2 size,IMapDB mapDB,ILevelInfoDB levelInfoDB):base(Vector2.Zero,Content,64,64,64,64)
+        public MiniMap(ContentManager Content, GraphicsDevice graphicsDevice, Vector2 size, IMapDB mapDB, ILevelInfoDB levelInfoDB)
+            : base(Vector2.Zero, Content, 64, 64, 64, 64)
         {
             this.Size = size;
             this.graphicsDevice = graphicsDevice;
-            mapHandler = new Scene.Editor.MapHandlerScene(Content,this,levelInfoDB, mapDB);
+            mapHandler = new Scene.Editor.MapHandlerScene(Content, this, levelInfoDB, mapDB);
             this.Camera = new Camera.Camera(Vector2.Zero, size, size);
             miniMaps = new Dictionary<string, Texture2D>();
             activeMiniMap = null;
             message = new Animations.DisplayMessage(Content);
-            CurrentMapID=0;
+            CurrentMapID = 0;
             background = Content.Load<Texture2D>(@"Textures/whiteRectangle");
-            message.OffSet=new Vector2(0, 350);
+            message.OffSet = new Vector2(0, 350);
         }
 
         #endregion
@@ -69,10 +70,10 @@ namespace PuzzleEngineAlpha.Level
             set
             {
                 LoadMaps();
-                
+
                 if (maps == null || maps.Length == 0)
                 {
-                    message.StartAnimation("no saved maps", -1.0f); 
+                    message.StartAnimation("no saved maps", -1.0f);
                     currentMapID = -1;
                     return;
                 }
@@ -83,7 +84,10 @@ namespace PuzzleEngineAlpha.Level
                 else
                     currentMapID = value;
 
-                mapHandler.LoadMapAsynchronously(Parsers.DBPathParser.GetMapNameFromPath(maps[currentMapID]));
+                if (!miniMaps.ContainsKey(maps[currentMapID]))
+                {
+                    mapHandler.LoadMapAsynchronously(Parsers.DBPathParser.GetMapNameFromPath(maps[currentMapID]));
+                }
                 activeMiniMap = maps[currentMapID];
                 message.StartAnimation(MapTitle, -1.0f);
             }
@@ -114,7 +118,7 @@ namespace PuzzleEngineAlpha.Level
                 if (maps == null || maps.Length == 0)
                     return "no saved maps";
                 else
-                    return maps[currentMapID] + " " + (CurrentMapID+1) + "/" + maps.Length;
+                    return maps[currentMapID] + " " + (CurrentMapID + 1) + "/" + maps.Length;
             }
         }
 
@@ -139,7 +143,7 @@ namespace PuzzleEngineAlpha.Level
         {
             get
             {
-                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y-30);
+                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y - 30);
             }
         }
 
@@ -166,9 +170,10 @@ namespace PuzzleEngineAlpha.Level
 
             spriteBatch.End();
             graphicsDevice.SetRenderTarget(miniMapRenderTarget);
-            //graphicsDevice.Clear(Color.Black);
+            //graphicsDevice.Clear(Color.TransparentBlack);
 
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+
             for (int x = 0; x < MapWidth; x++)
             {
                 for (int y = 0; y < MapHeight; y++)
@@ -177,7 +182,7 @@ namespace PuzzleEngineAlpha.Level
                       GetColor(CellScreenRectangle(x, y)), 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
                 }
             }
-
+            
             spriteBatch.End();
 
             graphicsDevice.SetRenderTarget(null);
@@ -187,10 +192,10 @@ namespace PuzzleEngineAlpha.Level
         }
 
         public override void Draw(SpriteBatch spriteBatch)
-        {   
-          //  mapHandler.Draw(spriteBatch);
+        {
+            //  mapHandler.Draw(spriteBatch);
             spriteBatch.Draw(background, FrameRectangle, Color.Black);
-            spriteBatch.Draw(background, MinimapScreenRectangle, Color.White);        
+            spriteBatch.Draw(background, MinimapScreenRectangle, Color.White);
             message.Draw(spriteBatch);
 
             if (activeMiniMap == null || mapHandler.IsActive)
@@ -199,9 +204,8 @@ namespace PuzzleEngineAlpha.Level
             }
 
             DrawMinimap(spriteBatch, activeMiniMap);
-                     
 
-            if (currentMapID!=-1)
+            if (currentMapID != -1)
             {
                 if (miniMaps.ContainsKey(activeMiniMap))
                     spriteBatch.Draw(miniMaps[activeMiniMap], MinimapScreenRectangle, Color.White);
