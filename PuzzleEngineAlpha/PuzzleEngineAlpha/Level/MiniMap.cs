@@ -162,6 +162,11 @@ namespace PuzzleEngineAlpha.Level
 
         #region Draw
 
+        /*The weird purple you're seeing is not, in fact, caused by SpriteBatch.End(). That's the color that render targets are automatically cleared to when XNA resets their memory.
+
+When does XNA clear out a render target's memory? Whenever that render target is set onto the graphics device as an active target. So whenever you call SetRenderTarget(null), XNA is obliterating the backbuffer's memory and resetting it to that lovely purple.
+
+To avoid this, you need to draw all of your render targets before drawing anything to the backbuffer. Then, set the backbuffer as your active render target, and draw all of the render targets you updated previously in a single pass.*/
         void DrawMinimap(SpriteBatch spriteBatch, string map)
         {
             if (miniMaps.ContainsKey(map)) return;

@@ -35,12 +35,13 @@ namespace PuzzleEngineAlpha
                 PreferredBackBufferWidth = 1024,
                 PreferredBackBufferHeight = 768
             };
+            graphics.PreparingDeviceSettings += OnPreparingDeviceSettings;
 
             this.Window.AllowUserResizing = true;
             this.Window.ClientSizeChanged += new EventHandler<EventArgs>(OnWindowClientSizeChanged);
 
             this.graphics.PreferMultiSampling = true;
-            //this.GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
+            this.GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
             this.graphics.ApplyChanges();
 
             Content.RootDirectory = "Content";
@@ -120,5 +121,9 @@ namespace PuzzleEngineAlpha
 
         }
 
+        private void OnPreparingDeviceSettings(Object sender, PreparingDeviceSettingsEventArgs e)
+        {
+            e.GraphicsDeviceInformation.PresentationParameters.RenderTargetUsage = RenderTargetUsage.PreserveContents;
+        }
     }
 }
