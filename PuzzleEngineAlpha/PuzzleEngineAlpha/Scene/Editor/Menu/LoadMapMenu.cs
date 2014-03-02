@@ -83,7 +83,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         {
             get
             {
-                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y / 2+70);
+                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y / 2+130);
             }
            
         }

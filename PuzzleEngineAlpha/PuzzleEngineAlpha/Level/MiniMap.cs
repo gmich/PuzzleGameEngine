@@ -16,6 +16,7 @@ namespace PuzzleEngineAlpha.Level
         string[] maps;
 
         string activeMiniMap;
+        string previousMiniMap;
         Scene.Editor.MapHandlerScene mapHandler;
         GraphicsDevice graphicsDevice;
         Texture2D background;
@@ -34,10 +35,11 @@ namespace PuzzleEngineAlpha.Level
             this.Camera = new Camera.Camera(Vector2.Zero, size, size);
             miniMaps = new Dictionary<string, Texture2D>();
             activeMiniMap = null;
+            previousMiniMap = null;
             message = new Animations.DisplayMessage(Content);
             CurrentMapID = 0;
             background = Content.Load<Texture2D>(@"Textures/whiteRectangle");
-            message.OffSet = new Vector2(0, 350);
+            message.OffSet = new Vector2(0, 300);
         }
 
         #endregion
@@ -88,6 +90,7 @@ namespace PuzzleEngineAlpha.Level
                 {
                     mapHandler.LoadMapAsynchronously(Parsers.DBPathParser.GetMapNameFromPath(maps[currentMapID]));
                 }
+                previousMiniMap = activeMiniMap;
                 activeMiniMap = maps[currentMapID];
                 message.StartAnimation(MapTitle, -1.0f);
             }
@@ -143,7 +146,7 @@ namespace PuzzleEngineAlpha.Level
         {
             get
             {
-                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y - 30);
+                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y +30);
             }
         }
 
@@ -162,21 +165,16 @@ namespace PuzzleEngineAlpha.Level
 
         #region Draw
 
-        /*The weird purple you're seeing is not, in fact, caused by SpriteBatch.End(). That's the color that render targets are automatically cleared to when XNA resets their memory.
-
-When does XNA clear out a render target's memory? Whenever that render target is set onto the graphics device as an active target. So whenever you call SetRenderTarget(null), XNA is obliterating the backbuffer's memory and resetting it to that lovely purple.
-
-To avoid this, you need to draw all of your render targets before drawing anything to the backbuffer. Then, set the backbuffer as your active render target, and draw all of the render targets you updated previously in a single pass.*/
         void DrawMinimap(SpriteBatch spriteBatch, string map)
         {
             if (miniMaps.ContainsKey(map)) return;
-
+            
             RenderTarget2D miniMapRenderTarget = new RenderTarget2D(graphicsDevice, (int)Size.X, (int)Size.Y);
-
+            
             spriteBatch.End();
             graphicsDevice.SetRenderTarget(miniMapRenderTarget);
             //graphicsDevice.Clear(Color.TransparentBlack);
-
+            
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
             for (int x = 0; x < MapWidth; x++)
@@ -198,17 +196,27 @@ To avoid this, you need to draw all of your render targets before drawing anythi
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //  mapHandler.Draw(spriteBatch);
-            spriteBatch.Draw(background, FrameRectangle, Color.Black);
-            spriteBatch.Draw(background, MinimapScreenRectangle, Color.White);
+            //mapHandler.Draw(spriteBatch);
             message.Draw(spriteBatch);
-
             if (activeMiniMap == null || mapHandler.IsActive)
             {
+                if (previousMiniMap != null)
+                {
+                    if (miniMaps.ContainsKey(previousMiniMap))
+                        spriteBatch.Draw(miniMaps[previousMiniMap], MinimapScreenRectangle, Color.White);
+                    spriteBatch.Draw(background, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, 0.9f);
+                }
+
+                if (maps==null)
+                {
+                    spriteBatch.Draw(background, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, 0.9f);
+                    spriteBatch.Draw(background, MinimapScreenRectangle, Color.White);
+                }
                 return;
             }
 
             DrawMinimap(spriteBatch, activeMiniMap);
+            spriteBatch.Draw(background, FrameRectangle,null, Color.Black,0.0f,Vector2.Zero,SpriteEffects.None,0.9f);
 
             if (currentMapID != -1)
             {

@@ -32,15 +32,15 @@ namespace PuzzleEngineAlpha
            this.graphics = new GraphicsDeviceManager(this)
             {
                 PreferMultiSampling = true,
-                PreferredBackBufferWidth = 1024,
-                PreferredBackBufferHeight = 768
+                PreferredBackBufferWidth = 1100,
+                PreferredBackBufferHeight = 650
             };
             graphics.PreparingDeviceSettings += OnPreparingDeviceSettings;
 
             this.Window.AllowUserResizing = true;
             this.Window.ClientSizeChanged += new EventHandler<EventArgs>(OnWindowClientSizeChanged);
 
-            this.graphics.PreferMultiSampling = true;
+           // this.graphics.PreferMultiSampling = true;
             this.GraphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
             this.graphics.ApplyChanges();
 
