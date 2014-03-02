@@ -25,6 +25,7 @@ namespace PuzzleEngineAlpha
         SceneDirector sceneDirector;
         ResolutionHandler resolutionHandler;
         public static bool Terminate = false;
+        Actors.Actors3D.CubeHandler actor;
 
         public Engine()
             : base()
@@ -69,10 +70,9 @@ namespace PuzzleEngineAlpha
         /// </summary>
         protected override void LoadContent()
         {
-
             spriteBatch = new SpriteBatch(GraphicsDevice);
             sceneDirector = new SceneDirector(GraphicsDevice, Content);
-
+            actor = new Actors.Actors3D.CubeHandler(GraphicsDevice, Content);
         }
 
         /// <summary>
@@ -108,8 +108,9 @@ namespace PuzzleEngineAlpha
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            sceneDirector.Draw(spriteBatch);
+       
+          //  sceneDirector.Draw(spriteBatch);
+            actor.Draw(spriteBatch);
             base.Draw(gameTime);
 
 

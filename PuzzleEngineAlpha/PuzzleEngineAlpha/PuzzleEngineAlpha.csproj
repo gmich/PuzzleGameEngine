@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B37063EC-5888-4B43-9A50-D835581D9E6B}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PuzzleEngineAlpha</RootNamespace>
     <AssemblyName>PuzzleEngineAlpha</AssemblyName>
@@ -50,6 +50,11 @@
     <Compile Include="Actions\TogglePassableAction.cs" />
     <Compile Include="Actions\SetSelectedTileAction.cs" />
     <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Actors\Actors3D\Actor3D.cs" />
+    <Compile Include="Actors\Actors3D\Cube.cs" />
+    <Compile Include="Actors\Actors3D\CubeHandler.cs" />
+    <Compile Include="Actors\Actors3D\PrimitiveBatch.cs" />
+    <Compile Include="Actors\Actors3D\Rectangle3D.cs" />
     <Compile Include="Actors\DummyActor.cs" />
     <Compile Include="Actors\IActor.cs" />
     <Compile Include="Animations\AnimationStrip.cs" />
@@ -100,6 +105,7 @@
     <Compile Include="Level\Editor\TileManager.cs" />
     <Compile Include="Level\LevelInfo.cs" />
     <Compile Include="Level\LevelManager.cs" />
+    <Compile Include="Scene\DisplayLayer.cs" />
     <Compile Include="Scene\Editor\MapHandlerScene.cs" />
     <Compile Include="Level\MapSquare.cs" />
     <Compile Include="Level\MiniMap.cs" />
@@ -181,6 +187,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Textures\player.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\rect3d.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Textures\whiteRectangle.bmp">
