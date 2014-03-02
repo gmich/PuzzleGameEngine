@@ -20,7 +20,6 @@ namespace PuzzleEngineAlpha.Actors.Actors3D
         public Vector3 Left;
 
         public VertexPositionNormalTexture[] Vertices;
-        //        public int[] Indexes;
         public short[] Indexes;
 
         #endregion

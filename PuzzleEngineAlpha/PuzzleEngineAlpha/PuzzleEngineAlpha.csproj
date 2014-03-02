@@ -51,8 +51,9 @@
     <Compile Include="Actions\SetSelectedTileAction.cs" />
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Actors\Actors3D\Actor3D.cs" />
+    <Compile Include="Actors\Actors3D\WaterDrop.cs" />
     <Compile Include="Actors\Actors3D\Cube.cs" />
-    <Compile Include="Actors\Actors3D\CubeHandler.cs" />
+    <Compile Include="Actors\Actors3D\Rain.cs" />
     <Compile Include="Actors\Actors3D\PrimitiveBatch.cs" />
     <Compile Include="Actors\Actors3D\Rectangle3D.cs" />
     <Compile Include="Actors\DummyActor.cs" />

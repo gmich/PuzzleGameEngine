@@ -8,10 +8,10 @@ namespace PuzzleEngineAlpha.Actors.Actors3D
     {
         bool isConstructed;
         int NUMvertices = 36;
-        int NUM_TRIANGLES = 36;
+        int NUM_TRIANGLES = 12;
         VertexPositionNormalTexture[] vertices;
 
-        Vector3 Position
+        public Vector3 Position
         {
             get;
             set;
@@ -40,14 +40,16 @@ namespace PuzzleEngineAlpha.Actors.Actors3D
               NUMvertices,
               BufferUsage.WriteOnly))
             {
+                buffer.SetData(vertices);
                 device.SetVertexBuffer(buffer);
             }
 
+
             // Draw the primitives from the vertex buffer to the device as triangles
-            device.DrawPrimitives(PrimitiveType.TriangleList, 0, NUM_TRIANGLES);
+            device.DrawUserPrimitives(PrimitiveType.TriangleList,vertices, 0, NUM_TRIANGLES);
         }
 
-        private void ConstructCube()
+        public void ConstructCube()
         {
             vertices = new VertexPositionNormalTexture[NUMvertices];
 
