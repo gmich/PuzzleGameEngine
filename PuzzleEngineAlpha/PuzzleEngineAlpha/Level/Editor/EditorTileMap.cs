@@ -38,15 +38,9 @@ namespace PuzzleEngineAlpha.Level.Editor
 
         #region Initialize Map
 
-        public override void Randomize(int mapWidth, int mapHeight)
-        {
-            base.Randomize(mapWidth, mapHeight);
-            editorMapSquares = new EditorMapSquare[mapWidth, mapHeight];
-            
-        }
-
         public void HandleResolutionChange(Rectangle newSceneRectangle)
         {
+            this.sceneRectangle = newSceneRectangle;
             for (int x = 0; x < MapWidth; x++)
             {
                 for (int y = 0; y < MapHeight; y++)
@@ -65,6 +59,7 @@ namespace PuzzleEngineAlpha.Level.Editor
             DrawTextProperties passableText = new DrawTextProperties("x", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
             DrawTextProperties codeValueText = new DrawTextProperties("", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
             Texture2D background = Content.Load<Texture2D>(@"Textures/whiteRectangle");
+            editorMapSquares = new EditorMapSquare[MapWidth, MapHeight];
             for (int x = 0; x < MapWidth; x++)
             {
                 for (int y = 0; y < MapHeight; y++)
