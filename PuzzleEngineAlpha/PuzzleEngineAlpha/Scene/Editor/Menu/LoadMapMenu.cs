@@ -17,13 +17,14 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         Texture2D backGround;
         Editor.MapHandlerScene mapHandler;
         Level.MiniMap miniMap;
-
+        Level.TileMap tileMap;
         #endregion
 
         #region Constructor
 
-        public LoadMapMenu(GraphicsDevice graphicsDevice,ContentManager Content, MenuHandler menuHandler,Editor.MapHandlerScene mapHandler)
+        public LoadMapMenu(GraphicsDevice graphicsDevice,ContentManager Content, MenuHandler menuHandler,Editor.MapHandlerScene mapHandler,Level.TileMap tileMap)
         {
+            this.tileMap = tileMap;
             miniMap = new Level.MiniMap(Content,graphicsDevice,new Vector2(400,300),new Databases.Level.BinaryMapSerialization(),new Databases.Level.BinaryLevelInfoSerialization());
             components = new List<AGUIComponent>();
             InitializeGUI(Content,menuHandler);
@@ -161,6 +162,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
             textProperties.text = "load";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X, 0), ButtonSize, this.MenuRectangle));
+            components[1].StoreAndExecuteOnMouseRelease(new Actions.LoadMapAction(this.miniMap,this.tileMap));
 
             textProperties.text = "next";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X*2, 0), ButtonSize, this.MenuRectangle));

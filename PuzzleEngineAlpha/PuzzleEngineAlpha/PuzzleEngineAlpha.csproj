@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Actions\ChangeMiniMapAction.cs" />
+    <Compile Include="Actions\LoadMapAction.cs" />
     <Compile Include="Actions\SaveMapAction.cs" />
     <Compile Include="Actions\TerminateGameAction.cs" />
     <Compile Include="Actions\GoToEditorAction.cs" />

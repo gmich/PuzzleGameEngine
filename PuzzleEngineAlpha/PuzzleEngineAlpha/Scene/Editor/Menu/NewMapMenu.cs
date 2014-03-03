@@ -142,8 +142,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         }
 
         public void Draw(SpriteBatch spriteBatch)
-        {
-                                   
+        {                                   
             foreach (AGUIComponent component in components)
             {
                 component.Draw(spriteBatch);
@@ -152,7 +151,6 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             spriteBatch.Draw(backGround, MenuRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
             spriteBatch.Draw(backGround, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
         }
-
 
     }
 }

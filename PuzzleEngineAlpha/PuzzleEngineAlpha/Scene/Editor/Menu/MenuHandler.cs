@@ -23,13 +23,13 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         #region Constructor
 
-        public MenuHandler(ContentManager Content, GraphicsDevice graphicsDevice, Editor.MapHandlerScene mapHandler)
+        public MenuHandler(ContentManager Content, GraphicsDevice graphicsDevice, Editor.MapHandlerScene mapHandler,Level.TileMap tileMap)
         {
             this.graphicsDevice = graphicsDevice;
             menuWindows = new Dictionary<string, IScene>();
             menuWindows.Add("mainMenu", new MainMenu(Content,this));
             menuWindows.Add("newMap", new NewMapMenu(Content,this));
-            menuWindows.Add("loadMap", new LoadMapMenu(graphicsDevice,Content, this,mapHandler));
+            menuWindows.Add("loadMap", new LoadMapMenu(graphicsDevice,Content, this,mapHandler,tileMap));
             menuWindows.Add("saveMap", new SaveMapMenu(Content, this,mapHandler));
             menuWindows.Add("settings", new SettingsMenu(Content, this));
 

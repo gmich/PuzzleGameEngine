@@ -53,12 +53,16 @@ namespace PuzzleEngineAlpha.Level
 
         #endregion
 
+        #region Public Helper Methods
+
         public void Refresh()
         {
             miniMaps = new Dictionary<string, Texture2D>();
             maps = null;
             CurrentMapID = CurrentMapID;
         }
+
+        #endregion
 
         #region Properties
 
@@ -86,13 +90,19 @@ namespace PuzzleEngineAlpha.Level
                 else
                     currentMapID = value;
 
-                if (!miniMaps.ContainsKey(maps[currentMapID]))
-                {
-                    mapHandler.LoadMapAsynchronously(Parsers.DBPathParser.GetMapNameFromPath(maps[currentMapID]));
-                }
+                mapHandler.LoadMapAsynchronously(Parsers.DBPathParser.GetMapNameFromPath(maps[currentMapID]));
+
                 previousMiniMap = activeMiniMap;
                 activeMiniMap = maps[currentMapID];
                 message.StartAnimation(MapTitle, -1.0f);
+            }
+        }
+
+        public bool HasLoadedMap
+        {
+            get
+            {
+                return (maps.Length > 0 && currentMapID > -1);
             }
         }
 
@@ -173,7 +183,6 @@ namespace PuzzleEngineAlpha.Level
             
             spriteBatch.End();
             graphicsDevice.SetRenderTarget(miniMapRenderTarget);
-            //graphicsDevice.Clear(Color.TransparentBlack);
             
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 

@@ -32,7 +32,7 @@ namespace PuzzleEngineAlpha.Scene
             scenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 210)));
             scenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content, 64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 215)));
             scenes.Add("map", new Editor.MapScene(tileMap,graphicsDevice, content, 64, 64, Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight)));
-            scenes.Add("editorMenu", new Editor.Menu.MenuHandler(content, graphicsDevice, mapHandler));
+            scenes.Add("editorMenu", new Editor.Menu.MenuHandler(content, graphicsDevice, mapHandler,tileMap));
             scenes.Add("mapHandler", mapHandler);    
 
             BringToFront("diagnostics");

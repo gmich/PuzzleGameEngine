@@ -19,7 +19,9 @@ namespace PuzzleEngineAlpha.Level.Editor
 
         Texture2D frameTexture;
         EditorMapSquare[,] editorMapSquares;
-     
+        ContentManager Content;
+        Rectangle sceneRectangle;
+
         #endregion
 
         #region Constructor
@@ -28,7 +30,8 @@ namespace PuzzleEngineAlpha.Level.Editor
             : base(cameraPosition, Content, sourceTileWidth, sourceTileHeight, tileWidth, tileHeight)
         {
             this.frameTexture = Content.Load<Texture2D>(@"Buttons/tileFrame");
-            this.ShowGrid = showGrid;      
+            this.ShowGrid = showGrid;
+            this.Content = Content;
         }
 
         #endregion
@@ -53,8 +56,10 @@ namespace PuzzleEngineAlpha.Level.Editor
             } 
         }
 
-        public void InitializeButtons(ContentManager Content, Rectangle sceneRectangle)
+        public void InitializeButtons(Rectangle sceneRectangle)
         {
+            this.sceneRectangle = sceneRectangle;
+
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Textures/PlatformTilesTemp"), 0.9f, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/tileFrame"), 0.8f, 1.0f, 0.0f, Color.White);
             DrawTextProperties passableText = new DrawTextProperties("x", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
@@ -70,6 +75,12 @@ namespace PuzzleEngineAlpha.Level.Editor
                     editorMapSquares[x, y].StoreAndExecuteOnMouseRelease(new Actions.SetEditorSelectedTileAction(editorMapSquares[x, y]));
                 }
             }
+        }
+
+        public override void SetMapCells(MapSquare[,] mapSquares)
+        {
+            this.mapCells = mapSquares;
+            this.InitializeButtons(sceneRectangle);
         }
 
         #endregion

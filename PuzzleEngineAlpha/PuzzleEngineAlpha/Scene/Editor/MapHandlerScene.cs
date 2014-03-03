@@ -75,6 +75,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             try
             {
                 LevelInfo levelInfo = levelInfoDB.Load(path);
+                this.tileMap.levelInfo = levelInfo;
                 tileMap.MapHeight = levelInfo.MapHeight;
                 tileMap.MapWidth = levelInfo.MapWidth;
                 tileMap.TileHeight = levelInfo.TileHeight;

@@ -20,6 +20,7 @@ namespace PuzzleEngineAlpha.Level
         public MapSquare[,] mapCells;
         protected Texture2D tileSheet;
         Vector2 cameraPosition;
+        public LevelInfo levelInfo;
 
         #endregion
 
@@ -62,6 +63,40 @@ namespace PuzzleEngineAlpha.Level
                     }
                 }
             }
+        }
+
+        #endregion
+
+        #region Initialize
+
+        public void Initialize()
+        {
+            mapCells = new MapSquare[MapWidth, MapHeight];
+            Camera.WorldSize = new Vector2(this.MapPixelWidth, this.MapPixelHeight);
+            //cameraPosition = Vector2.Zero;
+        }
+
+        public virtual void SetMapCells(MapSquare[,] mapSquares)
+        {
+            this.mapCells = mapSquares;
+        }
+
+        #endregion
+
+        #region Clone Map
+
+        public MapSquare[,] CloneMap()
+        {
+            MapSquare[,] clonedCells = new MapSquare[MapWidth, MapHeight];
+
+            for (int x = 0; x < MapWidth; x++)
+            {
+                for (int y = 0; y < MapHeight; y++)
+                {
+                    clonedCells[x, y] = mapCells[x, y].DeepClone();
+                }
+            }
+            return clonedCells;
         }
 
         #endregion

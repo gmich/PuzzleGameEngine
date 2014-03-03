@@ -45,7 +45,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             this.graphicsDevice = graphicsDevice;
             this.scenerySize = scenerySize;
             UpdateRenderTarget();
-            tileMap.InitializeButtons(Content,this.SceneRectangle);
+            tileMap.InitializeButtons(this.SceneRectangle);
             isActive = true;
             Resolution.ResolutionHandler.Changed += ResetSizes;
 
