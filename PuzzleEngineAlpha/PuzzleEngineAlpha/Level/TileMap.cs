@@ -134,7 +134,7 @@ namespace PuzzleEngineAlpha.Level
         {
             get
             {
-                return (int)MathHelper.Max(0,GetCellByPixelX((int)(this.Camera.Position.X))-9);
+                return (int)MathHelper.Max(0,GetCellByPixelX((int)(this.Camera.Position.X))-17);
             }
         }
 
@@ -142,8 +142,7 @@ namespace PuzzleEngineAlpha.Level
         {
             get
             {
-
-                return (int)MathHelper.Min(MapWidth-1, GetCellByPixelX((int)(Camera.Position.X) + ResolutionHandler.WindowWidth) + 7);
+                return (int)MathHelper.Min(MapWidth-1, GetCellByPixelX((int)(Camera.Position.X) + ResolutionHandler.WindowWidth) + 15);
             }
         }
 
@@ -151,7 +150,7 @@ namespace PuzzleEngineAlpha.Level
         {
             get
             {
-                return (int)MathHelper.Max(0, GetCellByPixelY((int)(Camera.Position.Y))-9);
+                return (int)MathHelper.Max(0, GetCellByPixelY((int)(Camera.Position.Y))-17);
             }
         }
 
@@ -159,7 +158,7 @@ namespace PuzzleEngineAlpha.Level
         {
             get
             {
-                return (int)MathHelper.Min(MapHeight-1, GetCellByPixelY((int)(Camera.Position.Y) + ResolutionHandler.WindowHeight) + 7);
+                return (int)MathHelper.Min(MapHeight-1, GetCellByPixelY((int)(Camera.Position.Y) + ResolutionHandler.WindowHeight) + 15);
             }
         }
 

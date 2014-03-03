@@ -38,7 +38,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             camera = new Camera.Camera(Vector2.Zero, scenerySize, new Vector2(this.Width, this.Height));
             cameraManager = new Camera.Managers.CameraManager();
             cameraManager.SetCameraScript(new Camera.Scripts.MouseCamera(camera));
-            cameraManager.AddCameraHandler(new Camera.Handlers.Zoomer(1.0f,1.5f,0.6f,0.01f));
+            cameraManager.AddCameraHandler(new Camera.Handlers.Zoomer(1.0f,1.8f,0.4f,0.01f));
             tileMap.Camera = camera;
 
             this.SceneLocation = sceneLocation;

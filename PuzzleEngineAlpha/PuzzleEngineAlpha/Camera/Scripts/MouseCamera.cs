@@ -23,7 +23,7 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         public MouseCamera(Camera camera)
         {
-            this.worldLocation = camera.Position;
+            this.worldLocation = new Vector2(camera.ViewPortWidth / 2, camera.ViewPortHeight / 2);
             deSquareerating = initialPos = velocity = Vector2.Zero;
             scrolling = false;
             this.camera = camera;
@@ -65,10 +65,10 @@ namespace PuzzleEngineAlpha.Camera.Scripts
             }
             set
             {
-                 worldLocation.X = MathHelper.Clamp(value.X, Camera.ViewPortWidth /2 ,
-                                             Camera.WorldSize.X- Camera.ViewPortWidth / 2);
-                 worldLocation.Y = MathHelper.Clamp(value.Y, Camera.ViewPortHeight / 2,
-                                             Camera.WorldSize.Y - Camera.ViewPortHeight / 2);
+                 worldLocation.X = MathHelper.Clamp(value.X, 0 ,
+                                             Camera.WorldSize.X);
+                 worldLocation.Y = MathHelper.Clamp(value.Y,0,
+                                             Camera.WorldSize.Y);
             }
         }
 

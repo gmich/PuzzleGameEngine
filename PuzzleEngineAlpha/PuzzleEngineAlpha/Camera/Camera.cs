@@ -37,8 +37,9 @@ namespace PuzzleEngineAlpha.Camera
             get { return position; }
             set
             {
-                position = new Vector2(MathHelper.Clamp(value.X, 0, WorldRectangle.Width),
-                    MathHelper.Clamp(value.Y, 0, WorldRectangle.Height));
+              //  position = new Vector2(MathHelper.Clamp(value.X, 0, WorldRectangle.Width),
+                  //  MathHelper.Clamp(value.Y, 0, WorldRectangle.Height));
+                position = value;
             }
         }
 
