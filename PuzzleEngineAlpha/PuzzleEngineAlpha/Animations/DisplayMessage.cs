@@ -16,7 +16,7 @@ namespace PuzzleEngineAlpha.Animations
 
         #endregion
 
-        #region Constructor
+        #region Constructors
 
         public DisplayMessage(ContentManager Content)
         {
@@ -24,6 +24,16 @@ namespace PuzzleEngineAlpha.Animations
             background = Content.Load<Texture2D>(@"Textures/whiteRectangle");
             transition=new SmoothTransition(0.0f,0.002f,0.0f,1.0f);
             OffSet = Vector2.Zero;
+        }
+
+        public DisplayMessage(ContentManager Content,Vector2 offSet,string message,int duration)
+        {
+            font = Content.Load<SpriteFont>(@"Fonts/menuButtonFont");
+            background = Content.Load<Texture2D>(@"Textures/whiteRectangle");
+            transition = new SmoothTransition(0.0f, 0.002f, 0.0f, 1.0f);
+            OffSet = Vector2.Zero;
+            this.OffSet = offSet;
+            this.StartAnimation(message, duration);
         }
         
         #endregion

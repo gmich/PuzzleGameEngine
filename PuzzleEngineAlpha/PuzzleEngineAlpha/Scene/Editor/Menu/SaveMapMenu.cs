@@ -122,7 +122,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         void InitializeGUI(ContentManager Content, MenuHandler menuHandler)
         {
-            textBox = new TextBox(Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Content.Load<Texture2D>(@"Textboxes/textbox"), Location, (int)ButtonSize.X, 30);
+            textBox = new TextBox(new Input.KeyboardInput(),Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Content.Load<Texture2D>(@"Textboxes/textbox"), Location, (int)ButtonSize.X, 30);
             textBox.Text = "mapName";
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), 0.9f, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), 0.8f, 1.0f, 0.0f, Color.White);

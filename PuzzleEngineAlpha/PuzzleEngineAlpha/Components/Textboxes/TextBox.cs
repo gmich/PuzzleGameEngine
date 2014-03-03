@@ -23,7 +23,7 @@ namespace PuzzleEngineAlpha.Components.TextBoxes
 
         #region Constructor
 
-        public TextBox(SpriteFont font,Texture2D texture,Vector2 location,int width,int height)
+        public TextBox(KeyboardInput keyboardInputType,SpriteFont font,Texture2D texture,Vector2 location,int width,int height)
         {
             Font = font;
             timePassed = 0;
@@ -32,7 +32,7 @@ namespace PuzzleEngineAlpha.Components.TextBoxes
             Width = width;
             Height = height;
             InitialPosition = location;
-            keyboardManager = new KeyboardInput();
+            keyboardManager = keyboardInputType;
             lastActive = Active = ShowPrompt = false;
             TextColor = Color.Black;
             AlphaChangeRate=0.04f;

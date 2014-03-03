@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Actions\ChangeMiniMapAction.cs" />
     <Compile Include="Actions\LoadMapAction.cs" />
+    <Compile Include="Actions\NewMapAction.cs" />
     <Compile Include="Actions\SaveMapAction.cs" />
     <Compile Include="Actions\TerminateGameAction.cs" />
     <Compile Include="Actions\GoToEditorAction.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="GUIHandler\GUIHandler.cs" />
     <Compile Include="Input\Configuration.cs" />
     <Compile Include="Input\ConfigurationManager.cs" />
+    <Compile Include="Input\KeyboardNumberInput.cs" />
     <Compile Include="Input\InputHandler.cs" />
     <Compile Include="Input\InputUtilities.cs" />
     <Compile Include="Input\KeyboardInput.cs" />

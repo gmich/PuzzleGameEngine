@@ -185,7 +185,20 @@ namespace PuzzleEngineAlpha.Level
 
         public int TilesPerRow
         {
-            get { return tileSheet.Width / TileWidth; }
+            get { return tileSheet.Width / SourceTileWidth; }
+        }
+
+        public int TilesPerColumn
+        {
+            get { return tileSheet.Height / SourceTileHeight; }
+        }
+
+        public int CountSheetTiles
+        {
+            get
+            {
+                return TilesPerRow * TilesPerColumn;
+            }
         }
 
         public Rectangle TileSourceRectangle(int tileIndex)

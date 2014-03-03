@@ -64,7 +64,7 @@ namespace PuzzleEngineAlpha.Input
 
         #region Convertion
 
-        public string Convert(Keys key)
+        public virtual string Convert(Keys key)
         {
             string output = "";
 
