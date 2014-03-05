@@ -100,7 +100,7 @@ namespace PuzzleEngineAlpha.Animations
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.DrawString(font, Text, Location+(Velocity*Radius), Color.Black);
+            spriteBatch.DrawString(font, Text, Location+(Velocity*Radius), Color.Black,0.0f,Vector2.Zero,1.0f,SpriteEffects.None,Scene.DisplayLayer.Animation);
         }
     }
 }

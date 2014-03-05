@@ -175,7 +175,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
 
             RasterizerState rasterizerState = new RasterizerState() { ScissorTestEnable = true };
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.PointWrap, null, rasterizerState, null, cameraManager.Camera.GetTransformation( ));
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointWrap, null, rasterizerState, null, cameraManager.Camera.GetTransformation( ));
             
             tileMap.Draw(spriteBatch);
 

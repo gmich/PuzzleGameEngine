@@ -54,10 +54,10 @@ namespace PuzzleEngineAlpha.Level.Editor
         {
             this.sceneRectangle = sceneRectangle;
 
-            DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Textures/PlatformTilesTemp"), 0.9f, 1.0f, 0.0f, Color.White);
-            DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/tileFrame"), 0.8f, 1.0f, 0.0f, Color.White);
-            DrawTextProperties passableText = new DrawTextProperties("x", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
-            DrawTextProperties codeValueText = new DrawTextProperties("", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
+            DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Textures/PlatformTilesTemp"), Scene.DisplayLayer.Tile, 1.0f, 0.0f, Color.White);
+            DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/tileFrame"), Scene.DisplayLayer.TileFrame, 1.0f, 0.0f, Color.White);
+            DrawTextProperties passableText = new DrawTextProperties("x", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, Scene.DisplayLayer.TileFrame+0.01f, 1.0f);
+            DrawTextProperties codeValueText = new DrawTextProperties("", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, Scene.DisplayLayer.TileFrame + 0.01f, 1.0f);
             Texture2D background = Content.Load<Texture2D>(@"Textures/whiteRectangle");
             editorMapSquares = new EditorMapSquare[MapWidth, MapHeight];
             for (int x = 0; x < MapWidth; x++)
@@ -116,7 +116,7 @@ namespace PuzzleEngineAlpha.Level.Editor
                     {
                         if (ShowGrid)
                             spriteBatch.Draw(frameTexture, CellScreenRectangle(x, y), null,
-                                   Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+                                   Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Grid);
                         editorMapSquares[x, y].Draw(spriteBatch);
 
                     }

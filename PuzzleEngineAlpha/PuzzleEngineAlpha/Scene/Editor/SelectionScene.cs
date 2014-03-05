@@ -17,11 +17,11 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         bool isActive;
         GraphicsDevice graphicsDevice;
-        Vector2 scenerySize;
-        List<AGUIComponent> components;
-        Texture2D tileSheet;
-        Camera.Camera camera;
-        VScrollBar vScrollBar;
+        protected Vector2 scenerySize;
+        protected List<AGUIComponent> components;
+        protected Texture2D tileSheet;
+        protected Camera.Camera camera;
+        protected VScrollBar vScrollBar;
 
         #endregion
 
@@ -39,6 +39,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             UpdateRenderTarget();
             Resolution.ResolutionHandler.Changed += ResetSizes;
             isActive = true;
+            this.DrawScene = true;
 
         }
 
@@ -69,13 +70,13 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         #region Information about Tiles
 
-        int TileWidth
+        protected int TileWidth
         {
             get;
             set;
         }
 
-        int TileHeight
+        protected int TileHeight
         {
             get;
             set;
@@ -91,7 +92,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             get { return tileSheet.Height / TileHeight; }
         }
 
-        Rectangle TileSourceRectangle(int tileIndex)
+        protected Rectangle TileSourceRectangle(int tileIndex)
         {
             return new Rectangle(
                 (tileIndex % TilesPerRow) * TileWidth,
@@ -100,7 +101,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
                 TileHeight);
         }
 
-        int CountTiles
+        protected int CountTiles
         {
             get
             {
@@ -113,25 +114,25 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         #region GUI Initialization
 
-        void InitializeGUI(ContentManager Content)
+        public virtual void InitializeGUI(ContentManager Content)
         {
             camera = new Camera.Camera(Vector2.Zero, new Vector2(this.Width, Resolution.ResolutionHandler.WindowHeight - 215), new Vector2(this.Width, this.Height));
           
             for (int i = 0; i < CountTiles; i++)
             {
-                DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Textures/PlatformTilesTemp"), 0.9f, 1.0f, 0.0f, Color.White);
-                DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/tileFrame"), 0.8f, 1.0f, 0.0f, Color.White);
+                DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Textures/PlatformTilesTemp"), Scene.DisplayLayer.Editor + 0.1f, 1.0f, 0.0f, Color.White);
+                DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/tileFrame"), Scene.DisplayLayer.Editor + 0.2f, 1.0f, 0.0f, Color.White);
                 components.Add(new TileButton(button, frame, new Vector2((i % 2) * (TileWidth+TileOffset) + TileOffset, i / 2 * (TileHeight + TileOffset) + TileOffset) + SceneLocation, new Vector2(TileWidth, TileHeight),TileSourceRectangle(i),this.camera,this.SceneRectangle,i));
                 components[i].StoreAndExecuteOnMouseRelease(new Actions.SetSelectedTileAction((TileButton)components[i]));
             }
-            vScrollBar = new VScrollBar(Content.Load<Texture2D>(@"ScrollBars/bullet"), Content.Load<Texture2D>(@"ScrollBars/bar"), camera, new Vector2(this.scenerySize.X - ScrollBarWidth, 0) + SceneLocation, new Vector2(ScrollBarWidth, scenerySize.Y-5));
+            vScrollBar = new VScrollBar(Content.Load<Texture2D>(@"ScrollBars/bullet"), Content.Load<Texture2D>(@"ScrollBars/bar"), camera, new Vector2(this.scenerySize.X - ScrollBarWidth, 0) + SceneLocation, new Vector2(ScrollBarWidth, scenerySize.Y-5),Scene.DisplayLayer.Editor+0.1f);
         }
 
         #endregion
 
         #region Properties
 
-        float ScrollBarWidth
+        protected float ScrollBarWidth
         {
             get
             {
@@ -139,7 +140,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             }
         }
 
-        Vector2 SceneLocation
+        protected Vector2 SceneLocation
         {
             get
             {
@@ -149,7 +150,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         #region Boundaries
 
-        int TileOffset
+        protected int TileOffset
         {
             get
             {
@@ -157,7 +158,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             }
         }
 
-        int Width
+        protected int Width
         {
             get
             {
@@ -165,7 +166,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             }
         }
 
-        int Height
+        protected int Height
         {
             get
             {
@@ -173,7 +174,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             }
         }
 
-        Rectangle SceneRectangle
+       protected Rectangle SceneRectangle
         {
             get
             {
@@ -193,6 +194,12 @@ namespace PuzzleEngineAlpha.Scene.Editor
             {
                 isActive = value;
             }
+        }
+
+        public bool DrawScene
+        {
+            get;
+            set;
         }
 
         #endregion
@@ -224,10 +231,12 @@ namespace PuzzleEngineAlpha.Scene.Editor
         public void Draw(SpriteBatch spriteBatch)
         {
 
+            if (!this.DrawScene) return;
+
             RasterizerState rasterizerState = new RasterizerState() { ScissorTestEnable = true };
 
 
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, rasterizerState);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, rasterizerState);
 
             foreach (AGUIComponent component in components)
             {

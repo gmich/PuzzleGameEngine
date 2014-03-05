@@ -19,6 +19,7 @@ namespace PuzzleEngineAlpha.Level
         string previousMiniMap;
         Scene.Editor.MapHandlerScene mapHandler;
         GraphicsDevice graphicsDevice;
+        SpriteBatch minimapBatch;
         Texture2D background;
         Animations.DisplayMessage message;
 
@@ -30,6 +31,7 @@ namespace PuzzleEngineAlpha.Level
             : base(Vector2.Zero, Content, 64, 64, 64, 64)
         {
             this.Size = size;
+            minimapBatch = new SpriteBatch(graphicsDevice);
             this.graphicsDevice = graphicsDevice;
             mapHandler = new Scene.Editor.MapHandlerScene(Content, this, levelInfoDB, mapDB);
             this.Camera = new Camera.Camera(Vector2.Zero, size, size);
@@ -178,13 +180,12 @@ namespace PuzzleEngineAlpha.Level
         void DrawMinimap(SpriteBatch spriteBatch, string map)
         {
             if (miniMaps.ContainsKey(map)) return;
-            
+
             RenderTarget2D miniMapRenderTarget = new RenderTarget2D(graphicsDevice, (int)Size.X, (int)Size.Y);
-            
+
             spriteBatch.End();
             graphicsDevice.SetRenderTarget(miniMapRenderTarget);
-            
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             for (int x = 0; x < MapWidth; x++)
             {
@@ -194,45 +195,46 @@ namespace PuzzleEngineAlpha.Level
                       GetColor(CellScreenRectangle(x, y)), 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
                 }
             }
-            
             spriteBatch.End();
 
-            graphicsDevice.SetRenderTarget(null);
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             miniMaps.Add(map, (Texture2D)miniMapRenderTarget);
             activeMiniMap = map;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //mapHandler.Draw(spriteBatch);
             message.Draw(spriteBatch);
+
+            spriteBatch.Draw(background, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.MiniMap - 0.01f);
+
             if (activeMiniMap == null || mapHandler.IsActive)
             {
                 if (previousMiniMap != null)
                 {
+                    spriteBatch.Draw(background, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.MiniMap - 0.01f);
                     if (miniMaps.ContainsKey(previousMiniMap))
-                        spriteBatch.Draw(miniMaps[previousMiniMap], MinimapScreenRectangle, Color.White);
-                    spriteBatch.Draw(background, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, 0.9f);
+                    {
+                        spriteBatch.Draw(miniMaps[previousMiniMap], MinimapScreenRectangle ,null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.MiniMap);
+                    }
                 }
 
-                if (maps==null)
+                if (maps == null)
                 {
-                    spriteBatch.Draw(background, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, 0.9f);
-                    spriteBatch.Draw(background, MinimapScreenRectangle, Color.White);
+                    spriteBatch.Draw(background, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.MiniMap - 0.01f);
+                    spriteBatch.Draw(background, MinimapScreenRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.MiniMap);
                 }
                 return;
             }
 
-            DrawMinimap(spriteBatch, activeMiniMap);
-            spriteBatch.Draw(background, FrameRectangle,null, Color.Black,0.0f,Vector2.Zero,SpriteEffects.None,0.9f);
-
             if (currentMapID != -1)
             {
                 if (miniMaps.ContainsKey(activeMiniMap))
-                    spriteBatch.Draw(miniMaps[activeMiniMap], MinimapScreenRectangle, Color.White);
+                {
+                    spriteBatch.Draw(miniMaps[activeMiniMap], MinimapScreenRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.MiniMap);
+                }
             }
 
+            DrawMinimap(spriteBatch, activeMiniMap);
         }
 
         #endregion

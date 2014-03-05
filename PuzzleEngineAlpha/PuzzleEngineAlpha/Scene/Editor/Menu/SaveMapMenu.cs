@@ -122,12 +122,12 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         void InitializeGUI(ContentManager Content, MenuHandler menuHandler)
         {
-            textBox = new TextBox(new Input.KeyboardInput(),Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Content.Load<Texture2D>(@"Textboxes/textbox"), Location, (int)ButtonSize.X, 30);
+            textBox = new TextBox(new Input.KeyboardInput(), Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Content.Load<Texture2D>(@"Textboxes/textbox"), Location, (int)ButtonSize.X, 30, Scene.DisplayLayer.Menu + 0.01f);
             textBox.Text = "mapName";
-            DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), 0.9f, 1.0f, 0.0f, Color.White);
-            DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), 0.8f, 1.0f, 0.0f, Color.White);
-            DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), 0.8f, 1.0f, 0.0f, Color.White);
-            DrawTextProperties textProperties = new DrawTextProperties("save", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
+            DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), Scene.DisplayLayer.Menu, 1.0f, 0.0f, Color.White);
+            DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), Scene.DisplayLayer.Menu + 0.02f, 1.0f, 0.0f, Color.White);
+            DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), Scene.DisplayLayer.Menu + 0.01f, 1.0f, 0.0f, Color.White);
+            DrawTextProperties textProperties = new DrawTextProperties("save", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, Scene.DisplayLayer.Menu + 0.03f, 1.0f);
 
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 30), ButtonSize, this.MenuRectangle));
             components[0].StoreAndExecuteOnMouseRelease(new Actions.SaveMapAction(this.mapHandler,this.textBox));
@@ -152,6 +152,10 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         public void Draw(SpriteBatch spriteBatch)
         {
+
+            spriteBatch.Draw(backGround, MenuRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Menu - 0.01f);
+            spriteBatch.Draw(backGround, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Menu - 0.02f);
+
             textBox.Draw(spriteBatch);
        
             foreach (AGUIComponent component in components)
@@ -159,8 +163,6 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
                 component.Draw(spriteBatch);
             }
 
-            spriteBatch.Draw(backGround, MenuRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
-            spriteBatch.Draw(backGround, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
         }
 
 

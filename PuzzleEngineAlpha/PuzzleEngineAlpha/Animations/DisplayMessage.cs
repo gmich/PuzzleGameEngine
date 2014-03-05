@@ -143,11 +143,9 @@ namespace PuzzleEngineAlpha.Animations
         {
             if (this.IsAlive)
             {
-                spriteBatch.DrawString(font, Message, MessageLocation, Color.Black * transition.Value,0.0f,Vector2.Zero,1.0f,SpriteEffects.None,0.95f);
-                spriteBatch.Draw(background, BackgroundRectangle,null, Color.White * transition.Value,0.0f,Vector2.Zero,SpriteEffects.None,0.96f);
-                spriteBatch.Draw(background, FrameRectangle,null, Color.Black * transition.Value, 0.0f, Vector2.Zero, SpriteEffects.None, 0.97f);
- 
-
+                spriteBatch.Draw(background, FrameRectangle, null, Color.Black * transition.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.MessageBox + 0.01f);
+                spriteBatch.Draw(background, BackgroundRectangle, null, Color.White * transition.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.MessageBox + 0.01f); 
+                spriteBatch.DrawString(font, Message, MessageLocation, Color.Black * transition.Value, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, Scene.DisplayLayer.MessageBox);
             }
         }
         

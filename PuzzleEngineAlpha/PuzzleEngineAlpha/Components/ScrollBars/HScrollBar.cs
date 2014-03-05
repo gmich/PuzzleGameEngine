@@ -17,12 +17,13 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
         private Texture2D barTexture;
         private Vector2 size;
         private float barHeight;
+        private float layer;
 
         #endregion
 
         #region Constructor
 
-        public HScrollBar(Texture2D bulletTexture, Texture2D barTexture, Camera.Camera camera, Vector2 location, Vector2 size, float barHeight)
+        public HScrollBar(Texture2D bulletTexture, Texture2D barTexture, Camera.Camera camera, Vector2 location, Vector2 size, float barHeight,float layer)
         {
             this.BarLocation = location;
             this.size = size;
@@ -32,6 +33,7 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
             this.barTexture = barTexture;
             this.barHeight = barHeight;
             IsDragging = IsLocked = false;
+            this.layer = layer;
         }
 
         #endregion
@@ -166,8 +168,8 @@ namespace PuzzleEngineAlpha.Components.ScrollBars
         {
             if (Show)
             {
-                spriteBatch.Draw(bulletTexture, BulletRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.1f);
-                spriteBatch.Draw(barTexture, BarRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, 0.2f);
+                spriteBatch.Draw(bulletTexture, BulletRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None,layer);
+                spriteBatch.Draw(barTexture, BarRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None,layer+0.01f);
             }
         }
 

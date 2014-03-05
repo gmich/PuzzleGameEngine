@@ -401,7 +401,7 @@ namespace PuzzleEngineAlpha.Level
                         (x < MapWidth) && (y < MapHeight))
                     {
                         spriteBatch.Draw(tileSheet, CellScreenRectangle(x, y), TileSourceRectangle(mapCells[x, y].LayerTile),
-                          GetColor(CellScreenRectangle(x, y)), 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+                          GetColor(CellScreenRectangle(x, y)), 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Tile);
                     }
                 }
         }

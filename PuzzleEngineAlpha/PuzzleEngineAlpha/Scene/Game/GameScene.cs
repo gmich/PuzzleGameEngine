@@ -140,8 +140,8 @@ namespace PuzzleEngineAlpha.Scene.Game
 
             graphicsDevice.Clear(Color.CornflowerBlue);
             graphicsDevice.SetRenderTarget(renderTarget);
-            
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
+
+            spriteBatch.Begin(SpriteSortMode.Deferred,
                         BlendState.AlphaBlend,
                         SamplerState.PointWrap,
                         null,
@@ -156,7 +156,7 @@ namespace PuzzleEngineAlpha.Scene.Game
 
             graphicsDevice.SetRenderTarget(null);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
 

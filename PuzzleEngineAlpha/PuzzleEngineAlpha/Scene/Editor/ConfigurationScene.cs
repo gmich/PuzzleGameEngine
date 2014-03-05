@@ -25,7 +25,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         #region Constructor
 
-        public ConfigurationScene(GraphicsDevice graphicsDevice, ContentManager Content, Vector2 scenerySize)
+        public ConfigurationScene(GraphicsDevice graphicsDevice, ContentManager Content, Vector2 scenerySize,IScene selectionScene,IScene actorSelectionScene)
         {
             Level.Editor.TileManager.MapSquare = null;
             Level.Editor.TileManager.TileSheet = Content.Load<Texture2D>(@"Textures/PlatformTilesTemp");
@@ -33,7 +33,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             this.scenerySize = scenerySize;
             components = new List<AGUIComponent>();
             isActive = true;
-            InitializeGUI(Content);
+            InitializeGUI(Content, selectionScene, actorSelectionScene);
             UpdateRenderTarget();
             Resolution.ResolutionHandler.Changed += ResetSizes;
         }
@@ -42,16 +42,16 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         #region GUI Initialization
 
-        void InitializeGUI(ContentManager Content)
+        void InitializeGUI(ContentManager Content, IScene selectionScene, IScene actorSelectionScene)
         {
             Passable = true;
-            textBox = new TextBox(new Input.KeyboardInput(),Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Content.Load<Texture2D>(@"Textboxes/textbox"), new Vector2(5, 5) + SceneLocation, 160, 30);
+            textBox = new TextBox(new Input.KeyboardInput(),Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Content.Load<Texture2D>(@"Textboxes/textbox"), new Vector2(5, 5) + SceneLocation, 160, 30, Scene.DisplayLayer.Editor - 0.01f);
             textBox.StoreAndExecuteOnTextChange(new Actions.SetSelectedCodeValueAction(textBox));
 
-            DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), 0.9f, 1.0f, 0.0f, Color.White);
-            DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), 0.8f, 1.0f, 0.0f, Color.White);
-            DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), 0.8f, 1.0f, 0.0f, Color.White);
-            DrawTextProperties textProperties = new DrawTextProperties("is passable", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, 1.0f, 1.0f);
+            DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), Scene.DisplayLayer.Editor, 1.0f, 0.0f, Color.White);
+            DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), Scene.DisplayLayer.Editor + 0.02f, 1.0f, 0.0f, Color.White);
+            DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), Scene.DisplayLayer.Editor + 0.01f, 1.0f, 0.0f, Color.White);
+            DrawTextProperties textProperties = new DrawTextProperties("is passable", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, Scene.DisplayLayer.Editor + 0.03f, 1.0f);
 
             components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 50) + SceneLocation, new Vector2(160, 40),this.SceneRectangle));
             components[0].StoreAndExecuteOnMouseRelease(new Actions.TogglePassableAction((MenuButton)components[0]));
@@ -62,10 +62,11 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
             textProperties.text = "tiles";
             components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(0, 150) + SceneLocation, new Vector2(85, 60),this.SceneRectangle));
+            components[2].StoreAndExecuteOnMouseRelease(new Actions.ToggleSelectionAction((SelectionScene)selectionScene, (SelectionScene)actorSelectionScene, true));
 
             textProperties.text = "actors";
             components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(85, 150) + SceneLocation, new Vector2(85, 60),this.SceneRectangle));
-            
+            components[3].StoreAndExecuteOnMouseRelease(new Actions.ToggleSelectionAction((SelectionScene)selectionScene, (SelectionScene)actorSelectionScene, false));
         }
 
         #endregion
@@ -184,9 +185,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         
         public void Draw(SpriteBatch spriteBatch)
         {
-
-            graphicsDevice.Clear(new Color(20,20,20));
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
+            spriteBatch.Begin(SpriteSortMode.Deferred,
                         BlendState.AlphaBlend);
 
             foreach (AGUIComponent component in components)

@@ -19,11 +19,13 @@ namespace PuzzleEngineAlpha.Components.TextBoxes
         private float Transparency;
         private bool lastActive;
         private List<IAction> textChange;
+        private float layer;
+
         #endregion
 
         #region Constructor
 
-        public TextBox(KeyboardInput keyboardInputType,SpriteFont font,Texture2D texture,Vector2 location,int width,int height)
+        public TextBox(KeyboardInput keyboardInputType,SpriteFont font,Texture2D texture,Vector2 location,int width,int height,float layer)
         {
             Font = font;
             timePassed = 0;
@@ -37,6 +39,7 @@ namespace PuzzleEngineAlpha.Components.TextBoxes
             TextColor = Color.Black;
             AlphaChangeRate=0.04f;
             textChange = new List<IAction>();
+            this.layer = layer;
 
         }
 
@@ -258,11 +261,11 @@ namespace PuzzleEngineAlpha.Components.TextBoxes
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, LayoutRectangle, null,Color.White*Transparency,0.0f,Vector2.Zero,SpriteEffects.None,0.02f);
-            spriteBatch.DrawString(Font, keyboardManager.Text, Location, TextColor);
+            spriteBatch.Draw(Texture, LayoutRectangle, null,Color.White*Transparency,0.0f,Vector2.Zero,SpriteEffects.None,layer);
+            spriteBatch.DrawString(Font, keyboardManager.Text, Location, TextColor,0.0f,Vector2.Zero,1.0f,SpriteEffects.None,layer+0.01f);
 
             if(ShowPrompt && Active)
-                spriteBatch.DrawString(Font, "_", PromptLocation, TextColor);
+                spriteBatch.DrawString(Font, "_", PromptLocation, TextColor, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, layer + 0.01f);
         }
 
         #endregion

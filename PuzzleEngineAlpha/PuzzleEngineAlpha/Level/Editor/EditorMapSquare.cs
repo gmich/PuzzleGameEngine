@@ -77,15 +77,16 @@ namespace PuzzleEngineAlpha.Level.Editor
 
             if (!MapSquare.Passable && TileManager.ShowPassable)
             {
-                spriteBatch.DrawString(passableText.font, passableText.text, TextLocation(StringToScreenSize(passableText.text)), passableText.textColor, 0.0f, Vector2.Zero, passableText.textScale, SpriteEffects.None, passableText.textLayer);
                 spriteBatch.Draw(background, PassableTextRectangle, null, Color.White * 0.4f, 0.0f, Vector2.Zero, SpriteEffects.None, 0.8f);
+                spriteBatch.DrawString(passableText.font, passableText.text, TextLocation(StringToScreenSize(passableText.text)), passableText.textColor, 0.0f, Vector2.Zero, passableText.textScale, SpriteEffects.None, passableText.textLayer);
+
             }
             if (TileManager.ShowPassable)
             {
                 if (MapSquare.CodeValue != null && MapSquare.CodeValue!="")
                 {
-                    spriteBatch.DrawString(codeValueText.font, MapSquare.CodeValue, TextLocation(StringToScreenSize(MapSquare.CodeValue))- new Vector2(0,+20), passableText.textColor, 0.0f, Vector2.Zero, passableText.textScale, SpriteEffects.None, passableText.textLayer);
                     spriteBatch.Draw(background, CodeValueTextRectangle, null, Color.White * 0.8f, 0.0f, Vector2.Zero, SpriteEffects.None, 0.8f);
+                    spriteBatch.DrawString(codeValueText.font, MapSquare.CodeValue, TextLocation(StringToScreenSize(MapSquare.CodeValue))- new Vector2(0,+20), passableText.textColor, 0.0f, Vector2.Zero, passableText.textScale, SpriteEffects.None, passableText.textLayer);
                 }
             }
         }

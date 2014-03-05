@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PuzzleEngineAlpha.Scene
 {
-    interface IScene
+    public interface IScene
     {
 
         bool IsActive

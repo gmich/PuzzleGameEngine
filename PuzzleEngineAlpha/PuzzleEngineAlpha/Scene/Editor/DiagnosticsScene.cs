@@ -195,23 +195,21 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
             
             fpsMonitor.AddFrame();
-                       
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
-                        BlendState.AlphaBlend);
 
-          
+            spriteBatch.Begin(SpriteSortMode.Deferred,
+                        BlendState.AlphaBlend);
+                      
+            spriteBatch.Draw(background, SceneRectangle, null, Color.White * bgTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics -0.01f);
 
             if (Level.Editor.TileManager.MapSquare != null)
             {
-                spriteBatch.Draw(Level.Editor.TileManager.TileSheet, new Rectangle(145, 65, 64, 64), Level.Editor.TileManager.SourceRectangle, Color.White * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, 0.9f);
-                spriteBatch.Draw(background, new Rectangle(142, 62, 70, 70), Level.Editor.TileManager.SourceRectangle, Color.Black * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
-             
+                spriteBatch.Draw(background, new Rectangle(142, 62, 70, 70), Level.Editor.TileManager.SourceRectangle, Color.Black * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics);
+                spriteBatch.Draw(Level.Editor.TileManager.TileSheet, new Rectangle(145, 65, 64, 64), Level.Editor.TileManager.SourceRectangle, Color.White * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics + 0.01f);
             }
-            spriteBatch.Draw(background, SceneRectangle, null, Color.White * bgTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, 0.9f);
 
             foreach (KeyValuePair<Vector2, string> item in texts)
             {
-                spriteBatch.DrawString(font, item.Value, item.Key, Color.Black * fontTransparency.Value);
+                spriteBatch.DrawString(font, item.Value, item.Key, Color.Black * fontTransparency.Value,0.0f,Vector2.Zero,1.0f,SpriteEffects.None,Scene.DisplayLayer.Diagnostics +0.02f);
             }
             
             spriteBatch.End();

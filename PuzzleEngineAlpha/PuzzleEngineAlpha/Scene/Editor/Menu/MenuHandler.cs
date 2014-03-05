@@ -160,7 +160,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
+            spriteBatch.Begin(SpriteSortMode.Deferred,
             BlendState.AlphaBlend,
             SamplerState.PointWrap,
             null,

@@ -104,7 +104,8 @@ namespace PuzzleEngineAlpha
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(new Color(20,20,20));
        
             sceneDirector.Draw(spriteBatch);
 
