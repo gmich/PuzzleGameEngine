@@ -183,7 +183,7 @@ namespace PuzzleEngineAlpha.Level
         {
             if (miniMaps.ContainsKey(map)) return;
 
-            RenderTarget2D miniMapRenderTarget = new RenderTarget2D(graphicsDevice, (int)Size.X, (int)Size.Y);
+            RenderTarget2D miniMapRenderTarget = new RenderTarget2D(graphicsDevice, (int)TileWidth*MapWidth, (int)TileHeight*MapHeight);
 
             spriteBatch.End();
             graphicsDevice.SetRenderTarget(miniMapRenderTarget);

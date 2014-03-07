@@ -85,7 +85,10 @@ namespace PuzzleEngineAlpha.Level.Editor
 
             if (MapSquare.ActorID > -1)
             {
-                DrawableEntity(spriteBatch, ActorSourceRectangle, buttonActor, buttonActor.color);
+                if (IsFocused)
+                    DrawableEntity(spriteBatch, ActorSourceRectangle, buttonActor, new Color(225, 225, 225));
+                else
+                    DrawableEntity(spriteBatch, ActorSourceRectangle, buttonActor, buttonActor.color);
             }
             if (!MapSquare.Passable && TileManager.ShowPassable)
             {
