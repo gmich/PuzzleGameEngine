@@ -58,7 +58,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 50) + SceneLocation, new Vector2(160, 40),this.SceneRectangle));
             components[0].StoreAndExecuteOnMouseRelease(new Actions.TogglePassableAction((MenuButton)components[0]));
 
-            textProperties.text = "unselect";
+            textProperties.text = "deselect";
             components.Add(new MenuButton(button, frame, clickedButton, textProperties, new Vector2(5, 100) + SceneLocation, new Vector2(160, 40), this.SceneRectangle));
             components[1].StoreAndExecuteOnMouseRelease(new Actions.UnSelectedTileAction());
 
