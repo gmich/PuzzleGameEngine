@@ -45,22 +45,15 @@ namespace PuzzleEngineAlpha.Level
             this.MapHeight = mapHeight;
 
             Random rand = new Random();
-            
+
             mapCells = new MapSquare[MapWidth, MapHeight];
 
             for (int x = 0; x < MapWidth; x++)
             {
-
                 for (int y = 0; y < MapHeight; y++)
                 {
-                    if (rand.Next(0,2)==1)
-                    {
-                        mapCells[x, y] = new MapSquare(0, true, "");
-                    }
-                    else
-                    {
-                        mapCells[x, y] = new MapSquare(1, true, "");
-                    }
+                    mapCells[x, y] = new MapSquare(2, true, "");
+
                 }
             }
         }

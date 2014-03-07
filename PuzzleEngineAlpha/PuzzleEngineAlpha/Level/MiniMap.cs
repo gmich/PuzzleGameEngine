@@ -106,6 +106,9 @@ namespace PuzzleEngineAlpha.Level
         {
             get
             {
+                if (maps == null)
+                    return false;
+
                 return (maps.Length > 0 && currentMapID > -1);
             }
         }

@@ -34,7 +34,9 @@ namespace PuzzleEngineAlpha.Scene
             scenes.Add("map", new Editor.MapScene(tileMap,graphicsDevice, content, 64, 64, Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight)));
             BringToFront("diagnostics");
             scenes.Add("editorMenu", new Editor.Menu.MenuHandler(content, graphicsDevice, mapHandler,tileMap));     
-            scenes.Add("mapHandler", mapHandler);    
+            scenes.Add("mapHandler", mapHandler);
+
+            ToggleMenuTrigger = true;
         }
 
         #endregion

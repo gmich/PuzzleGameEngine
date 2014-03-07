@@ -90,11 +90,18 @@ namespace PuzzleEngineAlpha.Camera.Scripts
                 vector.Y = MathHelper.Clamp(vector.Y + reduceAmount, -maxAcceleration, 0);
         }
 
+        public void AdjustLocation()
+        {
+            camera.Position = new Vector2(MathHelper.Clamp(Camera.Position.X, -Resolution.ResolutionHandler.WindowWidth / 2, Camera.WorldSize.X - Resolution.ResolutionHandler.WindowWidth / 2),
+                                            MathHelper.Clamp(Camera.Position.Y, -Resolution.ResolutionHandler.WindowHeight / 2, Camera.WorldSize.Y - Resolution.ResolutionHandler.WindowHeight / 2));
+        }
+
         public void RepositionCamera()
         {
-            int screenLocX = (int)Camera.WorldToScreen(worldLocation).X;
+            Camera.Move(velocity);
+            AdjustLocation();
+           /* int screenLocX = (int)Camera.WorldToScreen(worldLocation).X;
             int screenLocY = (int)Camera.WorldToScreen(worldLocation).Y;
-
             if (screenLocY > Camera.ViewPortHeight / 2)
             {
                 Camera.Move(new Vector2(0, screenLocY - Camera.ViewPortHeight / 2));
@@ -112,7 +119,7 @@ namespace PuzzleEngineAlpha.Camera.Scripts
             if (screenLocX < Camera.ViewPortWidth / 2)
             {
                 Camera.Move(new Vector2(screenLocX - Camera.ViewPortWidth / 2, 0));
-            }
+            }*/
         }
 
         #endregion
