@@ -55,6 +55,7 @@ namespace PuzzleEngineAlpha.Level.Editor
             this.sceneRectangle = sceneRectangle;
 
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Textures/PlatformTilesTemp"), Scene.DisplayLayer.Tile, 1.0f, 0.0f, Color.White);
+            DrawProperties buttonActor = new DrawProperties(Content.Load<Texture2D>(@"Textures/ActorsTemp"), Scene.DisplayLayer.Tile, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/tileFrame"), Scene.DisplayLayer.TileFrame, 1.0f, 0.0f, Color.White);
             DrawTextProperties passableText = new DrawTextProperties("x", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, Scene.DisplayLayer.TileFrame+0.01f, 1.0f);
             DrawTextProperties codeValueText = new DrawTextProperties("", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, Scene.DisplayLayer.TileFrame + 0.01f, 1.0f);
@@ -64,8 +65,9 @@ namespace PuzzleEngineAlpha.Level.Editor
             {
                 for (int y = 0; y < MapHeight; y++)
                 {
-                    editorMapSquares[x, y] = new EditorMapSquare(passableText,codeValueText,background,button, frame, new Vector2(x * TileWidth, y * TileHeight), new Vector2(TileWidth, TileHeight), TileSourceRectangle(mapCells[x, y].LayerTile), this.Camera, sceneRectangle, mapCells[x, y].LayerTile);
+                    editorMapSquares[x, y] = new EditorMapSquare(passableText,codeValueText,background,button,buttonActor, frame, new Vector2(x * TileWidth, y * TileHeight), new Vector2(TileWidth, TileHeight), TileSourceRectangle(mapCells[x, y].LayerTile), this.Camera, sceneRectangle, mapCells[x, y].LayerTile);
                     editorMapSquares[x, y].MapSquare = mapCells[x, y];
+                    editorMapSquares[x, y].ActorSourceRectangle = TileSourceRectangle(mapCells[x, y].ActorID);
                     editorMapSquares[x, y].StoreAndExecuteOnMouseDown(new Actions.SetEditorMapSquare(editorMapSquares[x, y]));
                     editorMapSquares[x, y].StoreAndExecuteOnMouseRelease(new Actions.SetEditorSelectedTileAction(editorMapSquares[x, y]));
                 }

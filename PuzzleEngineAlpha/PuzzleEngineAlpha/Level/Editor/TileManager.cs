@@ -7,7 +7,13 @@ namespace PuzzleEngineAlpha.Level.Editor
     public class TileManager
     {
 
-        static public Rectangle SourceRectangle
+        static public Rectangle ActorSourceRectangle
+        {
+            get;
+            set;
+        }
+
+        static public Rectangle TileSourceRectangle
         {
             get;
             set;
@@ -19,13 +25,26 @@ namespace PuzzleEngineAlpha.Level.Editor
             set;
         }
 
+        static public Texture2D ActorTileSheet
+        {
+            get;
+            set;
+        }
+
+        static public bool ShowActors
+        {
+            get;
+            set;
+        }
+
         static public bool ShowPassable
         {
             get;
             set;
         }
-        
+
         static MapSquare mapSquare;
+
         static public MapSquare MapSquare
         {
             get
@@ -35,16 +54,21 @@ namespace PuzzleEngineAlpha.Level.Editor
             set
             {
                 mapSquare = value;
+
                 if (value != null)
                 {
-                    Scene.Editor.DiagnosticsScene.SetText(new Vector2(5, 80), "selected ID: " + mapSquare.LayerTile);
+                    if (ShowActors)
+                        Scene.Editor.DiagnosticsScene.SetText(new Vector2(5, 80), "selected ID: " + mapSquare.ActorID);
+                    else
+                        Scene.Editor.DiagnosticsScene.SetText(new Vector2(5, 80), "selected ID: " + mapSquare.LayerTile);
+
                     Scene.Editor.DiagnosticsScene.SetText(new Vector2(5, 105), "passable: " + mapSquare.Passable);
                     Scene.Editor.DiagnosticsScene.SetText(new Vector2(5, 135), "code value: " + mapSquare.CodeValue);
                     Scene.Editor.DiagnosticsScene.LargestWidth = 190;
                 }
                 else
-                {  
-                    Scene.Editor.DiagnosticsScene.SetText(new Vector2(5, 80), " " );
+                {
+                    Scene.Editor.DiagnosticsScene.SetText(new Vector2(5, 80), " ");
                     Scene.Editor.DiagnosticsScene.SetText(new Vector2(5, 105), " ");
                     Scene.Editor.DiagnosticsScene.SetText(new Vector2(5, 135), " ");
                     Scene.Editor.DiagnosticsScene.LargestHeight = 75;

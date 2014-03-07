@@ -16,6 +16,7 @@ namespace PuzzleEngineAlpha.Level
             this.Passable = true;
             this.CodeValue = "";
             this.LayerTile = 0;
+            this.ActorID = -1;
         }
 
         public MapSquare(int layerTile, bool passable, string codeValue)
@@ -23,6 +24,15 @@ namespace PuzzleEngineAlpha.Level
             this.Passable = passable;
             this.CodeValue = codeValue;
             this.LayerTile = layerTile;
+            this.ActorID = -1;
+        }
+
+        public MapSquare(int layerTile, bool passable, string codeValue,int actorID)
+        {
+            this.Passable = passable;
+            this.CodeValue = codeValue;
+            this.LayerTile = layerTile;
+            this.ActorID = actorID;
         }
 
         #endregion
@@ -30,6 +40,12 @@ namespace PuzzleEngineAlpha.Level
         #region Properties
 
         public int LayerTile
+        {
+            get;
+            set;
+        }
+
+        public int ActorID
         {
             get;
             set;
@@ -67,7 +83,7 @@ namespace PuzzleEngineAlpha.Level
 
         public MapSquare Clone()
         {
-            return new MapSquare(this.LayerTile, this.Passable, this.CodeValue);
+            return new MapSquare(this.LayerTile, this.Passable, this.CodeValue,this.ActorID);
 
         }
         #endregion

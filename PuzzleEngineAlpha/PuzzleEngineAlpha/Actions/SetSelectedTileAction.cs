@@ -18,8 +18,8 @@
 
         public void Execute()
         {
-            TileManager.SourceRectangle = button.SourceRectangle;
-            TileManager.MapSquare = new Level.MapSquare(button.LayerTile, Scene.Editor.ConfigurationScene.Passable, Scene.Editor.ConfigurationScene.TextBoxText);
+            TileManager.TileSourceRectangle = button.SourceRectangle;
+            TileManager.MapSquare = new Level.MapSquare(button.LayerTile, Scene.Editor.ConfigurationScene.Passable, Scene.Editor.ConfigurationScene.TextBoxText,-1);
         }
     }
 }

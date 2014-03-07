@@ -164,7 +164,7 @@ namespace PuzzleEngineAlpha.Components.Buttons
                 DrawableEntity(spriteBatch, sourceRectangle, button, button.color);
         }
 
-        void DrawableEntity(SpriteBatch spriteBatch, Rectangle rect, DrawProperties entity, Color color)
+        protected void DrawableEntity(SpriteBatch spriteBatch, Rectangle rect, DrawProperties entity, Color color)
         {
             spriteBatch.Draw(entity.texture, camera.WorldToScreen(ButtonRectangle), rect, color * entity.transparency, entity.rotation, Vector2.Zero, SpriteEffects.None, entity.layer);
         }

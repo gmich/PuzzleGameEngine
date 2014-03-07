@@ -21,6 +21,7 @@ namespace PuzzleEngineAlpha.Level
         GraphicsDevice graphicsDevice;
         SpriteBatch minimapBatch;
         Texture2D background;
+        Texture2D actors;
         Animations.DisplayMessage message;
 
         #endregion
@@ -41,6 +42,7 @@ namespace PuzzleEngineAlpha.Level
             message = new Animations.DisplayMessage(Content);
             CurrentMapID = 0;
             background = Content.Load<Texture2D>(@"Textures/whiteRectangle");
+            actors = Content.Load<Texture2D>(@"Textures/ActorsTemp");
             message.OffSet = new Vector2(0, 300);
         }
 
@@ -193,6 +195,11 @@ namespace PuzzleEngineAlpha.Level
                 {
                     spriteBatch.Draw(tileSheet, CellScreenRectangle(x, y), TileSourceRectangle(mapCells[x, y].LayerTile),
                       GetColor(CellScreenRectangle(x, y)), 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+
+                    if (mapCells[x, y].ActorID > -1)
+                        spriteBatch.Draw(actors, CellScreenRectangle(x, y), TileSourceRectangle(mapCells[x, y].ActorID),
+                        GetColor(CellScreenRectangle(x, y)), 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+
                 }
             }
             spriteBatch.End();

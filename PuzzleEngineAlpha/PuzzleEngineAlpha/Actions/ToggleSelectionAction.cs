@@ -21,6 +21,7 @@ namespace PuzzleEngineAlpha.Actions
 
         public void Execute()
         {
+            Level.Editor.TileManager.ShowActors = !showActors;
             this.selectionScene.IsActive = !showActors;
             this.selectionScene.DrawScene = !showActors;
             this.selectionSceneActors.DrawScene = showActors;

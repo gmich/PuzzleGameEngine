@@ -14,17 +14,19 @@ namespace PuzzleEngineAlpha.Level.Editor
         DrawTextProperties passableText;
         DrawTextProperties codeValueText;
         Texture2D background;
+        DrawProperties buttonActor;
 
         #endregion
 
         #region Public Constructor
 
-        public EditorMapSquare(DrawTextProperties passableText, DrawTextProperties codeValueText, Texture2D background, DrawProperties buttonDrawProperties, DrawProperties frameDrawProperties, Vector2 position, Vector2 size, Rectangle sourceRectangle, Camera.Camera camera, Rectangle generalArea, int layerTile)
+        public EditorMapSquare(DrawTextProperties passableText, DrawTextProperties codeValueText, Texture2D background, DrawProperties buttonDrawProperties,DrawProperties buttonActorDrawProperties, DrawProperties frameDrawProperties, Vector2 position, Vector2 size, Rectangle sourceRectangle, Camera.Camera camera, Rectangle generalArea, int layerTile)
             : base(buttonDrawProperties, frameDrawProperties, position, size, sourceRectangle, camera, generalArea, layerTile)
         {
             this.passableText = passableText;
             this.codeValueText = codeValueText;
             this.background = background;
+            this.buttonActor = buttonActorDrawProperties;
         }
 
         #endregion
@@ -71,10 +73,20 @@ namespace PuzzleEngineAlpha.Level.Editor
             set;
         }
 
+        public Rectangle ActorSourceRectangle
+        {
+            get;
+            set;
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
 
+            if (MapSquare.ActorID > -1)
+            {
+                DrawableEntity(spriteBatch, ActorSourceRectangle, buttonActor, buttonActor.color);
+            }
             if (!MapSquare.Passable && TileManager.ShowPassable)
             {
                 spriteBatch.Draw(background, PassableTextRectangle, null, Color.White * 0.4f, 0.0f, Vector2.Zero, SpriteEffects.None, 0.8f);

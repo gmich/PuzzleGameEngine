@@ -20,11 +20,17 @@
         {
             if (TileManager.MapSquare != null)
             {
-                button.MapSquare.LayerTile = TileManager.MapSquare.LayerTile;
+                button.MapSquare.ActorID = TileManager.MapSquare.ActorID;
+              
+                if (TileManager.MapSquare.LayerTile > -1)
+                {
+                    button.SourceRectangle = TileManager.TileSourceRectangle;
+                    button.MapSquare.LayerTile = TileManager.MapSquare.LayerTile;
+                }
                 button.MapSquare.CodeValue = TileManager.MapSquare.CodeValue;
                 button.MapSquare.Passable = TileManager.MapSquare.Passable;
 
-                button.SourceRectangle = TileManager.SourceRectangle;
+                button.ActorSourceRectangle = TileManager.ActorSourceRectangle;
             }
         }
     }

@@ -27,8 +27,10 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
         public ConfigurationScene(GraphicsDevice graphicsDevice, ContentManager Content, Vector2 scenerySize,IScene selectionScene,IScene actorSelectionScene)
         {
+            Level.Editor.TileManager.ShowActors = false;
             Level.Editor.TileManager.MapSquare = null;
             Level.Editor.TileManager.TileSheet = Content.Load<Texture2D>(@"Textures/PlatformTilesTemp");
+            Level.Editor.TileManager.ActorTileSheet = Content.Load<Texture2D>(@"Textures/ActorsTemp");
             this.graphicsDevice = graphicsDevice;
             this.scenerySize = scenerySize;
             components = new List<AGUIComponent>();

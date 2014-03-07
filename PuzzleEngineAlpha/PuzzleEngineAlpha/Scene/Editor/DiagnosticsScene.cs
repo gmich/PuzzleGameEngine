@@ -203,8 +203,14 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
             if (Level.Editor.TileManager.MapSquare != null)
             {
-                spriteBatch.Draw(background, new Rectangle(142, 62, 70, 70), Level.Editor.TileManager.SourceRectangle, Color.Black * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics);
-                spriteBatch.Draw(Level.Editor.TileManager.TileSheet, new Rectangle(145, 65, 64, 64), Level.Editor.TileManager.SourceRectangle, Color.White * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics + 0.01f);
+                spriteBatch.Draw(background, new Rectangle(142, 62, 70, 70), Level.Editor.TileManager.TileSourceRectangle, new Color(30,30,30) * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics);
+                if (Level.Editor.TileManager.MapSquare.ActorID==-1)
+                {
+                    spriteBatch.Draw(Level.Editor.TileManager.TileSheet, new Rectangle(145, 65, 64, 64), Level.Editor.TileManager.TileSourceRectangle, Color.White * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics + 0.01f);
+                }else
+                {
+                    spriteBatch.Draw(Level.Editor.TileManager.ActorTileSheet, new Rectangle(145, 65, 64, 64), Level.Editor.TileManager.ActorSourceRectangle, Color.White * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics + 0.01f);
+                }
             }
 
             foreach (KeyValuePair<Vector2, string> item in texts)
