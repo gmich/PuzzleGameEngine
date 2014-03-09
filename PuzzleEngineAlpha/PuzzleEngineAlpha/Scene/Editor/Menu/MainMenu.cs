@@ -20,10 +20,10 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         #region Constructor
 
-        public MainMenu(ContentManager Content,MenuHandler menuHandler)
+        public MainMenu(ContentManager Content,MenuHandler menuHandler,SceneDirector sceneDirector)
         {
             components = new List<AGUIComponent>();
-            InitializeGUI(Content, menuHandler);
+            InitializeGUI(Content, menuHandler, sceneDirector);
             backGround = Content.Load<Texture2D>(@"textures/whiteRectangle");
 
             Resolution.ResolutionHandler.Changed += ResetSizes;
@@ -115,7 +115,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         #region Initialize GUI
 
-        void InitializeGUI(ContentManager Content, MenuHandler menuHandler)
+        void InitializeGUI(ContentManager Content, MenuHandler menuHandler,SceneDirector sceneDirector)
         {
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), Scene.DisplayLayer.Menu, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), Scene.DisplayLayer.Menu+0.02f, 1.0f, 0.0f, Color.White);
@@ -123,23 +123,23 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             DrawTextProperties textProperties = new DrawTextProperties("editor", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, Scene.DisplayLayer.Menu + 0.03f, 1.0f);
 
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0,0),ButtonSize, this.MenuRectangle));
-            components[0].StoreAndExecuteOnMouseRelease(new Actions.GoToEditorAction());
+            components[0].StoreAndExecuteOnMouseRelease(new Actions.ExitMenuAction());
 
             textProperties.text = "new";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, ButtonSize.Y), ButtonSize, this.MenuRectangle));
-            components[1].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "newMap"));
+            components[1].StoreAndExecuteOnMouseRelease(new Actions.SwapEditorWindowAction(menuHandler, "newMap"));
 
             textProperties.text = "load";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, (ButtonSize.Y) * 2), ButtonSize, this.MenuRectangle));
-            components[2].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "loadMap"));
+            components[2].StoreAndExecuteOnMouseRelease(new Actions.SwapEditorWindowAction(menuHandler, "loadMap"));
 
             textProperties.text = "save";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location +  new Vector2(0, (ButtonSize.Y ) * 3), ButtonSize, this.MenuRectangle));
-            components[3].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "saveMap"));
+            components[3].StoreAndExecuteOnMouseRelease(new Actions.SwapEditorWindowAction(menuHandler, "saveMap"));
 
-            textProperties.text = "settings";
+            textProperties.text = "game";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location +  new Vector2(0, (ButtonSize.Y) * 4), ButtonSize, this.MenuRectangle));
-            components[4].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "settings"));
+            components[4].StoreAndExecuteOnMouseRelease(new Actions.ToggleActiveSceneryAction(sceneDirector));
 
             textProperties.text = "exit";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, (ButtonSize.Y) * 5), ButtonSize, this.MenuRectangle));

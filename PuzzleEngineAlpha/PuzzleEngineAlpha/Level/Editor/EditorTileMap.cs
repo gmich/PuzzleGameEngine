@@ -54,6 +54,9 @@ namespace PuzzleEngineAlpha.Level.Editor
         {
             this.sceneRectangle = sceneRectangle;
 
+            //move camera to its initial location
+            this.Camera.Position = Vector2.Zero;
+
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Textures/PlatformTilesTemp"), Scene.DisplayLayer.Tile, 1.0f, 0.0f, Color.White);
             DrawProperties buttonActor = new DrawProperties(Content.Load<Texture2D>(@"Textures/ActorsTemp"), Scene.DisplayLayer.Tile, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/tileFrame"), Scene.DisplayLayer.TileFrame, 1.0f, 0.0f, Color.White);

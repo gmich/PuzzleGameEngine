@@ -11,8 +11,9 @@ namespace PuzzleEngineAlpha.Scene
         
         #region Declarations
 
-        Dictionary<string,IScene> scenes;
-        Dictionary<string, IScene> bgScenes;
+        protected Dictionary<string,IScene> editorScenes;
+        protected Dictionary<string, IScene> activeScenes;
+        protected Dictionary<string, IScene> bgScenes;
 
         #endregion
 
@@ -20,34 +21,50 @@ namespace PuzzleEngineAlpha.Scene
 
         public SceneDirector(GraphicsDevice graphicsDevice,ContentManager content)
         {
-            scenes = new Dictionary<string,IScene>();
+            editorScenes = new Dictionary<string, IScene>();
+            //gameScenes  = new Dictionary<string, IScene>();
+            activeScenes = new Dictionary<string, IScene>();
             bgScenes = new Dictionary<string, IScene>();
 
-            Level.Editor.EditorTileMap tileMap = new Level.Editor.EditorTileMap(Vector2.Zero, content, 64, 64, 64, 64, true);
-            Editor.MapHandlerScene mapHandler = new Editor.MapHandlerScene(content, tileMap, new Databases.Level.BinaryLevelInfoSerialization(), new Databases.Level.BinaryMapSerialization());
-            
-            ToggleMenuTrigger = false;
             bgScenes.Add("diagnostics", new Editor.DiagnosticsScene(graphicsDevice, content));
-            scenes.Add("selectionActors", new Editor.SelectionSceneActors(graphicsDevice, content,64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 215)));
-            scenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content, 64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 215)));
-            scenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 210), scenes["selectionActors"], scenes["selection"]));
-            scenes.Add("map", new Editor.MapScene(tileMap,graphicsDevice, content, 64, 64, Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight)));
-            BringToFront("diagnostics");
-            scenes.Add("editorMenu", new Editor.Menu.MenuHandler(content, graphicsDevice, mapHandler,tileMap));     
-            scenes.Add("mapHandler", mapHandler);
+
+            InitializeEditorScenes(graphicsDevice,content);
 
             ToggleMenuTrigger = true;
         }
 
         #endregion
 
+        #region Initialization
+
+        void InitializeEditorScenes(GraphicsDevice graphicsDevice, ContentManager content)
+        {
+            Level.Editor.EditorTileMap tileMap = new Level.Editor.EditorTileMap(Vector2.Zero, content, 64, 64, 64, 64, true);
+            MapHandlerScene mapHandler = new MapHandlerScene(content, tileMap, new Databases.Level.BinaryLevelInfoSerialization(), new Databases.Level.BinaryMapSerialization());
+            this.activeScenes = editorScenes;
+
+            editorScenes.Add("selectionActors", new Editor.SelectionSceneActors(graphicsDevice, content, 64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 215)));
+            editorScenes.Add("selection", new Editor.SelectionScene(graphicsDevice, content, 64, 64, new Vector2(170, Resolution.ResolutionHandler.WindowHeight - 215)));
+            editorScenes.Add("config", new Editor.ConfigurationScene(graphicsDevice, content, new Vector2(170, 210), editorScenes["selectionActors"], editorScenes["selection"]));
+            editorScenes.Add("map", new Editor.MapScene(tileMap, graphicsDevice, content, 64, 64, Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth - 170, Resolution.ResolutionHandler.WindowHeight)));
+
+            BringToFront("diagnostics");
+            editorScenes.Add("menu", new Editor.Menu.MenuHandler(content, graphicsDevice, mapHandler, tileMap,this));
+            editorScenes.Add("mapHandler", mapHandler);
+
+        }
+
+
+        #endregion
         #region Helper Methods
+
+        public virtual void SwapActiveScenes()
+        { }
 
         public void BringToFront(string scene)
         {
-            if (!scenes.ContainsKey(scene) && bgScenes.ContainsKey(scene))
-                scenes.Add(scene, bgScenes[scene]);
-                
+            if (!activeScenes.ContainsKey(scene) && bgScenes.ContainsKey(scene))
+                activeScenes.Add(scene, bgScenes[scene]);
         }
 
         public static bool ToggleMenuTrigger
@@ -56,46 +73,34 @@ namespace PuzzleEngineAlpha.Scene
             set;
         }
 
-        public void ManageScenes()
-        {
 
-            if (Input.InputHandler.IsKeyReleased(Input.ConfigurationManager.Config.ToggleDiagnostics))
-            {
-                if (scenes.ContainsKey("diagnostics"))
-                {
-                    Level.Editor.TileManager.ShowPassable = false;
-                    scenes.Remove("diagnostics");
-                }
-                else
-                {
-                    Level.Editor.TileManager.ShowPassable = true;
-                    scenes.Add("diagnostics", bgScenes["diagnostics"]);
-                }
-            }
+        public virtual void ManageScenes()
+        {
+            
 
             if (Input.InputHandler.IsKeyReleased(Input.ConfigurationManager.Config.ToggleMenu) || ToggleMenuTrigger)
             {
                 ToggleMenuTrigger = false;
 
-                if (scenes.ContainsKey("editorMenu"))
+                if (activeScenes.ContainsKey("menu"))
                 {
-                    if (scenes["editorMenu"].IsActive)
+                    if (activeScenes["menu"].IsActive)
                     {
-                        foreach (IScene scene in scenes.Values)
+                        foreach (IScene scene in activeScenes.Values)
                         {
-                            if(scene!=scenes["editorMenu"])
+                            if (scene != activeScenes["menu"])
                             scene.IsActive = true;
                         }
-                        scenes["editorMenu"].GoInactive();
+                        activeScenes["menu"].GoInactive();
                     }
                     else
                     {
-                        foreach (IScene scene in scenes.Values)
+                        foreach (IScene scene in activeScenes.Values)
                         {
-                            if (scene != scenes["editorMenu"])
+                            if (scene != activeScenes["menu"])
                                 scene.IsActive = false;
                         }
-                        scenes["editorMenu"].IsActive = true;
+                        activeScenes["menu"].IsActive = true;
                     }
                 }
             }
@@ -113,7 +118,7 @@ namespace PuzzleEngineAlpha.Scene
         {
             ManageScenes();
 
-            foreach (IScene scene in scenes.Values)
+            foreach (IScene scene in activeScenes.Values)
             {
                 if(scene.IsActive)
                     scene.Update(gameTime);
@@ -122,8 +127,9 @@ namespace PuzzleEngineAlpha.Scene
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (IScene scene in scenes.Values)   
+            foreach (IScene scene in activeScenes.Values)   
                 scene.Draw(spriteBatch);
+
         }
     }
 }

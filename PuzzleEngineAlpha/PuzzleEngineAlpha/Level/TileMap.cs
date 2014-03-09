@@ -72,6 +72,20 @@ namespace PuzzleEngineAlpha.Level
         public virtual void SetMapCells(MapSquare[,] mapSquares)
         {
             this.mapCells = mapSquares;
+            OnNewMap(EventArgs.Empty);
+        }
+
+        #endregion
+
+        #region New Map Event
+
+        public delegate void NewMapHandler(object sender, EventArgs e);
+        public event NewMapHandler NewMap;
+
+        void OnNewMap(EventArgs e)
+        {
+            if (NewMap != null)
+                NewMap(this, e);
         }
 
         #endregion
@@ -305,6 +319,17 @@ namespace PuzzleEngineAlpha.Level
 
         #region Information about MapSquare objects
 
+        public Vector2 GetLocationOfUniqueCodeValue(string codeValue)
+        {
+            for (int x = 0; x < MapWidth; x++)
+                for (int y = 0; y < MapHeight; y++)
+                {
+                    if (mapCells[x, y].CodeValue == codeValue)
+                        return new Vector2(x * TileWidth, y * TileWidth);
+                }
+            return Vector2.Zero;
+        }
+
         public MapSquare GetMapSquareAtCell(int tileX, int tileY)
         {
             if ((tileX >= 0) && (tileX < MapWidth) &&
@@ -366,9 +391,9 @@ namespace PuzzleEngineAlpha.Level
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            Scene.Editor.DiagnosticsScene.SetText(new Vector2(10, 10), "Location: {X: " + StartX + " / " + MapWidth + "  Y: " + StartY + " / " + MapHeight + "}");
-            Scene.Editor.DiagnosticsScene.SetText(new Vector2(10, 40), "Scale: " + Camera.Zoom);
-            Scene.Editor.DiagnosticsScene.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);  
+         //   Scene.Editor.DiagnosticsScene.SetText(new Vector2(10, 10), "Location: {X: " + StartX + " / " + MapWidth + "  Y: " + StartY + " / " + MapHeight + "}");
+         //   Scene.Editor.DiagnosticsScene.SetText(new Vector2(10, 40), "Scale: " + Camera.Zoom);
+          //  Scene.Editor.DiagnosticsScene.SetText(new Vector2(10, 70), "Rotation: " + Camera.Rotation);  
          
        /*     int horizontalSize = EndX - StartX;
             int verticalSize = EndY - StartY;

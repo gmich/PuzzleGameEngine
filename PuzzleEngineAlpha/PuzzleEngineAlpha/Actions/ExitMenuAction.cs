@@ -4,7 +4,7 @@ namespace PuzzleEngineAlpha.Actions
 {
     using Scene;
 
-    class GoToEditorAction: IAction
+    public class ExitMenuAction: IAction
     {
         public void Execute()
         {

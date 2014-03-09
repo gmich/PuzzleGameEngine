@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using PuzzleEngineAlpha;
+using PuzzleEngineAlpha.Scene;
+using PuzzleEngineAlpha.Level;
+using PuzzleEngineAlpha.Resolution;
+using PuzzleEngineAlpha.Camera;
 
-namespace PuzzleEngineAlpha.Scene.Editor.Menu
+namespace RotationGame.Scene.Menu
 {
+
     public class MenuHandler : IScene
     {
 
         #region Declarations
 
         MenuStateEnum currentState;
-        Animations.SmoothTransition transition;
-        Camera.Camera camera;
+        PuzzleEngineAlpha.Animations.SmoothTransition transition;
+        PuzzleEngineAlpha.Camera.Camera camera;
         GraphicsDevice graphicsDevice;
         Dictionary<string, IScene> menuWindows;
         IScene activeWindow;
@@ -23,24 +29,23 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         #region Constructor
 
-        public MenuHandler(ContentManager Content, GraphicsDevice graphicsDevice, MapHandlerScene mapHandler,Level.TileMap tileMap,SceneDirector sceneDirector)
+        public MenuHandler(ContentManager Content, GraphicsDevice graphicsDevice, MapHandlerScene mapHandler, PuzzleEngineAlpha.Level.TileMap tileMap, GameSceneDirector sceneDirector)
         {
             this.graphicsDevice = graphicsDevice;
             menuWindows = new Dictionary<string, IScene>();
-            menuWindows.Add("mainMenu", new MainMenu(Content, this, sceneDirector));
-            menuWindows.Add("newMap", new NewMapMenu(Content,this,tileMap));
+            menuWindows.Add("mainMenu", new MainMenu(Content,this,sceneDirector));
             menuWindows.Add("loadMap", new LoadMapMenu(graphicsDevice,Content, this,mapHandler,tileMap));
-            menuWindows.Add("saveMap", new SaveMapMenu(Content, this,mapHandler));
+            menuWindows.Add("settings", new SettingsMenu(Content, this));
 
             activeWindow = menuWindows["mainMenu"];
             IsActive = false;
             currentState = new MenuStateEnum();
             currentState = MenuStateEnum.Hidden;
-            transition = new Animations.SmoothTransition(0.0f, 0.011f, 0.0f, 1.0f);
+            transition = new PuzzleEngineAlpha.Animations.SmoothTransition(0.0f, 0.011f, 0.0f, 1.0f);
 
-            this.camera = new Camera.Camera(Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight), new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight));
+            this.camera = new PuzzleEngineAlpha.Camera.Camera(Vector2.Zero, new Vector2(ResolutionHandler.WindowWidth, ResolutionHandler.WindowHeight), new Vector2(ResolutionHandler.WindowWidth, PuzzleEngineAlpha.Resolution.ResolutionHandler.WindowHeight));
             camera.Zoom = transition.Value;
-            Resolution.ResolutionHandler.Changed += ResetSizes;
+            ResolutionHandler.Changed += ResetSizes;
         }
 
         #endregion
@@ -49,7 +54,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         void ResetSizes(object sender, EventArgs e)
         {
-            this.camera = new Camera.Camera(Vector2.Zero, new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight), new Vector2(Resolution.ResolutionHandler.WindowWidth, Resolution.ResolutionHandler.WindowHeight));
+            this.camera = new Camera(Vector2.Zero, new Vector2(ResolutionHandler.WindowWidth, ResolutionHandler.WindowHeight), new Vector2(ResolutionHandler.WindowWidth, ResolutionHandler.WindowHeight));
             camera.Zoom = transition.Value;
         }
 

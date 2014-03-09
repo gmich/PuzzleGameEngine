@@ -3,52 +3,79 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using PuzzleEngineAlpha;
+using PuzzleEngineAlpha.Input;
+using PuzzleEngineAlpha.Level;
+using PuzzleEngineAlpha.Actors;
+using PuzzleEngineAlpha.Camera.Scripts;
+using PuzzleEngineAlpha.Camera.Handlers;
+using PuzzleEngineAlpha.Camera.Managers;
+using PuzzleEngineAlpha.Resolution;
+using PuzzleEngineAlpha.Camera;
 
-namespace PuzzleEngineAlpha.Scene.Game
+namespace RotationGame.Scene
 {
-    using Input;
-    using Level;
-    using Player;
-    using Camera.Scripts;
-    using Camera.Handlers;
-    using Camera.Managers;
-    using Resolution;
 
-    public class GameScene : IScene
+    public class GameScene : PuzzleEngineAlpha.Scene.IScene
     {
         #region Declarations
 
         RenderTarget2D renderTarget;
         CameraManager cameraManager;
         bool isActive;
-        DummyPlayer player;
+        Player player;
         TileMap tileMap;
         GraphicsDevice graphicsDevice;
-        Camera.Camera camera;
+        PuzzleEngineAlpha.Camera.Camera camera;
         Vector2 sceneryOffSet;
+
         #endregion
 
         #region Constructor
 
-        public GameScene(GraphicsDevice graphicsDevice, ContentManager content, Vector2 sceneryOffSet)
+        public GameScene(GraphicsDevice graphicsDevice, ContentManager content,TileMap tileMap, Vector2 sceneryOffSet)
         {
             this.graphicsDevice = graphicsDevice;
             this.sceneryOffSet = sceneryOffSet;
-            player = new DummyPlayer(new Vector2(1000, 1000), content.Load<Texture2D>(@"Textures/player"),10);
             cameraManager = new CameraManager();
-            camera = new Camera.Camera( player.location,new Vector2(this.Width, this.Height), new Vector2(50000, 50000));
-            cameraManager.SetCameraScript(new ChasingCamera(player.location,camera));
-            cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 10));
-            cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.01f, 0.6f));
-            player.Camera = cameraManager.Camera;
-            tileMap = new TileMap(cameraManager.Position, content, 64, 64,64,64);
-            tileMap.Camera = cameraManager.Camera;
-            tileMap.Randomize(200, 200);
+            camera = new Camera( Vector2.Zero,new Vector2(this.Width, this.Height), new Vector2(50000, 50000));
+            this.tileMap = tileMap;
+            this.tileMap.Camera = camera;
+
+            player = new Player(tileMap, camera, new Vector2(-100,-100), content.Load<Texture2D>(@"Textures/player"), 280.0f, 16, 16, 16, 16);
+            cameraManager.SetCameraScript(new ChasingCamera(player.location, camera));
+            cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 8));
+            cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.5f, 0.01f));
+
             UpdateRenderTarget();
             this.sceneryOffSet = sceneryOffSet;
+            PuzzleEngineAlpha.Resolution.ResolutionHandler.Changed += ResetSizes;
+            this.tileMap.NewMap += NewMapHandling;
+
         }
 
         #endregion
+
+        #region Handle New Map
+
+        void NewMapHandling(object sender, EventArgs e)
+        {
+            this.player.location = tileMap.GetLocationOfUniqueCodeValue("player") + new Vector2(16, 16);
+            this.player.InitialLocation = this.player.location;
+        }
+
+        #endregion
+
+        #region Handle Resolution Change
+
+        void ResetSizes(object sender, EventArgs e)
+        {
+            UpdateRenderTarget();
+            camera.ViewPortWidth = (int)this.Width;
+            camera.ViewPortHeight = (int)this.Height;
+        }
+
+        #endregion    
 
         public void GoInactive()
         {
@@ -130,7 +157,7 @@ namespace PuzzleEngineAlpha.Scene.Game
         {
             player.Update(gameTime);
 
-            cameraManager.TargetLocation = player.RelativeCenter;
+            cameraManager.TargetLocation = player.Center;
             cameraManager.Update(gameTime);
         }
 
@@ -138,8 +165,8 @@ namespace PuzzleEngineAlpha.Scene.Game
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            graphicsDevice.Clear(Color.CornflowerBlue);
-            graphicsDevice.SetRenderTarget(renderTarget);
+            graphicsDevice.Clear(new Color(20, 20, 20)) ;
+      //      graphicsDevice.SetRenderTarget(renderTarget);
 
             spriteBatch.Begin(SpriteSortMode.Deferred,
                         BlendState.AlphaBlend,
@@ -154,13 +181,13 @@ namespace PuzzleEngineAlpha.Scene.Game
 
             spriteBatch.End();
 
-            graphicsDevice.SetRenderTarget(null);
+           /* graphicsDevice.SetRenderTarget(null);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             spriteBatch.Draw(renderTarget, SceneLocation, Color.White);
 
-            spriteBatch.End();
+            spriteBatch.End();*/
         }
     }
 }

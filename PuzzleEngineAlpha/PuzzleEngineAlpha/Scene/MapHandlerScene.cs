@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace PuzzleEngineAlpha.Scene.Editor
+namespace PuzzleEngineAlpha.Scene
 {
     using Level;
     using Databases.Level;

@@ -17,13 +17,13 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         List<AGUIComponent> components;
         Texture2D backGround;
         TextBox textBox;
-        Editor.MapHandlerScene mapHandler;
+        MapHandlerScene mapHandler;
 
         #endregion
 
         #region Constructor
 
-        public SaveMapMenu(ContentManager Content, MenuHandler menuHandler,Editor.MapHandlerScene mapHandler)
+        public SaveMapMenu(ContentManager Content, MenuHandler menuHandler,MapHandlerScene mapHandler)
         {
             components = new List<AGUIComponent>();
             this.mapHandler = mapHandler;
@@ -134,7 +134,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
             textProperties.text = "back";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, ButtonSize.Y+30 ), ButtonSize, this.MenuRectangle));
-            components[1].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "mainMenu"));
+            components[1].StoreAndExecuteOnMouseRelease(new Actions.SwapEditorWindowAction(menuHandler, "mainMenu"));
 
 
         }

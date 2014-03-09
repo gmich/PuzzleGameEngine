@@ -3,34 +3,40 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using PuzzleEngineAlpha;
+using PuzzleEngineAlpha.Components;
+using PuzzleEngineAlpha.Components.ScrollBars;
+using PuzzleEngineAlpha.Scene;
+using PuzzleEngineAlpha.Actions;
 
-namespace PuzzleEngineAlpha.Scene.Editor.Menu
+namespace RotationGame.Scene.Menu
 {
-    using Components;
-    using Components.ScrollBars;
-    class LoadMapMenu : IScene
+
+
+    class LoadMapMenu : PuzzleEngineAlpha.Scene.IScene
     {
 
         #region Declarations
 
         List<AGUIComponent> components;
         Texture2D backGround;
-        MapHandlerScene mapHandler;
-        Level.MiniMap miniMap;
-        Level.TileMap tileMap;
+        PuzzleEngineAlpha.Scene.MapHandlerScene mapHandler;
+        PuzzleEngineAlpha.Level.MiniMap miniMap;
+        PuzzleEngineAlpha.Level.TileMap tileMap;
+
         #endregion
 
         #region Constructor
 
-        public LoadMapMenu(GraphicsDevice graphicsDevice,ContentManager Content, MenuHandler menuHandler,MapHandlerScene mapHandler,Level.TileMap tileMap)
+        public LoadMapMenu(GraphicsDevice graphicsDevice, ContentManager Content, MenuHandler menuHandler, PuzzleEngineAlpha.Scene.MapHandlerScene mapHandler, PuzzleEngineAlpha.Level.TileMap tileMap)
         {
             this.tileMap = tileMap;
-            miniMap = new Level.MiniMap(Content,graphicsDevice,new Vector2(400,300),new Databases.Level.BinaryMapSerialization(),new Databases.Level.BinaryLevelInfoSerialization());
+            miniMap = new PuzzleEngineAlpha.Level.MiniMap(Content, graphicsDevice, new Vector2(400, 300), new PuzzleEngineAlpha.Databases.Level.BinaryMapSerialization(), new PuzzleEngineAlpha.Databases.Level.BinaryLevelInfoSerialization());
             components = new List<AGUIComponent>();
             InitializeGUI(Content,menuHandler);
             backGround = Content.Load<Texture2D>(@"textures/whiteRectangle");
             this.mapHandler = mapHandler;
-            Resolution.ResolutionHandler.Changed += ResetSizes;
+            PuzzleEngineAlpha.Resolution.ResolutionHandler.Changed += ResetSizes;
 
         }
 
@@ -84,7 +90,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         {
             get
             {
-                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y / 2+130);
+                return new Vector2(PuzzleEngineAlpha.Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, PuzzleEngineAlpha.Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y / 2 + 130);
             }
            
         }
@@ -153,24 +159,24 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         void InitializeGUI(ContentManager Content, MenuHandler menuHandler)
         {
-            DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), Scene.DisplayLayer.Menu, 1.0f, 0.0f, Color.White);
-            DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), Scene.DisplayLayer.Menu+0.02f, 1.0f, 0.0f, Color.White);
-            DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), Scene.DisplayLayer.Menu + 0.01f, 1.0f, 0.0f, Color.White);
-            DrawTextProperties textProperties = new DrawTextProperties("previous", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, Scene.DisplayLayer.Menu + 0.03f, 1.0f);
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 0), ButtonSize, this.MenuRectangle));
-            components[0].StoreAndExecuteOnMouseRelease(new Actions.ChangeMiniMapAction(this.miniMap,-1));
+            DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), DisplayLayer.Menu, 1.0f, 0.0f, Color.White);
+            DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), DisplayLayer.Menu+0.02f, 1.0f, 0.0f, Color.White);
+            DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), DisplayLayer.Menu + 0.01f, 1.0f, 0.0f, Color.White);
+            DrawTextProperties textProperties = new DrawTextProperties("previous", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, DisplayLayer.Menu + 0.03f, 1.0f);
+            components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 0), ButtonSize, this.MenuRectangle));
+            components[0].StoreAndExecuteOnMouseRelease((new PuzzleEngineAlpha.Actions.ChangeMiniMapAction(this.miniMap, -1)));
 
             textProperties.text = "load";
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X, 0), ButtonSize, this.MenuRectangle));
-            components[1].StoreAndExecuteOnMouseRelease(new Actions.LoadMapAction(this.miniMap,this.tileMap));
+            components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X, 0), ButtonSize, this.MenuRectangle));
+            components[1].StoreAndExecuteOnMouseRelease(new PuzzleEngineAlpha.Actions.LoadMapAction(this.miniMap, this.tileMap));
 
             textProperties.text = "next";
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X*2, 0), ButtonSize, this.MenuRectangle));
-            components[2].StoreAndExecuteOnMouseRelease(new Actions.ChangeMiniMapAction(this.miniMap, +1));
+            components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X * 2, 0), ButtonSize, this.MenuRectangle));
+            components[2].StoreAndExecuteOnMouseRelease((new PuzzleEngineAlpha.Actions.ChangeMiniMapAction(this.miniMap, +1)));
 
             textProperties.text = "back";
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X, ButtonSize.Y), ButtonSize, this.MenuRectangle));
-            components[3].StoreAndExecuteOnMouseRelease(new Actions.SwapEditorWindowAction(menuHandler, "mainMenu"));
+            components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X, ButtonSize.Y), ButtonSize, this.MenuRectangle));
+            components[3].StoreAndExecuteOnMouseRelease(new Actions.SwapGameWindowAction(menuHandler, "mainMenu"));
         }
 
         #endregion
@@ -188,10 +194,10 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(backGround, UpperRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Menu - 0.01f);
-            spriteBatch.Draw(backGround, LowerRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Menu - 0.01f);
-            spriteBatch.Draw(backGround, LowerFrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Menu - 0.02f);
-            spriteBatch.Draw(backGround, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Menu - 0.02f);
+            spriteBatch.Draw(backGround, UpperRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, DisplayLayer.Menu - 0.01f);
+            spriteBatch.Draw(backGround, LowerRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, DisplayLayer.Menu - 0.01f);
+            spriteBatch.Draw(backGround, LowerFrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, DisplayLayer.Menu - 0.02f);
+            spriteBatch.Draw(backGround, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, DisplayLayer.Menu - 0.02f);
 
             foreach (AGUIComponent component in components)
             {

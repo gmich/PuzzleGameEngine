@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace PuzzleEngineAlpha.Actions
+namespace RotationGame.Actions
 {
-    using Scene.Editor.Menu;
+    using Scene.Menu;
 
-    class SwapWindowAction: IAction
+    class SwapGameWindowAction: PuzzleEngineAlpha.Actions.IAction
     {
         #region Declarations
 
@@ -13,7 +13,7 @@ namespace PuzzleEngineAlpha.Actions
 
         #endregion
 
-        public SwapWindowAction(MenuHandler menuHandler,string newWindow)
+        public SwapGameWindowAction(MenuHandler menuHandler, string newWindow)
         {
             this.menuHandler = menuHandler;
             this.newWindow = newWindow;

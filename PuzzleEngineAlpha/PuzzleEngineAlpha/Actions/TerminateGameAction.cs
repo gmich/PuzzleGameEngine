@@ -4,7 +4,7 @@ namespace PuzzleEngineAlpha.Actions
 {
     using Scene;
 
-    class TerminateGameAction : IAction
+    public class TerminateGameAction : IAction
     {
         public void Execute()
         {

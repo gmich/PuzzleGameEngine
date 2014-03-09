@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using PuzzleEngineAlpha.Scene;
+using PuzzleEngineAlpha.Components.Buttons;
+using PuzzleEngineAlpha.Components;
 
-namespace PuzzleEngineAlpha.Scene.Editor.Menu
+
+namespace RotationGame.Scene.Menu
 {
-    using Components;
-
+    
     class SettingsMenu : IScene
     {
 
         #region Declarations
 
-        List<AGUIComponent> components;
+        List<PuzzleEngineAlpha.Components.AGUIComponent> components;
         Texture2D backGround;
 
         #endregion
@@ -26,7 +29,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             InitializeGUI(Content,menuHandler);
             backGround = Content.Load<Texture2D>(@"textures/whiteRectangle");
 
-            Resolution.ResolutionHandler.Changed += ResetSizes;
+            PuzzleEngineAlpha.Resolution.ResolutionHandler.Changed += ResetSizes;
 
         }
 
@@ -77,7 +80,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         {
             get
             {
-                return new Vector2(Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y / 2);
+                return new Vector2(PuzzleEngineAlpha.Resolution.ResolutionHandler.WindowWidth / 2 - Size.X / 2, PuzzleEngineAlpha.Resolution.ResolutionHandler.WindowHeight / 2 - Size.Y / 2);
             }
            
         }
@@ -118,13 +121,13 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
 
         void InitializeGUI(ContentManager Content, MenuHandler menuHandler)
         {
-            DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), Scene.DisplayLayer.Menu, 1.0f, 0.0f, Color.White);
-            DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), Scene.DisplayLayer.Menu + 0.02f, 1.0f, 0.0f, Color.White);
-            DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), Scene.DisplayLayer.Menu + 0.01f, 1.0f, 0.0f, Color.White);
-            DrawTextProperties textProperties = new DrawTextProperties("back", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, Scene.DisplayLayer.Menu + 0.03f, 1.0f);
+            DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), DisplayLayer.Menu, 1.0f, 0.0f, Color.White);
+            DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), DisplayLayer.Menu + 0.02f, 1.0f, 0.0f, Color.White);
+            DrawProperties clickedButton = new DrawProperties(Content.Load<Texture2D>(@"Buttons/clickedButton"), DisplayLayer.Menu + 0.01f, 1.0f, 0.0f, Color.White);
+            DrawTextProperties textProperties = new DrawTextProperties("back", 11, Content.Load<SpriteFont>(@"Fonts/menuButtonFont"), Color.Black, DisplayLayer.Menu + 0.03f, 1.0f);
 
-            components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 0), ButtonSize, this.MenuRectangle));
-            components[0].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "mainMenu"));
+            components.Add(new MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 0), ButtonSize, this.MenuRectangle));
+            components[0].StoreAndExecuteOnMouseRelease(new Actions.SwapGameWindowAction(menuHandler, "mainMenu"));
 
         }
 
@@ -141,8 +144,8 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(backGround, MenuRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Menu - 0.01f);
-            spriteBatch.Draw(backGround, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Menu - 0.02f);
+            spriteBatch.Draw(backGround, MenuRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, DisplayLayer.Menu - 0.01f);
+            spriteBatch.Draw(backGround, FrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, DisplayLayer.Menu - 0.02f);
                
             foreach (AGUIComponent component in components)
             {

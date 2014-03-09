@@ -66,7 +66,7 @@ namespace PuzzleEngineAlpha.Camera.Scripts
         {
             int screenLocX = (int)camera.WorldToScreen(camera.Position).X;
             int screenLocY = (int)camera.WorldToScreen(camera.Position).Y;
-            Vector2 angle = targetLocation - camera.WindowCenter;
+            Vector2 angle = TargetLocation - camera.WindowCenter;
 
             angle.Normalize();
 
@@ -77,7 +77,7 @@ namespace PuzzleEngineAlpha.Camera.Scripts
         public void Update(GameTime gameTime)
         {
 
-            distance = Vector2.Distance(targetLocation, camera.WindowCenter);
+            distance = Vector2.Distance(TargetLocation, camera.WindowCenter);
             distance *= ChaseStep;
 
             if (distance < 0.001f)

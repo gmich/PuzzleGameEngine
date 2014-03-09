@@ -17,7 +17,7 @@ namespace PuzzleEngineAlpha.Level
 
         string activeMiniMap;
         string previousMiniMap;
-        Scene.Editor.MapHandlerScene mapHandler;
+        Scene.MapHandlerScene mapHandler;
         GraphicsDevice graphicsDevice;
         SpriteBatch minimapBatch;
         Texture2D background;
@@ -34,7 +34,7 @@ namespace PuzzleEngineAlpha.Level
             this.Size = size;
             minimapBatch = new SpriteBatch(graphicsDevice);
             this.graphicsDevice = graphicsDevice;
-            mapHandler = new Scene.Editor.MapHandlerScene(Content, this, levelInfoDB, mapDB);
+            mapHandler = new Scene.MapHandlerScene(Content, this, levelInfoDB, mapDB);
             this.Camera = new Camera.Camera(Vector2.Zero, size, size);
             miniMaps = new Dictionary<string, Texture2D>();
             activeMiniMap = null;

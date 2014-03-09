@@ -196,8 +196,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
             
             fpsMonitor.AddFrame();
 
-            spriteBatch.Begin(SpriteSortMode.Deferred,
-                        BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                       
             spriteBatch.Draw(background, SceneRectangle, null, Color.White * bgTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics -0.01f);
 

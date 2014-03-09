@@ -170,7 +170,7 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             components[0].StoreAndExecuteOnMouseRelease(new Actions.NewMapAction(textboxes["initialID"], textboxes["tilesize"], textboxes["mapwidth"], textboxes["mapheight"], tileMap));
             textProperties.text = "back";
             components.Add(new Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, ButtonSize.Y + (TextBoxHeight * 4)), ButtonSize, this.MenuRectangle));
-            components[1].StoreAndExecuteOnMouseRelease(new Actions.SwapWindowAction(menuHandler, "mainMenu"));
+            components[1].StoreAndExecuteOnMouseRelease(new Actions.SwapEditorWindowAction(menuHandler, "mainMenu"));
 
         }
 

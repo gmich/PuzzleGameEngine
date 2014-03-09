@@ -1,6 +1,6 @@
 ﻿namespace PuzzleEngineAlpha.Actions
 {
-    class ChangeMiniMapAction : IAction
+    public class ChangeMiniMapAction : IAction
     {
         Level.MiniMap miniMap;
         int changeStep;
