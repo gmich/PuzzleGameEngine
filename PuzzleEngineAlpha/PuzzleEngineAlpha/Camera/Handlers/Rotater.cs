@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace PuzzleEngineAlpha.Camera.Handlers
@@ -12,7 +13,7 @@ namespace PuzzleEngineAlpha.Camera.Handlers
 
         Rotation rotation;
         int rotationState;
-
+        Queue<bool> rotationStates;
         #endregion
 
         #region Constructor
@@ -21,6 +22,7 @@ namespace PuzzleEngineAlpha.Camera.Handlers
         {
             rotation = new Rotation(rotationAmount, rotationCycle, rotationSteps);
             rotationState = 0;
+            rotationStates = new Queue<bool>();
         }
 
         #endregion
@@ -39,7 +41,6 @@ namespace PuzzleEngineAlpha.Camera.Handlers
 
         public bool? HandleRotation()
         {
-            if (rotation.IsActive) return null;
 
             if (InputHandler.IsKeyReleased(ConfigurationManager.Config.RotateClockwise))
             {
@@ -65,7 +66,13 @@ namespace PuzzleEngineAlpha.Camera.Handlers
 
         public void Update(GameTime gameTime)
         {
-            rotation.RotateEntity(HandleRotation());
+            bool? state = HandleRotation();
+            if (state != null)
+                rotationStates.Enqueue((bool)state);
+
+            if (rotationStates.Count > 0 && !this.rotation.IsActive)
+                rotation.RotateEntity(rotationStates.Dequeue());
+
             rotation.UpdateRotation(rotationState);
 
             Camera.RotationState = rotationState;

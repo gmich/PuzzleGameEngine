@@ -112,7 +112,7 @@ namespace PuzzleEngineAlpha.Input
         {
             get
             {
-                return Keys.W;
+                return Keys.Left;
             }
         }
 
@@ -120,7 +120,7 @@ namespace PuzzleEngineAlpha.Input
         {
             get
             {
-                return Keys.Q;
+                return Keys.Right;
             }
         }
 

@@ -77,7 +77,7 @@ namespace PuzzleEngineAlpha.Animations
 
         #region Public Methods
         
-        public void RotateEntity(bool? clockwise)
+        public void RotateEntity(bool clockwise)
         {
             if (clockwise != null && !this.IsActive)
             {
