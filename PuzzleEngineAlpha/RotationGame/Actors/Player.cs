@@ -11,13 +11,6 @@ namespace RotationGame.Actors
     public class Player : PuzzleEngineAlpha.Actors.MapObject
     {
 
-        #region Declarations
-
-        MovementScript movementScript;
-        int movementState;
-
-        #endregion
-
         #region Constructor
 
         public Player(PuzzleEngineAlpha.Level.TileMap tileMap, PuzzleEngineAlpha.Camera.Camera camera, Vector2 location, Texture2D texture, float step, int frameWidth, int frameHeight, int collideWidth, int collideHeight)
@@ -27,8 +20,6 @@ namespace RotationGame.Actors
             this.animations.Add("run", new PuzzleEngineAlpha.Animations.AnimationStrip(texture, frameWidth, "run"));
             currentAnimation = "run";
             this.step = step;
-            movementScript = new MovementScript();
-            movementState = 0;
         }
 
         #endregion

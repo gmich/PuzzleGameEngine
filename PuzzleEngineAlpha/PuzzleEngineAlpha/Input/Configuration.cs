@@ -24,7 +24,7 @@ namespace PuzzleEngineAlpha.Input
         {
             get
             {
-                return Keys.Up;
+                return Keys.W;
             }
         }
 
@@ -32,7 +32,7 @@ namespace PuzzleEngineAlpha.Input
         {
             get
             {
-                return Keys.Down;
+                return Keys.S;
             }
         }
 
@@ -40,7 +40,7 @@ namespace PuzzleEngineAlpha.Input
         {
             get
             {
-                return Keys.Left;
+                return Keys.A;
             }
         }
 
@@ -48,7 +48,7 @@ namespace PuzzleEngineAlpha.Input
         {
             get
             {
-                return Keys.Right;
+                return Keys.D;
             }
         }
 
@@ -96,7 +96,7 @@ namespace PuzzleEngineAlpha.Input
         {
             get
             {
-                return Keys.A;
+                return Keys.Up;
             }
         }
 
@@ -104,7 +104,7 @@ namespace PuzzleEngineAlpha.Input
         {
             get
             {
-                return Keys.S;
+                return Keys.Down;
             }
         }
 

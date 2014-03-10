@@ -30,10 +30,10 @@ namespace PuzzleEngineAlpha.Actors
 
         #region Constructor
 
-        public MapObject(Level.TileMap tileMap,Camera.Camera camera, Vector2 worldLocation, int frameWidth, int frameHeight, int collideWidth, int collideHeight)
+        public MapObject(Level.TileMap tileMap,Camera.Camera camera, Vector2 location, int frameWidth, int frameHeight, int collideWidth, int collideHeight)
         {
             this.enabled = true;
-            this.location = worldLocation;
+            this.location = location;
             this.frameHeight = frameHeight;
             this.frameWidth = frameWidth;
             this.collideHeight = collideHeight;

@@ -76,7 +76,10 @@
     <Compile Include="Actors\Actors3D\Rain.cs" />
     <Compile Include="Actors\Actors3D\PrimitiveBatch.cs" />
     <Compile Include="Actors\Actors3D\Rectangle3D.cs" />
+    <Compile Include="Actors\StaticObject.cs" />
     <Compile Include="Actors\MapObject.cs" />
+    <Compile Include="Actors\Sprite.cs" />
+    <Compile Include="Actors\Particle.cs" />
     <Compile Include="Animations\AnimationStrip.cs" />
     <Compile Include="Animations\CircularAnimation.cs" />
     <Compile Include="Animations\DisplayMessage.cs" />
@@ -199,6 +202,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Textures\ActorsTemp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\gate.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Textures\PlatformTiles.png">

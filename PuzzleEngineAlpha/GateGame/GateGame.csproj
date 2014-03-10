@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3E874D1B-5370-46B6-86E0-F745C6EA96C6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GateGame</RootNamespace>
     <AssemblyName>GateGame</AssemblyName>
@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="Actions\SwapGameWindowAction.cs" />
     <Compile Include="Actions\TerminateGameAction.cs" />
+    <Compile Include="Actors\ActorManager.cs" />
+    <Compile Include="Actors\Gate.cs" />
     <Compile Include="Actors\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

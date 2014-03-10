@@ -220,6 +220,19 @@ namespace PuzzleEngineAlpha.Level
 
         #region Information about Map Cells
 
+        public Dictionary<Vector2, int> GetActorsLocationAndID()
+        {
+            Dictionary<Vector2, int> actors = new Dictionary<Vector2, int>();
+            for (int x = 0; x < MapWidth; x++)
+                for (int y = 0; y < MapHeight; y++)
+                {
+                    if (mapCells[x, y].ActorID !=-1)
+                        actors.Add(new Vector2(x * TileWidth, y * TileWidth),mapCells[x, y].ActorID);
+                }
+            return actors;
+
+        }
+
         public int GetCellByPixelX(int pixelX)
         {
             return pixelX / TileWidth;

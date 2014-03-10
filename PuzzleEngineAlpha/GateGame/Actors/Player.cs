@@ -132,6 +132,8 @@ namespace GateGame.Actors
                 velocity += new Vector2(step,0);
                 movementState = 3;
             }
+
+           // if(PuzzleEngineAlpha.Input.InputHandler.IsKeyDown(Keys.Space))
    
             ManipulateVector(ref velocity, 230.0f, 10f);
 

@@ -28,6 +28,8 @@ namespace GateGame.Scene
         GraphicsDevice graphicsDevice;
         PuzzleEngineAlpha.Camera.Camera camera;
         Vector2 sceneryOffSet;
+        Actors.ActorManager actorManager;
+        ContentManager content;
 
         #endregion
 
@@ -35,6 +37,7 @@ namespace GateGame.Scene
 
         public GameScene(GraphicsDevice graphicsDevice, ContentManager content,TileMap tileMap, Vector2 sceneryOffSet)
         {
+            this.content = content;
             this.graphicsDevice = graphicsDevice;
             this.sceneryOffSet = sceneryOffSet;
             cameraManager = new CameraManager();
@@ -44,14 +47,15 @@ namespace GateGame.Scene
 
             player = new Actors.Player(tileMap, camera, new Vector2(-100,-100), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
             cameraManager.SetCameraScript(new ChasingCamera(player.location, camera,3.0f));
-            // cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 8));
+            cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 8));
             cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.5f, 0.01f));
 
             UpdateRenderTarget();
             this.sceneryOffSet = sceneryOffSet;
             PuzzleEngineAlpha.Resolution.ResolutionHandler.Changed += ResetSizes;
             this.tileMap.NewMap += NewMapHandling;
-
+            actorManager = new Actors.ActorManager();
+            actorManager.Reset();
         }
 
         #endregion
@@ -62,6 +66,14 @@ namespace GateGame.Scene
         {
             this.player.location = tileMap.GetLocationOfUniqueCodeValue("player") + new Vector2(16, 16);
             this.player.InitialLocation = this.player.location;
+            actorManager.Reset();
+
+            Dictionary<Vector2,int> actors = tileMap.GetActorsLocationAndID();
+
+            foreach (KeyValuePair<Vector2,int> actor in actors)
+            {
+                actorManager.AddStaticObject(new Actors.Gate(this.tileMap,this.camera,actor.Key,content.Load<Texture2D>(@"Textures/gate"),tileMap.TileWidth,tileMap.TileHeight,"tag"));
+            }
         }
 
         #endregion
@@ -156,7 +168,7 @@ namespace GateGame.Scene
         public void Update(GameTime gameTime)
         {
             player.Update(gameTime);
-
+            actorManager.Update(gameTime);
             cameraManager.TargetLocation = player.RelativeCenter;
             cameraManager.Update(gameTime);
         }
@@ -177,6 +189,7 @@ namespace GateGame.Scene
                         cameraManager.Camera.GetTransformation());
 
             tileMap.Draw(spriteBatch);
+            actorManager.Draw(spriteBatch);
             player.Draw(spriteBatch);
 
             spriteBatch.End();

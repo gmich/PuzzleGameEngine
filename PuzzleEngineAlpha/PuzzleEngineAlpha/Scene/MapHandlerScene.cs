@@ -21,6 +21,7 @@ namespace PuzzleEngineAlpha.Scene
         IMapDB mapDB;
         string path;
         Thread handlerThread;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #endregion
 
@@ -86,7 +87,8 @@ namespace PuzzleEngineAlpha.Scene
               
             }
             catch (Exception ex)
-            { 
+            {
+                log.Error(ex.Message + " Loading map" + path + "failed");
                 displayMessage.StartAnimation("loading failed :( ", 1.5f);
             }
             handlerThread = null; 
@@ -102,6 +104,7 @@ namespace PuzzleEngineAlpha.Scene
             }
             catch (Exception ex)
             {
+                log.Error(ex.Message + " Saving map" + path + "failed");
                 displayMessage.StartAnimation("saving failed :( ", 1.5f);
             }
             handlerThread = null; 
