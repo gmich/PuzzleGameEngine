@@ -79,7 +79,7 @@ namespace PuzzleEngineAlpha.Animations
         
         public void RotateEntity(bool clockwise)
         {
-            if (clockwise != null && !this.IsActive)
+            if (!this.IsActive)
             {
                 this.clockwise = clockwise;
                 rotationTicksRemaining = rotationSteps;

@@ -85,28 +85,6 @@ namespace RotationGame.Actors
         {
             velocity = GetVelocity(camera.RotationState);
 
-         /**   movementScript.RotationState = camera.RotationState;
-
-            if (movementScript.MoveUp)
-            {
-                velocity = new Vector2(0, -step);
-                movementState = 0;
-            }
-            if (movementScript.MoveDown)
-            {
-                velocity = new Vector2(0, +step);
-                movementState = 1;
-            }
-            if (movementScript.MoveLeft)
-            {
-                velocity = new Vector2(-step,0);
-                movementState = 2;
-            }
-            if (movementScript.MoveRight)
-            {
-                velocity = new Vector2(step,0);
-                movementState = 3;
-            }*/
             base.Update(gameTime);
 
             if (Collided)

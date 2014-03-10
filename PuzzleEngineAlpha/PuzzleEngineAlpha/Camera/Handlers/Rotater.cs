@@ -14,6 +14,7 @@ namespace PuzzleEngineAlpha.Camera.Handlers
         Rotation rotation;
         int rotationState;
         Queue<bool> rotationStates;
+
         #endregion
 
         #region Constructor

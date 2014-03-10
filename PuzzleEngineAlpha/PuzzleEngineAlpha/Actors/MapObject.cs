@@ -134,34 +134,30 @@ namespace PuzzleEngineAlpha.Actors
             if (moveAmount.X == 0)
                 return moveAmount;
 
-            Rectangle afterMoveRect = CollisionRectangle;
-
-            afterMoveRect.Offset((int)moveAmount.X, 0);
-
             Vector2 corner1, corner2;
 
             if (moveAmount.X < 0)
             {
-                corner1 = new Vector2(afterMoveRect.Left, afterMoveRect.Top );
-                corner2 = new Vector2(afterMoveRect.Left, afterMoveRect.Bottom );
+                corner1 = new Vector2(location.X + moveAmount.X, location.Y);
+                corner2 = new Vector2(location.X + moveAmount.X, location.Y+collideHeight);
             }
             else
             {
-                corner1 = new Vector2(afterMoveRect.Right, afterMoveRect.Top);
-                corner2 = new Vector2(afterMoveRect.Right, afterMoveRect.Bottom);
+                corner1 = new Vector2(location.X + moveAmount.X + collideWidth, location.Y);
+                corner2 = new Vector2(location.X + moveAmount.X + collideWidth, location.Y + collideHeight);
             }
 
             Vector2 mapCell1 = tileMap.GetCellByPixel(corner1);
             Vector2 mapCell2 = tileMap.GetCellByPixel(corner2);
 
-            if (!tileMap.CellIsPassable(mapCell1) ||
-                !tileMap.CellIsPassable(mapCell2))
+            if (!tileMap.CellIsPassable(mapCell1))
             {
-                Collided = true;
-                moveAmount.X = 0;
-                velocity.X = 0;
+                HorizontalCollision(mapCell1, ref moveAmount);
             }
-
+            if (!tileMap.CellIsPassable(mapCell2))
+            {
+                HorizontalCollision(mapCell2, ref moveAmount);
+            }
 
             if (codeBasedBlocks)
             {
@@ -182,36 +178,37 @@ namespace PuzzleEngineAlpha.Actors
             if (moveAmount.Y == 0)
                 return moveAmount;
 
-            Rectangle afterMoveRect = CollisionRectangle;
-            afterMoveRect.Offset((int)moveAmount.X, (int)moveAmount.Y);
             Vector2 corner1, corner2;
 
             if (moveAmount.Y < 0)
             {
-                corner1 = new Vector2(afterMoveRect.Left, afterMoveRect.Top);
-                corner2 = new Vector2(afterMoveRect.Right, afterMoveRect.Top);
+                corner1 = new Vector2(location.X,location.Y+moveAmount.Y);
+                corner2 = new Vector2(location.X + collideWidth, location.Y + moveAmount.Y);
             }
             else
             {
-                corner1 = new Vector2(afterMoveRect.Left, afterMoveRect.Bottom);
-                corner2 = new Vector2(afterMoveRect.Right, afterMoveRect.Bottom);
+                corner1 = new Vector2(location.X, location.Y +collideHeight+ moveAmount.Y);
+                corner2 = new Vector2(location.X + collideWidth, location.Y + collideHeight + moveAmount.Y);
             }
 
             Vector2 mapCell1 = tileMap.GetCellByPixel(corner1);
             Vector2 mapCell2 = tileMap.GetCellByPixel(corner2);
 
-            if (!tileMap.CellIsPassable(mapCell1) || !tileMap.CellIsPassable(mapCell2))
+            if (!tileMap.CellIsPassable(mapCell1))
             {
-                Collided = true;
-                moveAmount.Y = 0;
-                velocity.Y = 0;
+                VerticalCollision(mapCell1, ref moveAmount);
             }
-            
+            if(!tileMap.CellIsPassable(mapCell2))
+            {
+                VerticalCollision(mapCell2, ref moveAmount);
+            }
+
             if (codeBasedBlocks)
             {
                 if (tileMap.CellCodeValue(mapCell1) == "BLOCK" ||
                     tileMap.CellCodeValue(mapCell2) == "BLOCK")
                 {
+                    //TODO: call vertical collision function
                     Collided = true;
                     moveAmount.Y = 0;
                     velocity.Y = 0;
@@ -219,6 +216,32 @@ namespace PuzzleEngineAlpha.Actors
             }
 
             return moveAmount;
+        }
+
+        void VerticalCollision(Vector2 mapCell, ref Vector2 moveAmount)
+        {
+            Collided = true;           
+
+            if (moveAmount.Y > 0)
+                location = new Vector2(location.X, tileMap.GetCellLocation(mapCell).Y - this.collideHeight-1);
+            else if (moveAmount.Y < 0)
+                location = new Vector2(location.X, tileMap.GetCellLocation(mapCell).Y + tileMap.TileHeight );
+
+            moveAmount.Y = 0;
+            velocity.Y = 0;
+        }
+
+        void HorizontalCollision(Vector2 mapCell, ref Vector2 moveAmount)
+        {
+            Collided = true;            
+
+            if (moveAmount.X > 0)
+                location = new Vector2(tileMap.GetCellLocation(mapCell).X - this.collideWidth - 1,location.Y);
+            else if (moveAmount.X < 0)
+                location = new Vector2(tileMap.GetCellLocation(mapCell).X + tileMap.TileWidth, location.Y );
+
+            moveAmount.X = 0;
+            velocity.X = 0;
         }
 
         #endregion
@@ -247,7 +270,7 @@ namespace PuzzleEngineAlpha.Actors
 
 
             Vector2 moveAmount = velocity * elapsed;
-
+      
             moveAmount = HorizontalCollisionTest(moveAmount);
             moveAmount = VerticalCollisionTest(moveAmount);
 
@@ -259,7 +282,6 @@ namespace PuzzleEngineAlpha.Actors
                 MathHelper.Clamp(newPosition.Y, 2 * (-tileMap.TileHeight),
                   camera.WorldRectangle.Height - frameHeight));
             */
-         
             location = newPosition;
         }
 

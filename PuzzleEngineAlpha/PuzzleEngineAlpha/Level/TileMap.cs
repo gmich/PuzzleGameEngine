@@ -315,6 +315,12 @@ namespace PuzzleEngineAlpha.Level
         {
             return CellCodeValue((int)cell.X, (int)cell.Y);
         }
+
+        public Vector2 GetCellLocation(Vector2 cell)
+        {
+            return new Vector2(cell.X * TileWidth, cell.Y * TileHeight);
+        }
+
         #endregion
 
         #region Information about MapSquare objects

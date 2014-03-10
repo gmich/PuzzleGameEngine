@@ -76,7 +76,6 @@
     <Compile Include="Actors\Actors3D\Rain.cs" />
     <Compile Include="Actors\Actors3D\PrimitiveBatch.cs" />
     <Compile Include="Actors\Actors3D\Rectangle3D.cs" />
-    <Compile Include="Actors\Player.cs" />
     <Compile Include="Actors\MapObject.cs" />
     <Compile Include="Animations\AnimationStrip.cs" />
     <Compile Include="Animations\CircularAnimation.cs" />

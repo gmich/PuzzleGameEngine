@@ -20,10 +20,11 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         #region Constructor
 
-        public ChasingCamera(Vector2 targetLocation, Camera camera)
+        public ChasingCamera(Vector2 targetLocation, Camera camera,float chaseStep)
         {
             this.TargetLocation = targetLocation;
             this.camera = camera;
+            this.ChaseStep = chaseStep;
         }
 
         #endregion
@@ -40,10 +41,8 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         public float ChaseStep
         {
-            get
-            {
-                return 9.0f;
-            }
+            get;
+            set;
         }
 
         public Vector2 TargetLocation

@@ -13,7 +13,7 @@ using PuzzleEngineAlpha.Camera.Managers;
 using PuzzleEngineAlpha.Resolution;
 using PuzzleEngineAlpha.Camera;
 
-namespace RotationGame.Scene
+namespace GateGame.Scene
 {
 
     public class GameScene : PuzzleEngineAlpha.Scene.IScene
@@ -42,9 +42,9 @@ namespace RotationGame.Scene
             this.tileMap = tileMap;
             this.tileMap.Camera = camera;
 
-            player = new Actors.Player(tileMap, camera, new Vector2(-100,-100), content.Load<Texture2D>(@"Textures/player"), 280.0f, 16, 16, 16, 16);
-            cameraManager.SetCameraScript(new ChasingCamera(player.location, camera,6.0f));
-            cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 8));
+            player = new Actors.Player(tileMap, camera, new Vector2(-100,-100), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
+            cameraManager.SetCameraScript(new ChasingCamera(player.location, camera,3.0f));
+            // cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 8));
             cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.5f, 0.01f));
 
             UpdateRenderTarget();
@@ -157,7 +157,7 @@ namespace RotationGame.Scene
         {
             player.Update(gameTime);
 
-            cameraManager.TargetLocation = player.Center;
+            cameraManager.TargetLocation = player.RelativeCenter;
             cameraManager.Update(gameTime);
         }
 
