@@ -10,10 +10,16 @@ namespace myPlatformer
     public class SoundManager
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        static Dictionary<string, SoundEffect> sfx = new Dictionary<string, SoundEffect>();
-        static Dictionary<string, Song> songs = new Dictionary<string, Song>();
+        Dictionary<string, SoundEffect> sfx;
+        Dictionary<string, Song> songs;
 
-        public static void AddSfx(string sfxTag, SoundEffect soundfx)
+        public SoundManager()
+        {
+            sfx = new Dictionary<string, SoundEffect>();
+            songs = new Dictionary<string, Song>();
+        }
+
+        public void AddSfx(string sfxTag, SoundEffect soundfx)
         {
             try
             {
@@ -27,7 +33,7 @@ namespace myPlatformer
         }
 
 
-        public static void AddSong(string songName, Song song)
+        public void AddSong(string songName, Song song)
         {
             try
             {
@@ -40,7 +46,7 @@ namespace myPlatformer
             }
         }
 
-        public static void PlaySFX(string sfxName, float pitch)
+        public void PlaySFX(string sfxName, float pitch)
         {
             try
             {
@@ -53,7 +59,7 @@ namespace myPlatformer
             }
         }
 
-        public static void PlaySong(string song, bool repeat, float volume)
+        public void PlaySong(string song, bool repeat, float volume)
         {
             try
             {
