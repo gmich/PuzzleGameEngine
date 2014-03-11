@@ -69,6 +69,20 @@ namespace GateGame.Actors
             return null;
         }
 
+        public Button GetInteractionButton(Rectangle otherRectangle)
+        {
+            foreach (StaticObject staticObject in staticObjects)
+            {
+                if (staticObject is Button)
+                {
+                    Button button = (Button)staticObject;
+                    if (button.InteractionRectangle.Intersects(otherRectangle))
+                        return button;
+                }
+            }
+            return null;
+        }
+
         public void ToggleGatesWithTag(string tag)
         {
             foreach (StaticObject staticObject in staticObjects)

@@ -21,6 +21,7 @@ namespace PuzzleEngineAlpha.Level.Editor
         EditorMapSquare[,] editorMapSquares;
         ContentManager Content;
         Rectangle sceneRectangle;
+        Animations.TileSheetHandler actorTileSheet;
 
         #endregion
 
@@ -32,6 +33,7 @@ namespace PuzzleEngineAlpha.Level.Editor
             this.frameTexture = Content.Load<Texture2D>(@"Buttons/tileFrame");
             this.ShowGrid = showGrid;
             this.Content = Content;
+            actorTileSheet = new Animations.TileSheetHandler(Content.Load<Texture2D>(@"Textures/actorsTemp"), 64, 64);
         }
 
         #endregion
@@ -70,7 +72,7 @@ namespace PuzzleEngineAlpha.Level.Editor
                 {
                     editorMapSquares[x, y] = new EditorMapSquare(passableText,codeValueText,background,button,buttonActor, frame, new Vector2(x * TileWidth, y * TileHeight), new Vector2(TileWidth, TileHeight), TileSourceRectangle(mapCells[x, y].LayerTile), this.Camera, sceneRectangle, mapCells[x, y].LayerTile);
                     editorMapSquares[x, y].MapSquare = mapCells[x, y];
-                    editorMapSquares[x, y].ActorSourceRectangle = TileSourceRectangle(mapCells[x, y].ActorID);
+                    editorMapSquares[x, y].ActorSourceRectangle = actorTileSheet.TileSourceRectangle(mapCells[x, y].ActorID);
                     editorMapSquares[x, y].StoreAndExecuteOnMouseDown(new Actions.SetEditorMapSquare(editorMapSquares[x, y]));
                     editorMapSquares[x, y].StoreAndExecuteOnMouseRelease(new Actions.SetEditorSelectedTileAction(editorMapSquares[x, y]));
                 }

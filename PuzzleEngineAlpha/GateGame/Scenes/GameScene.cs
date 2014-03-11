@@ -31,7 +31,7 @@ namespace GateGame.Scene
         Vector2 sceneryOffSet;
         Actors.ActorManager actorManager;
         ContentManager content;
-        GateMapper gateMapper;
+        ActorMapper gateMapper;
 
         #endregion
 
@@ -47,7 +47,7 @@ namespace GateGame.Scene
             this.tileMap = tileMap;
             this.tileMap.Camera = camera;
             actorManager = new Actors.ActorManager();
-            gateMapper = new GateMapper(content);
+            gateMapper = new ActorMapper(content,this.tileMap);
             actorManager.Reset();
             player = new Actors.Player(actorManager,tileMap, camera, new Vector2(-100, -100), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
             cameraManager.SetCameraScript(new ChasingCamera(player.location, camera,3.0f));
@@ -75,12 +75,19 @@ namespace GateGame.Scene
 
             foreach (KeyValuePair<Vector2,int> actor in actors)
             {
-                Gate gate = new Gate(this.tileMap, this.camera, actor.Key,gateMapper.GetTextureByID(actor.Value) , tileMap.TileWidth, tileMap.TileHeight);
-                gate.Tag = gateMapper.GetTagByID(actor.Value);
-                gate.CollisionRectangle = gateMapper.GetCollisionRectangleByID(actor.Value,actor.Key);
-                gate.InteractionRectangle = gateMapper.GetInteractionRectangleByID(actor.Value, actor.Key);
-                gate.Enabled = gateMapper.IsGateEnabled(actor.Value);
-                actorManager.AddStaticObject(gate);
+                StaticObject obj;
+                if (actor.Value <= gateMapper.LastGateID)
+                {
+                    obj = new Gate(this.tileMap, this.camera, actor.Key, gateMapper.GetTextureByID(actor.Value), tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value), gateMapper.IsGateEnabled(actor.Value));
+                }
+                else
+                {
+                    obj = new Button(this.tileMap, this.camera, actor.Key, gateMapper.GetTextureByID(actor.Value), tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value));
+                }
+                obj.CollisionRectangle = gateMapper.GetCollisionRectangleByID(actor.Value, actor.Key);
+                obj.InteractionRectangle = gateMapper.GetInteractionRectangleByID(actor.Value, actor.Key);
+
+                actorManager.AddStaticObject(obj);
             }
         }
 

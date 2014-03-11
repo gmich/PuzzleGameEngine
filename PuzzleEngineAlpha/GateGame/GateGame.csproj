@@ -41,8 +41,9 @@
     <Compile Include="Actions\SwapGameWindowAction.cs" />
     <Compile Include="Actions\TerminateGameAction.cs" />
     <Compile Include="Actors\ActorManager.cs" />
+    <Compile Include="Actors\Button.cs" />
     <Compile Include="Actors\Gate.cs" />
-    <Compile Include="Actors\GateMapper.cs" />
+    <Compile Include="Actors\ActorMapper.cs" />
     <Compile Include="Actors\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

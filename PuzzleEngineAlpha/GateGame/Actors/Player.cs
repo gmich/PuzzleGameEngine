@@ -109,13 +109,13 @@ namespace GateGame.Actors
 
         void ToggleGate()
         {
-            Gate gate = actorManager.GetInteractionGate(this.CollisionRectangle);
+            Button button = actorManager.GetInteractionButton(this.CollisionRectangle);
 
-            if (gate != null && (!this.CollisionRectangle.Intersects(gate.CollisionRectangle)))
+            if (button != null)
             {
-                actorManager.ToggleGatesWithTag(gate.Tag);
+                actorManager.ToggleGatesWithTag(button.Tag);
             }
-        }
+        } 
         #endregion
 
         #region Collision Detection
@@ -174,7 +174,7 @@ namespace GateGame.Actors
                 ToggleGate();
             }
 
-            ManipulateVector(ref velocity, 230.0f, 10f);
+            ManipulateVector(ref velocity, 240.0f, 10f);
 
             base.Update(gameTime);
 

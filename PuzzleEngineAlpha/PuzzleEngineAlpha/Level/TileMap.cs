@@ -264,13 +264,13 @@ namespace PuzzleEngineAlpha.Level
                 (int)cell.Y);
         }
 
-        protected int SourceTileWidth
+        public int SourceTileWidth
         {
             get;
             set;
         }
 
-        protected int SourceTileHeight
+        public int SourceTileHeight
         {
             get;
             set;
