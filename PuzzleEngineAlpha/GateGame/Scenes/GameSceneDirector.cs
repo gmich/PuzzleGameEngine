@@ -39,6 +39,7 @@ namespace GateGame.Scene
             MapHandlerScene gameMapHandler = new MapHandlerScene(content, gameTileMap, new PuzzleEngineAlpha.Databases.Level.BinaryLevelInfoSerialization(), new PuzzleEngineAlpha.Databases.Level.BinaryMapSerialization());
 
             gameScenes.Add("game", new GameScene(graphicsDevice, content, gameTileMap, Vector2.Zero));
+            gameScenes.Add("diagnostics", new DiagnosticsScene(graphicsDevice, content));
             gameScenes.Add("menu", new Menu.MenuHandler(content, graphicsDevice, gameMapHandler, gameTileMap, this));
             gameScenes.Add("mapHandler", gameMapHandler);
 

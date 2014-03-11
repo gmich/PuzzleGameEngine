@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using PuzzleEngineAlpha.Scene;
+using PuzzleEngineAlpha.Diagnostics;
+using PuzzleEngineAlpha.Resolution;
+using PuzzleEngineAlpha.Animations;
 
-namespace PuzzleEngineAlpha.Scene.Editor
+namespace GateGame.Scene
 {
-    using Diagnostics;
-    using Resolution;
 
     public class DiagnosticsScene : IScene
     {
@@ -19,8 +21,8 @@ namespace PuzzleEngineAlpha.Scene.Editor
         GraphicsDevice graphicsDevice;
         FpsMonitor fpsMonitor;
         Texture2D background;
-        Animations.SmoothTransition bgTransparency;
-        Animations.SmoothTransition fontTransparency;
+        SmoothTransition bgTransparency;
+        SmoothTransition fontTransparency;
 
         #endregion
 
@@ -35,40 +37,15 @@ namespace PuzzleEngineAlpha.Scene.Editor
             texts = new Dictionary<Vector2, string>();
             LargestWidth = 0;
             LargestHeight = 0;
-            SelectedTexture = null;
-            bgTransparency = new Animations.SmoothTransition(0.5f, 0.002f, 0.0f, 0.5f);
-            fontTransparency = new Animations.SmoothTransition(1.0f, 0.004f, 0.0f, 1.0f);
-            Level.Editor.TileManager.ShowPassable = true;
+            bgTransparency = new SmoothTransition(0.5f, 0.002f, 0.0f, 0.5f);
+            fontTransparency = new SmoothTransition(1.0f, 0.004f, 0.0f, 1.0f);
             isActive = true;
-        }
-
-        #endregion
-
-        #region Private Helper Methods
-
-        void UpdateTransparency(GameTime gameTime)
-        {
-            if (Input.InputHandler.MouseRectangle.Intersects(this.SceneRectangle))
-            {
-                bgTransparency.Decrease(gameTime);
-                fontTransparency.Decrease(gameTime);
-            }
-            else
-            {
-                bgTransparency.Increase(gameTime);
-                fontTransparency.Increase(gameTime);
-            }
         }
 
         #endregion
 
         #region Properties
 
-        public static Texture2D SelectedTexture
-        {
-            get;
-            set;
-        }
 
         Vector2 SceneLocation
         {
@@ -94,7 +71,7 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
             get
             {
-                return new Rectangle(0, 0, LargestWidth + 10, LargestHeight + 10);
+                return new Rectangle(0, 0, LargestWidth + 30, LargestHeight + 10);
             }
         }
 
@@ -188,7 +165,6 @@ namespace PuzzleEngineAlpha.Scene.Editor
         {
             fpsMonitor.Update(gameTime);
             SetText(new Vector2(5,5), "fps: " + fpsMonitor.FPS);
-            UpdateTransparency(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -198,23 +174,11 @@ namespace PuzzleEngineAlpha.Scene.Editor
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                       
-            spriteBatch.Draw(background, SceneRectangle, null, Color.White * bgTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics -0.01f);
-
-            if (Level.Editor.TileManager.MapSquare != null)
-            {
-                spriteBatch.Draw(background, new Rectangle(142, 62, 70, 70), Level.Editor.TileManager.TileSourceRectangle, new Color(30,30,30) * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics);
-                if (Level.Editor.TileManager.MapSquare.ActorID==-1)
-                {
-                    spriteBatch.Draw(Level.Editor.TileManager.TileSheet, new Rectangle(145, 65, 64, 64), Level.Editor.TileManager.TileSourceRectangle, Color.White * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics + 0.01f);
-                }else
-                {
-                    spriteBatch.Draw(Level.Editor.TileManager.ActorTileSheet, new Rectangle(145, 65, 64, 64), Level.Editor.TileManager.ActorSourceRectangle, Color.White * fontTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, Scene.DisplayLayer.Diagnostics + 0.01f);
-                }
-            }
+            spriteBatch.Draw(background, SceneRectangle, null, Color.White * bgTransparency.Value, 0.0f, Vector2.Zero, SpriteEffects.None, 0.0f);
 
             foreach (KeyValuePair<Vector2, string> item in texts)
             {
-                spriteBatch.DrawString(font, item.Value, item.Key, Color.Black * fontTransparency.Value,0.0f,Vector2.Zero,1.0f,SpriteEffects.None,Scene.DisplayLayer.Diagnostics +0.02f);
+                spriteBatch.DrawString(font, item.Value, item.Key, Color.Black * fontTransparency.Value, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f);
             }
             
             spriteBatch.End();
