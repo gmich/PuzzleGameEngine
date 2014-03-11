@@ -7,7 +7,7 @@ namespace PuzzleEngineAlpha.Actors
 {
     using Animations;
 
-    public class MapObject
+    public abstract class MapObject
     {
         #region Declarations
 
@@ -89,11 +89,7 @@ namespace PuzzleEngineAlpha.Actors
         {
             get
             {
-                return new Rectangle(
-                    (int)location.X,
-                    (int)location.Y,
-                    frameWidth,
-                    frameHeight);
+                return new Rectangle((int)location.X, (int)location.Y, frameWidth, frameHeight);
             }
         }
 
@@ -146,7 +142,7 @@ namespace PuzzleEngineAlpha.Actors
                 corner1 = new Vector2(location.X + moveAmount.X + collideWidth, location.Y);
                 corner2 = new Vector2(location.X + moveAmount.X + collideWidth, location.Y + collideHeight);
             }
-
+            HorizontalActorCollision(ref moveAmount,corner1, corner2);
             Vector2 mapCell1 = tileMap.GetCellByPixel(corner1);
             Vector2 mapCell2 = tileMap.GetCellByPixel(corner2);
 
@@ -193,6 +189,7 @@ namespace PuzzleEngineAlpha.Actors
 
             Vector2 mapCell1 = tileMap.GetCellByPixel(corner1);
             Vector2 mapCell2 = tileMap.GetCellByPixel(corner2);
+            VerticalActorCollision(ref moveAmount,corner1, corner2);
 
             if (!tileMap.CellIsPassable(mapCell1))
             {
@@ -243,6 +240,11 @@ namespace PuzzleEngineAlpha.Actors
             moveAmount.X = 0;
             velocity.X = 0;
         }
+
+        public abstract void HorizontalActorCollision(ref Vector2 moveAmount,Vector2 corner1, Vector2 corner2);
+
+        public abstract void VerticalActorCollision(ref Vector2 moveAmount,Vector2 corner1, Vector2 corner2);
+
 
         #endregion
 

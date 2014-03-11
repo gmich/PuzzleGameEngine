@@ -22,7 +22,7 @@
 
             if (TileManager.MapSquare != null)
             {
-                TileManager.MapSquare = new Level.MapSquare(TileManager.MapSquare.LayerTile, Scene.Editor.ConfigurationScene.Passable, TileManager.MapSquare.CodeValue);
+                TileManager.MapSquare = new Level.MapSquare(TileManager.MapSquare.LayerTile, Scene.Editor.ConfigurationScene.Passable, TileManager.MapSquare.CodeValue,TileManager.MapSquare.ActorID);
             }
 
             if (Scene.Editor.ConfigurationScene.Passable)

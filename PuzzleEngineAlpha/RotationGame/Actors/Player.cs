@@ -48,6 +48,20 @@ namespace RotationGame.Actors
 
         #endregion
 
+        #region Collision Detection
+
+        public override void HorizontalActorCollision(ref Vector2 moveAmount,Vector2 corner1, Vector2 corner2)
+        {
+            return;
+        }
+
+        public override void VerticalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
+        {
+            return;
+        }
+
+        #endregion
+
         #region Helper Methods
 
         public Vector2 GetVelocity(int state)

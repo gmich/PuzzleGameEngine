@@ -88,6 +88,7 @@
     <Compile Include="Animations\LoadingAnimation.cs" />
     <Compile Include="Animations\Rotation.cs" />
     <Compile Include="Animations\SmoothTransition.cs" />
+    <Compile Include="Animations\TileSheetHandler.cs" />
     <Compile Include="Camera\Camera.cs" />
     <Compile Include="Camera\Handlers\Zoomer.cs" />
     <Compile Include="Camera\Handlers\ICameraHandler.cs" />
@@ -204,7 +205,22 @@
     <Content Include="Content\Textures\ActorsTemp.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Textures\gate.png">
+    <Content Include="Content\Textures\Gates\black_gate_h.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\Gates\black_gate_v.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\Gates\blue_gate_h.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\Gates\blue_gate_v.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\Gates\sea_gate_h.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\Gates\sea_gate_v.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Textures\PlatformTiles.png">

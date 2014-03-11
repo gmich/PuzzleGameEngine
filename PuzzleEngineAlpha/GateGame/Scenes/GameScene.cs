@@ -15,6 +15,7 @@ using PuzzleEngineAlpha.Camera;
 
 namespace GateGame.Scene
 {
+    using Actors;
 
     public class GameScene : PuzzleEngineAlpha.Scene.IScene
     {
@@ -30,6 +31,7 @@ namespace GateGame.Scene
         Vector2 sceneryOffSet;
         Actors.ActorManager actorManager;
         ContentManager content;
+        GateMapper gateMapper;
 
         #endregion
 
@@ -44,8 +46,10 @@ namespace GateGame.Scene
             camera = new Camera( Vector2.Zero,new Vector2(this.Width, this.Height), new Vector2(50000, 50000));
             this.tileMap = tileMap;
             this.tileMap.Camera = camera;
-
-            player = new Actors.Player(tileMap, camera, new Vector2(-100,-100), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
+            actorManager = new Actors.ActorManager();
+            gateMapper = new GateMapper(content);
+            actorManager.Reset();
+            player = new Actors.Player(actorManager,tileMap, camera, new Vector2(-100, -100), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
             cameraManager.SetCameraScript(new ChasingCamera(player.location, camera,3.0f));
             cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 8));
             cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.5f, 0.01f));
@@ -54,8 +58,7 @@ namespace GateGame.Scene
             this.sceneryOffSet = sceneryOffSet;
             PuzzleEngineAlpha.Resolution.ResolutionHandler.Changed += ResetSizes;
             this.tileMap.NewMap += NewMapHandling;
-            actorManager = new Actors.ActorManager();
-            actorManager.Reset();
+
         }
 
         #endregion
@@ -72,7 +75,12 @@ namespace GateGame.Scene
 
             foreach (KeyValuePair<Vector2,int> actor in actors)
             {
-                actorManager.AddStaticObject(new Actors.Gate(this.tileMap,this.camera,actor.Key,content.Load<Texture2D>(@"Textures/gate"),tileMap.TileWidth,tileMap.TileHeight,"tag"));
+                Gate gate = new Gate(this.tileMap, this.camera, actor.Key,gateMapper.GetTextureByID(actor.Value) , tileMap.TileWidth, tileMap.TileHeight);
+                gate.Tag = gateMapper.GetTagByID(actor.Value);
+                gate.CollisionRectangle = gateMapper.GetCollisionRectangleByID(actor.Value,actor.Key);
+                gate.InteractionRectangle = gateMapper.GetInteractionRectangleByID(actor.Value, actor.Key);
+                gate.Enabled = gateMapper.IsGateEnabled(actor.Value);
+                actorManager.AddStaticObject(gate);
             }
         }
 

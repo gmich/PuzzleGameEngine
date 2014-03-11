@@ -15,12 +15,13 @@ namespace GateGame.Actors
 
         MovementScript movementScript;
         int movementState;
+        readonly ActorManager actorManager;
 
         #endregion
 
         #region Constructor
 
-        public Player(PuzzleEngineAlpha.Level.TileMap tileMap, PuzzleEngineAlpha.Camera.Camera camera, Vector2 location, Texture2D texture, float step, int frameWidth, int frameHeight, int collideWidth, int collideHeight)
+        public Player(ActorManager actorManager,PuzzleEngineAlpha.Level.TileMap tileMap, PuzzleEngineAlpha.Camera.Camera camera, Vector2 location, Texture2D texture, float step, int frameWidth, int frameHeight, int collideWidth, int collideHeight)
             : base(tileMap,camera,location, frameWidth, frameHeight, collideWidth,collideHeight)
         {
             this.InitialLocation = location;
@@ -29,6 +30,7 @@ namespace GateGame.Actors
             this.step = step;
             movementScript = new MovementScript();
             movementState = 0;
+            this.actorManager = actorManager;
         }
 
         #endregion
@@ -89,7 +91,6 @@ namespace GateGame.Actors
                     return new Vector2(+OffSet, 0);
                 default:
                     return Vector2.Zero;
-
             }
         }
 
@@ -104,6 +105,40 @@ namespace GateGame.Actors
                 vector.Y = MathHelper.Clamp(vector.Y - amount, 0, maxAcceleration);
             else
                 vector.Y = MathHelper.Clamp(vector.Y + amount, -maxAcceleration, 0);
+        }
+
+        void ToggleGate()
+        {
+            Gate gate = actorManager.GetInteractionGate(this.CollisionRectangle);
+
+            if (gate != null && (!this.CollisionRectangle.Intersects(gate.CollisionRectangle)))
+            {
+                actorManager.ToggleGatesWithTag(gate.Tag);
+            }
+        }
+        #endregion
+
+        #region Collision Detection
+        
+        public override void HorizontalActorCollision(ref Vector2 moveAmount,Vector2 corner1, Vector2 corner2)
+        {
+
+            if (actorManager.HasActorAtLocation(corner1) || actorManager.HasActorAtLocation(corner2))
+            {
+                moveAmount.X = 0.0f;
+                velocity.X=0.0f;
+                Collided=true;
+            }
+        }
+
+        public override void VerticalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
+        {
+            if (actorManager.HasActorAtLocation(corner1) || actorManager.HasActorAtLocation(corner2))
+            {
+                moveAmount.Y = 0.0f;
+                velocity.Y = 0.0f;
+                Collided = true;
+            }
         }
 
         #endregion
@@ -133,13 +168,18 @@ namespace GateGame.Actors
                 movementState = 3;
             }
 
-           // if(PuzzleEngineAlpha.Input.InputHandler.IsKeyDown(Keys.Space))
-   
+            //TODO: get input from input configuration
+            if (PuzzleEngineAlpha.Input.InputHandler.IsKeyReleased(Keys.Space))
+            {
+                ToggleGate();
+            }
+
             ManipulateVector(ref velocity, 230.0f, 10f);
 
             base.Update(gameTime);
 
         }
+
 
     }
 }

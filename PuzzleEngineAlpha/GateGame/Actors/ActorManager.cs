@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PuzzleEngineAlpha.Actors;
+using Microsoft.Xna.Framework.Content;
 
 namespace GateGame.Actors
 {
@@ -13,6 +14,7 @@ namespace GateGame.Actors
 
         List<MapObject> mapObjects;
         List<StaticObject> staticObjects;
+
 
         #endregion
 
@@ -40,7 +42,7 @@ namespace GateGame.Actors
 
         public void AddStaticObject(StaticObject staticObject)
         {
-            staticObjects.Add(staticObject);
+            staticObjects.Add(staticObject);                 
         }
 
         public bool HasActorAtLocation(Vector2 location)
@@ -51,6 +53,33 @@ namespace GateGame.Actors
                     return true;
             }
             return false;
+        }
+
+        public Gate GetInteractionGate(Rectangle otherRectangle)
+        {
+            foreach (StaticObject staticObject in staticObjects)
+            {
+                if (staticObject is Gate)
+                {
+                    Gate gate = (Gate)staticObject;
+                    if (gate.InteractionRectangle.Intersects(otherRectangle))
+                        return gate;
+                }
+            }
+            return null;
+        }
+
+        public void ToggleGatesWithTag(string tag)
+        {
+            foreach (StaticObject staticObject in staticObjects)
+            {
+                if (staticObject is Gate)
+                {
+                    Gate gate = (Gate)staticObject;
+                    if (gate.Tag == tag)
+                        gate.Toggle();
+                }
+            }
         }
 
         public bool InteractsWithGate(Rectangle otherRectangle)

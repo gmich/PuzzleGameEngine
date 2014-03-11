@@ -40,7 +40,18 @@ namespace PuzzleEngineAlpha.Actors
 
         #region Rendering Properties
 
-        
+        public Vector2 Location
+        {
+            get
+            {
+                return location;
+            }
+            set
+            {
+                location = value;
+            }
+        }
+
         protected float Layer
         {
             get;
@@ -54,6 +65,12 @@ namespace PuzzleEngineAlpha.Actors
         }
 
         public Rectangle CollisionRectangle
+        {
+            get;
+            set;
+        }
+
+        public Rectangle InteractionRectangle
         {
             get;
             set;
@@ -74,8 +91,8 @@ namespace PuzzleEngineAlpha.Actors
         public bool Intersects(Vector2 otherLocation)
         {
             if (!enabled) return false;
-            return ((location.X <= otherLocation.X && location.Y < otherLocation.Y)
-                    && (location.X + CollisionRectangle.Width > otherLocation.X && location.Y + CollisionRectangle.Height >= otherLocation.Y));
+            return ((CollisionRectangle.X <= otherLocation.X && CollisionRectangle.Y < otherLocation.Y)
+                    && (CollisionRectangle.X + CollisionRectangle.Width > otherLocation.X && CollisionRectangle.Y + CollisionRectangle.Height >= otherLocation.Y));
         }
 
         void UpdateAnimation(GameTime gameTime)
