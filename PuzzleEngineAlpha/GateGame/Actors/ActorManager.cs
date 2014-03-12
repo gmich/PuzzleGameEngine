@@ -69,6 +69,21 @@ namespace GateGame.Actors
             return null;
         }
 
+        public void IntersectsWithCoin(Rectangle otherRectangle)
+        {
+            for (int i = 0; i < staticObjects.Count; i++)
+            {
+                if (staticObjects[i] is Coin)
+                {    
+                    if (staticObjects[i].InteractionRectangle.Intersects(otherRectangle))
+                    {
+                        staticObjects.RemoveAt(i);
+                        return;
+                    }
+                }
+            }
+        }
+
         public Button GetInteractionButton(Rectangle otherRectangle)
         {
             foreach (StaticObject staticObject in staticObjects)

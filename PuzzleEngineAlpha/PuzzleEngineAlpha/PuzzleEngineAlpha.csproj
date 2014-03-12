@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B37063EC-5888-4B43-9A50-D835581D9E6B}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PuzzleEngineAlpha</RootNamespace>
     <AssemblyName>PuzzleEngineAlpha</AssemblyName>
@@ -211,7 +211,7 @@
     <Content Include="Content\Textures\Buttons\button_blue.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Textures\Buttons\button_sea.png">
+    <Content Include="Content\Textures\Buttons\button_yellow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Textures\Gates\black_gate_h.png">
@@ -226,10 +226,13 @@
     <Content Include="Content\Textures\Gates\blue_gate_v.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Textures\Gates\sea_gate_h.png">
+    <Content Include="Content\Textures\Gates\yellow_gate_h.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Textures\Gates\sea_gate_v.png">
+    <Content Include="Content\Textures\Gates\yellow_gate_v.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Textures\Items\coin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Textures\PlatformTiles.png">

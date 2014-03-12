@@ -174,6 +174,8 @@ namespace GateGame.Actors
                 ToggleGate();
             }
 
+            actorManager.IntersectsWithCoin(this.CollisionRectangle);
+
             ManipulateVector(ref velocity, 240.0f, 10f);
 
             base.Update(gameTime);

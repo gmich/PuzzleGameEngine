@@ -71,7 +71,7 @@ namespace GateGame.Scene
         {
             get
             {
-                return new Rectangle(0, 0, LargestWidth + 30, LargestHeight + 10);
+                return new Rectangle(0, 0, LargestWidth + 10, LargestHeight + 10);
             }
         }
 

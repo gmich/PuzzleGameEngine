@@ -14,11 +14,12 @@ namespace GateGame.Actors
         Texture2D black_gate_v;
         Texture2D blue_gate_h;
         Texture2D blue_gate_v;
-        Texture2D sea_gate_h;
-        Texture2D sea_gate_v;
-        Texture2D button_sea;
+        Texture2D yellow_gate_h;
+        Texture2D yellow_gate_v;
+        Texture2D button_yellow;
         Texture2D button_blue;
         Texture2D button_black;
+        Texture2D coin;
         PuzzleEngineAlpha.Level.TileMap tileMap;
 
         #endregion
@@ -31,11 +32,12 @@ namespace GateGame.Actors
             black_gate_v = Content.Load<Texture2D>(@"Textures/Gates/black_gate_v");
             blue_gate_h = Content.Load<Texture2D>(@"Textures/Gates/blue_gate_h");
             blue_gate_v = Content.Load<Texture2D>(@"Textures/Gates/blue_gate_v");
-            sea_gate_h = Content.Load<Texture2D>(@"Textures/Gates/sea_gate_h");
-            sea_gate_v = Content.Load<Texture2D>(@"Textures/Gates/sea_gate_v");
-            button_sea = Content.Load<Texture2D>(@"Textures/Buttons/button_sea");
+            yellow_gate_h = Content.Load<Texture2D>(@"Textures/Gates/yellow_gate_h");
+            yellow_gate_v = Content.Load<Texture2D>(@"Textures/Gates/yellow_gate_v");
+            button_yellow = Content.Load<Texture2D>(@"Textures/Buttons/button_yellow");
             button_blue = Content.Load<Texture2D>(@"Textures/Buttons/button_blue");
             button_black = Content.Load<Texture2D>(@"Textures/Buttons/button_black");
+            coin = Content.Load<Texture2D>(@"Textures/Items/coin");
             this.tileMap = tileMap;
         }
 
@@ -50,6 +52,13 @@ namespace GateGame.Actors
                 return 11;
             }
         }
+        public int CoinID
+        {
+            get
+            {
+                return 15;
+            }
+        }
 
         public string GetTagByID(int id)
         {
@@ -57,7 +66,7 @@ namespace GateGame.Actors
             {
                 case 0:
                 case 6:
-                    return "sea";
+                    return "yellow";
                 case 1:
                 case 7:
                     return "blue";
@@ -67,7 +76,7 @@ namespace GateGame.Actors
                 case 3:
                 case 9:
                 case 12:
-                    return "sea";
+                    return "yellow";
                 case 4:
                 case 10:
                 case 13:
@@ -76,6 +85,8 @@ namespace GateGame.Actors
                 case 11:
                 case 14:
                     return "black";
+                case 15:
+                    return "coin";
                 default:
                     return "tagNotFound";
             }
@@ -87,7 +98,7 @@ namespace GateGame.Actors
             {
                 case 0:
                 case 6:
-                    return sea_gate_h;
+                    return yellow_gate_h;
                 case 1:
                 case 7:
                     return blue_gate_h;
@@ -96,7 +107,7 @@ namespace GateGame.Actors
                     return black_gate_h;
                 case 3:
                 case 9:
-                    return sea_gate_v;
+                    return yellow_gate_v;
                 case 4:
                 case 10:
                     return blue_gate_v;
@@ -104,11 +115,13 @@ namespace GateGame.Actors
                 case 11:
                     return black_gate_v;
                 case 12:
-                    return button_sea;
+                    return button_yellow;
                 case 13:
                     return button_blue;
                 case 14:
                     return button_black;
+                case 15:
+                    return coin;
                 default:
                     return null;
             }
@@ -120,8 +133,10 @@ namespace GateGame.Actors
                 return new Rectangle((int)location.X, (int)location.Y + tileMap.TileHeight/3+2, tileMap.TileWidth,tileMap.TileHeight/3-2);
             else if(id<=11)
                 return new Rectangle((int)location.X + tileMap.TileWidth/3+2, (int)location.Y, tileMap.TileWidth/3-2,  tileMap.TileHeight);
-            else
+            else if(id>11 && id<15)
                 return new Rectangle((int)location.X, (int)location.Y, tileMap.TileWidth, tileMap.TileHeight);
+            else
+                return new Rectangle((int)location.X + 22, (int)location.Y + 23, 19, 18);
 
         }
 
@@ -138,8 +153,11 @@ namespace GateGame.Actors
                 return new Rectangle((int)location.X - offSet, (int)location.Y + tileMap.TileHeight / 3 - offSet, tileMap.TileWidth + offSet * 2, tileMap.TileHeight / 3 - 2 + offSet * 2);
             else if (id <= 11)
                 return new Rectangle((int)location.X + tileMap.TileWidth / 3 - offSet, (int)location.Y - offSet, tileMap.TileWidth / 3 - 2 + offSet * 2, tileMap.TileHeight + offSet * 2);
-            else
+            else if (id > 11 && id < 15)
                 return new Rectangle((int)location.X, (int)location.Y, tileMap.TileWidth, tileMap.TileHeight);
+            else
+                return new Rectangle((int)location.X + 22, (int)location.Y + 23, 19, 18);
+
         }
 
         #endregion

@@ -11,8 +11,6 @@ using PuzzleEngineAlpha.Actions;
 
 namespace GateGame.Scene.Menu
 {
-
-
     class LoadMapMenu : PuzzleEngineAlpha.Scene.IScene
     {
 
@@ -181,6 +179,8 @@ namespace GateGame.Scene.Menu
 
         #endregion
 
+        #region Update
+
         public void Update(GameTime gameTime)
         {
             miniMap.Update(gameTime);
@@ -190,6 +190,10 @@ namespace GateGame.Scene.Menu
                 component.Update(gameTime);
             }
         }
+
+        #endregion
+
+        #region Draw
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -207,6 +211,8 @@ namespace GateGame.Scene.Menu
             miniMap.Draw(spriteBatch);
 
         }
+
+        #endregion
 
     }
 }
