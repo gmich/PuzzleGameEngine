@@ -61,6 +61,13 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         #region Helper Methods
 
+        private void NormalizeLocation()
+        {
+            int x = (int)camera.Position.X;
+            int y = (int)camera.Position.Y;
+            camera.Position = new Vector2(x, y);
+        }
+
         private void RepositionCamera(float timePassed)
         {
             int screenLocX = (int)camera.WorldToScreen(camera.Position).X;
