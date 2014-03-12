@@ -43,6 +43,7 @@
     <Compile Include="Actors\ActorManager.cs" />
     <Compile Include="Actors\Button.cs" />
     <Compile Include="Actors\Coin.cs" />
+    <Compile Include="Actors\HiddenWall.cs" />
     <Compile Include="Actors\Gate.cs" />
     <Compile Include="Actors\ActorMapper.cs" />
     <Compile Include="Actors\Player.cs" />

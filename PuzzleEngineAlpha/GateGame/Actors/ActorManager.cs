@@ -84,6 +84,21 @@ namespace GateGame.Actors
             }
         }
 
+        public void InteractsWithHiddenWall(Rectangle otherRectangle,MapObject interactionActor)
+        {
+            for (int i = 0; i < staticObjects.Count; i++)
+            {
+                if (staticObjects[i] is HiddenWall)
+                {
+                    if (staticObjects[i].InteractionRectangle.Intersects(otherRectangle))
+                    {
+                        HiddenWall hWall = (HiddenWall)staticObjects[i];
+                        hWall.InteractionActor = interactionActor;
+                    }
+                }
+            }
+        }
+
         public Button GetInteractionButton(Rectangle otherRectangle)
         {
             foreach (StaticObject staticObject in staticObjects)

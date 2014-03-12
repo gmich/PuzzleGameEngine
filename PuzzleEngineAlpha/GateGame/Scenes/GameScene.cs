@@ -89,6 +89,10 @@ namespace GateGame.Scene
                 {
                     obj = new Coin(this.tileMap, this.camera, actor.Key, gateMapper.GetTextureByID(actor.Value), tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value));
                 }
+                else if (actor.Value == gateMapper.HiddenWallID)
+                {
+                    obj = new HiddenWall(this.tileMap, this.camera, actor.Key, gateMapper.GetTextureByID(actor.Value), tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value));
+                }
                 else
                 {
                     obj = new Button(this.tileMap, this.camera, actor.Key, gateMapper.GetTextureByID(actor.Value), tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value));

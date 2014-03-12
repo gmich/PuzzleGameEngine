@@ -20,6 +20,7 @@ namespace GateGame.Actors
         Texture2D button_blue;
         Texture2D button_black;
         Texture2D coin;
+        Texture2D hidden_wall;
         PuzzleEngineAlpha.Level.TileMap tileMap;
 
         #endregion
@@ -38,6 +39,7 @@ namespace GateGame.Actors
             button_blue = Content.Load<Texture2D>(@"Textures/Buttons/button_blue");
             button_black = Content.Load<Texture2D>(@"Textures/Buttons/button_black");
             coin = Content.Load<Texture2D>(@"Textures/Items/coin");
+            hidden_wall = Content.Load<Texture2D>(@"Textures/Items/hidden_wall");
             this.tileMap = tileMap;
         }
 
@@ -57,6 +59,14 @@ namespace GateGame.Actors
             get
             {
                 return 15;
+            }
+        }
+
+        public int HiddenWallID
+        {
+            get
+            {
+                return 16;
             }
         }
 
@@ -87,6 +97,8 @@ namespace GateGame.Actors
                     return "black";
                 case 15:
                     return "coin";
+                case 16:
+                    return "hiddenWall";
                 default:
                     return "tagNotFound";
             }
@@ -122,6 +134,8 @@ namespace GateGame.Actors
                     return button_black;
                 case 15:
                     return coin;
+                case 16:
+                    return hidden_wall;
                 default:
                     return null;
             }
@@ -129,14 +143,16 @@ namespace GateGame.Actors
 
         public Rectangle GetCollisionRectangleByID(int id, Vector2 location)
         {
-            if (id <=2 || (id>=6 && id<=8))
-                return new Rectangle((int)location.X, (int)location.Y + tileMap.TileHeight/3+2, tileMap.TileWidth,tileMap.TileHeight/3-2);
-            else if(id<=11)
-                return new Rectangle((int)location.X + tileMap.TileWidth/3+2, (int)location.Y, tileMap.TileWidth/3-2,  tileMap.TileHeight);
-            else if(id>11 && id<15)
+            if (id <= 2 || (id >= 6 && id <= 8))
+                return new Rectangle((int)location.X, (int)location.Y + tileMap.TileHeight / 3 + 2, tileMap.TileWidth, tileMap.TileHeight / 3 - 2);
+            else if (id <= 11)
+                return new Rectangle((int)location.X + tileMap.TileWidth / 3 + 2, (int)location.Y, tileMap.TileWidth / 3 - 2, tileMap.TileHeight);
+            else if (id > 11 && id < 15)
                 return new Rectangle((int)location.X, (int)location.Y, tileMap.TileWidth, tileMap.TileHeight);
-            else
+            else if (id == 15) 
                 return new Rectangle((int)location.X + 22, (int)location.Y + 23, 19, 18);
+            else
+                return new Rectangle((int)location.X, (int)location.Y, tileMap.TileWidth, tileMap.TileHeight);
 
         }
 
@@ -155,8 +171,10 @@ namespace GateGame.Actors
                 return new Rectangle((int)location.X + tileMap.TileWidth / 3 - offSet, (int)location.Y - offSet, tileMap.TileWidth / 3 - 2 + offSet * 2, tileMap.TileHeight + offSet * 2);
             else if (id > 11 && id < 15)
                 return new Rectangle((int)location.X, (int)location.Y, tileMap.TileWidth, tileMap.TileHeight);
-            else
+            else if (id == 15)
                 return new Rectangle((int)location.X + 22, (int)location.Y + 23, 19, 18);
+            else
+                return new Rectangle((int)location.X, (int)location.Y, tileMap.TileWidth, tileMap.TileHeight);
 
         }
 

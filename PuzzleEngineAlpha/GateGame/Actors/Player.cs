@@ -79,7 +79,7 @@ namespace GateGame.Actors
 
         Vector2 RelativeOffset()
         {
-          /*  switch (movementState)
+            switch (movementState)
             {
                 case 0:
                     return new Vector2(0, -OffSet);
@@ -92,8 +92,8 @@ namespace GateGame.Actors
                 default:
                     return Vector2.Zero;
             }
-            */
-            return Velocity;
+            
+           // return Velocity;
         }
 
         void ManipulateVector(ref Vector2 vector, float maxAcceleration,float amount)
@@ -184,6 +184,7 @@ namespace GateGame.Actors
             }
 
             actorManager.IntersectsWithCoin(this.CollisionRectangle);
+            actorManager.InteractsWithHiddenWall(this.CollisionRectangle, this);
 
             ManipulateVector(ref velocity, 240.0f, 10f);
 
