@@ -69,7 +69,7 @@ namespace GateGame.Actors
         {
             get
             {
-                return 70.0f;
+                return 1.0f;
             }
         }
 
@@ -79,19 +79,21 @@ namespace GateGame.Actors
 
         Vector2 RelativeOffset()
         {
-            switch (movementState)
+          /*  switch (movementState)
             {
                 case 0:
-                    return new Vector2(0, -OffSet);
+                    return new Vector2(0, OffSet * Velocity.Y);
                 case 1:
-                    return new Vector2(0, +OffSet);
+                    return new Vector2(0, +OffSet * Velocity.Y);
                 case 2:
-                    return new Vector2(-OffSet, 0);
+                    return new Vector2(OffSet * Velocity.X, 0);
                 case 3:
-                    return new Vector2(+OffSet, 0);
+                    return new Vector2(+OffSet * Velocity.X, 0);
                 default:
                     return Vector2.Zero;
-            }
+            }*/
+          
+            return Velocity;
         }
 
         void ManipulateVector(ref Vector2 vector, float maxAcceleration,float amount)

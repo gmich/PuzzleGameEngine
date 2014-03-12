@@ -50,7 +50,7 @@ namespace GateGame.Scene
             gateMapper = new ActorMapper(content,this.tileMap);
             actorManager.Reset();
             player = new Actors.Player(actorManager,tileMap, camera, new Vector2(-100, -100), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
-            cameraManager.SetCameraScript(new ChasingCamera(player.location, camera,3.0f));
+            cameraManager.SetCameraScript(new ChasingCamera(player.location, camera,2.0f));
             cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 8));
             cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.5f, 0.01f));
 

@@ -120,10 +120,11 @@ namespace PuzzleEngineAlpha.Camera.Scripts
             int screenLocY = (int)camera.WorldToScreen(camera.Position).Y;
             Vector2 angle = TargetLocation - camera.WindowCenter;
 
-            angle.Normalize();
+            if (angle != Vector2.Zero)
+                angle.Normalize();
 
             camera.Move(angle * distance * timePassed);
-         
+
         }
 
         public void Update(GameTime gameTime)
