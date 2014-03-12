@@ -69,7 +69,7 @@ namespace GateGame.Actors
         {
             get
             {
-                return 1.0f;
+                return 60.0f;
             }
         }
 
@@ -82,17 +82,17 @@ namespace GateGame.Actors
           /*  switch (movementState)
             {
                 case 0:
-                    return new Vector2(0, OffSet * Velocity.Y);
+                    return new Vector2(0, -OffSet);
                 case 1:
-                    return new Vector2(0, +OffSet * Velocity.Y);
+                    return new Vector2(0, +OffSet);
                 case 2:
-                    return new Vector2(OffSet * Velocity.X, 0);
+                    return new Vector2(-OffSet, 0);
                 case 3:
-                    return new Vector2(+OffSet * Velocity.X, 0);
+                    return new Vector2(+OffSet, 0);
                 default:
                     return Vector2.Zero;
-            }*/
-          
+            }
+            */
             return Velocity;
         }
 

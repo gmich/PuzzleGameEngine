@@ -46,6 +46,7 @@
     <Compile Include="Actors\Gate.cs" />
     <Compile Include="Actors\ActorMapper.cs" />
     <Compile Include="Actors\Player.cs" />
+    <Compile Include="Animations\ParticleManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GateGame.cs" />

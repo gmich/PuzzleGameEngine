@@ -7,24 +7,27 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 {
     using Handlers;
 
-    public class ChasingCamera : ICameraScript
+    public class FreeRoam : ICameraScript
     {
 
-        #region Declarations
+       #region Declarations
 
         Camera camera;
-        float distance;
         Vector2 targetLocation;
+        Input.Scripts.MovementScript movementScript;
+        Vector2 velocity;
+        float distance;
 
         #endregion
 
         #region Constructor
 
-        public ChasingCamera(Vector2 targetLocation, Camera camera,float chaseStep)
+        public FreeRoam(Vector2 targetLocation, Camera camera)
         {
-            this.TargetLocation = targetLocation;
+            this.targetLocation = targetLocation;
             this.camera = camera;
-            this.ChaseStep = chaseStep;
+            movementScript = new Input.Scripts.MovementScript();
+            velocity = Vector2.Zero;
         }
 
         #endregion
@@ -39,59 +42,22 @@ namespace PuzzleEngineAlpha.Camera.Scripts
             }
         }
 
-        public float ChaseStep
-        {
-            get;
-            set;
-        }
-
+        Vector2 dummyLocation;
         public Vector2 TargetLocation
         {
             get
             {
-                return targetLocation;
+                return dummyLocation;
             }
             set
             {
-                targetLocation = value;
+                dummyLocation = value;
             }
         }
-
+        
         #endregion
 
         #region Helper Methods
-
-        void NormalizeLocation()
-        {            int x = (int)camera.Position.X;
-            int y = (int)camera.Position.Y;
-            camera.Position = new Vector2(x, y);
-        }
-
-        void AdjustCameraInBoundaries()
-        {
-            Vector2 adjustedPosition = camera.Position;
-            if (camera.WorldSize.X < Resolution.ResolutionHandler.WindowWidth)
-            {
-                float xOffSet = (Resolution.ResolutionHandler.WindowWidth - camera.WorldSize.X) / 2;
-                adjustedPosition.X = -xOffSet;
-            }
-            else
-            {
-                adjustedPosition.X = MathHelper.Max(camera.Position.X, 0);
-            }
-
-            if (camera.WorldSize.Y < Resolution.ResolutionHandler.WindowHeight)
-            {
-                float yOffSet = (Resolution.ResolutionHandler.WindowHeight - camera.WorldSize.Y) / 2;
-                adjustedPosition.Y = -yOffSet;
-            }
-            else
-            {
-                adjustedPosition.Y = MathHelper.Max(camera.Position.Y, 0);
-            }
-
-            camera.Position = adjustedPosition;
-        }
 
         void AdjustLocationInBoundaries(ref Vector2 location)
         {
@@ -116,26 +82,46 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         void RepositionCamera(float timePassed)
         {
-            Vector2 angle = TargetLocation - camera.WindowCenter;
+            Vector2 angle = targetLocation - camera.WindowCenter;
 
             if (angle != Vector2.Zero)
                 angle.Normalize();
 
             camera.Move(angle * distance * timePassed);
-
         }
 
         public void Update(GameTime gameTime)
         {
+            float step = 700.0f;
+            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (movementScript.MoveUp)
+            {
+                targetLocation += new Vector2(0, -step) * elapsedTime;
+            }
+            else if (movementScript.MoveDown)
+            {
+                targetLocation += new Vector2(0, +step) * elapsedTime;
+            }
+            if (movementScript.MoveLeft)
+            {
+                targetLocation += new Vector2(-step, 0) * elapsedTime;
+            }
+            else if (movementScript.MoveRight)
+            {
+                targetLocation += new Vector2(step, 0) * elapsedTime;
+            }
+
+
             AdjustLocationInBoundaries(ref targetLocation);
-            distance = Vector2.Distance(TargetLocation, camera.WindowCenter);
-            distance *= ChaseStep;
+            distance = Vector2.Distance(targetLocation, camera.WindowCenter);
+            distance *= 5.0f;
 
             if (distance < 0.001f)
                 distance = 0.0f;
 
+
             RepositionCamera((float)gameTime.ElapsedGameTime.TotalSeconds);
-          //  AdjustCameraInBoundaries();
         }
 
         #endregion

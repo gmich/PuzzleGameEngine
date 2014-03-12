@@ -32,6 +32,8 @@ namespace GateGame.Scene
         Actors.ActorManager actorManager;
         ContentManager content;
         ActorMapper gateMapper;
+        ChasingCamera chasingCamera;
+        FreeRoam freeRoam;
 
         #endregion
 
@@ -50,8 +52,11 @@ namespace GateGame.Scene
             gateMapper = new ActorMapper(content,this.tileMap);
             actorManager.Reset();
             player = new Actors.Player(actorManager,tileMap, camera, new Vector2(-100, -100), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
-            cameraManager.SetCameraScript(new ChasingCamera(player.location, camera,2.0f));
-            cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 8));
+            chasingCamera = new ChasingCamera(player.location, camera,2.0f);
+            cameraManager.SetCameraScript(chasingCamera);
+            IsCameraFree = false;
+
+            //cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 8));
             cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.5f, 0.01f));
 
             UpdateRenderTarget();
@@ -161,6 +166,12 @@ namespace GateGame.Scene
 
         #region Properties
 
+        bool IsCameraFree
+        {
+            get;
+            set;
+        }
+
         public Vector2 CameraLocation
         {
             get
@@ -172,6 +183,43 @@ namespace GateGame.Scene
         #endregion
 
         #region Helper Methods
+
+        void ToggleCameraScripts()
+        {
+            if(InputHandler.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.LeftShift))
+            {
+                if (IsCameraFree)
+                {
+                    cameraManager.SetCameraScript(chasingCamera);
+                    IsCameraFree = false;
+                  
+                }
+                else
+                {
+                    freeRoam = new FreeRoam(player.RelativeCenter, this.camera);
+                    cameraManager.SetCameraScript(freeRoam);
+                    IsCameraFree = true;
+                }
+                UpdateDiagnostics();
+            }
+
+        }
+
+        void UpdateDiagnostics()
+        {
+            string activeCam;
+
+            if (IsCameraFree)
+            {
+                activeCam = "free roam";
+            }
+            else
+            {
+                activeCam = "player";
+            }
+
+            DiagnosticsScene.SetText(new Vector2(5, 25), "camera target: " + activeCam);
+        }
 
         public void UpdateRenderTarget()
         {
@@ -186,6 +234,9 @@ namespace GateGame.Scene
 
         public void Update(GameTime gameTime)
         {
+            ToggleCameraScripts();
+
+            if(!IsCameraFree)
             player.Update(gameTime);
             actorManager.Update(gameTime);
             cameraManager.TargetLocation = player.RelativeCenter;

@@ -18,7 +18,7 @@ namespace GateGame.Actors
         {
             this.animations.Add("active", new PuzzleEngineAlpha.Animations.AnimationStrip(texture, frameWidth, "active"));
             currentAnimation = "active";
-            tranparencyTransition = new PuzzleEngineAlpha.Animations.SmoothTransition(1.0f, 0.002f, 0.4f, 1.0f);
+            tranparencyTransition = new PuzzleEngineAlpha.Animations.SmoothTransition(1.0f, 0.002f, 0.2f, 1.0f);
             this.Tag = tag;
             this.enabled = enabled;
         }
