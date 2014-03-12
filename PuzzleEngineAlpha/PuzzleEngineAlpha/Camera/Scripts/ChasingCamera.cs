@@ -61,14 +61,60 @@ namespace PuzzleEngineAlpha.Camera.Scripts
 
         #region Helper Methods
 
-        private void NormalizeLocation()
-        {
-            int x = (int)camera.Position.X;
+        void NormalizeLocation()
+        {            int x = (int)camera.Position.X;
             int y = (int)camera.Position.Y;
             camera.Position = new Vector2(x, y);
         }
 
-        private void RepositionCamera(float timePassed)
+        void AdjustCameraInBoundaries()
+        {
+            Vector2 adjustedPosition = camera.Position;
+            if (camera.WorldSize.X < Resolution.ResolutionHandler.WindowWidth)
+            {
+                float xOffSet = (Resolution.ResolutionHandler.WindowWidth - camera.WorldSize.X) / 2;
+                adjustedPosition.X = -xOffSet;
+            }
+            else
+            {
+                adjustedPosition.X = MathHelper.Max(camera.Position.X, 0);
+            }
+
+            if (camera.WorldSize.Y < Resolution.ResolutionHandler.WindowHeight)
+            {
+                float yOffSet = (Resolution.ResolutionHandler.WindowHeight - camera.WorldSize.Y) / 2;
+                adjustedPosition.Y = -yOffSet;
+            }
+            else
+            {
+                adjustedPosition.Y = MathHelper.Max(camera.Position.Y, 0);
+            }
+
+            camera.Position = adjustedPosition;
+        }
+
+        void AdjustLocationInBoundaries(ref Vector2 location)
+        {
+            if (camera.WorldSize.X < Resolution.ResolutionHandler.WindowWidth)
+            {
+                location.X = camera.WorldSize.X / 2;
+            }
+            else
+            {
+                location.X = MathHelper.Clamp(location.X, camera.ViewPortWidth / 2, camera.WorldSize.X - camera.ViewPortWidth / 2);
+            }
+
+            if (camera.WorldSize.Y < Resolution.ResolutionHandler.WindowHeight)
+            {
+                location.Y = camera.WorldSize.Y / 2;
+            }
+            else
+            {
+                location.Y = MathHelper.Clamp(location.Y, camera.ViewPortHeight / 2, camera.WorldSize.Y - camera.ViewPortHeight / 2);
+            }
+        }
+
+        void RepositionCamera(float timePassed)
         {
             int screenLocX = (int)camera.WorldToScreen(camera.Position).X;
             int screenLocY = (int)camera.WorldToScreen(camera.Position).Y;
@@ -83,6 +129,7 @@ namespace PuzzleEngineAlpha.Camera.Scripts
         public void Update(GameTime gameTime)
         {
 
+            AdjustLocationInBoundaries(ref targetLocation);
             distance = Vector2.Distance(TargetLocation, camera.WindowCenter);
             distance *= ChaseStep;
 
@@ -90,7 +137,7 @@ namespace PuzzleEngineAlpha.Camera.Scripts
                 distance = 0.0f;
 
             RepositionCamera((float)gameTime.ElapsedGameTime.TotalSeconds);
-
+          //  AdjustCameraInBoundaries();
         }
 
         #endregion

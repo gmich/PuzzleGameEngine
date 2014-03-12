@@ -115,7 +115,14 @@ namespace GateGame.Actors
             {
                 actorManager.ToggleGatesWithTag(button.Tag);
             }
-        } 
+        }
+
+        void AdjustLocationInMap()
+        {
+            this.location.X = MathHelper.Clamp(this.location.X, 0, camera.WorldSize.X);
+            this.location.Y = MathHelper.Clamp(this.location.Y, 0, camera.WorldSize.Y);
+        }
+
         #endregion
 
         #region Collision Detection
@@ -180,6 +187,7 @@ namespace GateGame.Actors
 
             base.Update(gameTime);
 
+            AdjustLocationInMap();
         }
 
 
