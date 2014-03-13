@@ -42,7 +42,7 @@ namespace RotationGame.Scene
             this.tileMap = tileMap;
             this.tileMap.Camera = camera;
 
-            player = new Actors.Player(tileMap, camera, new Vector2(-100,-100), content.Load<Texture2D>(@"Textures/player"), 280.0f, 16, 16, 16, 16);
+            player = new Actors.Player(tileMap, camera, new Vector2(-100,-100), content.Load<Texture2D>(@"Textures/player"), 350.0f, 16, 16, 16, 16);
             cameraManager.SetCameraScript(new ChasingCamera(player.location, camera,6.0f));
             cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 8));
             cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.5f, 0.01f));
@@ -62,7 +62,7 @@ namespace RotationGame.Scene
         {
             List<Vector2> playerLocations = tileMap.GetLocationOfCodeValue("player");
 
-            if (playerLocations == null)
+            if (playerLocations.Count == 0)
                 this.player.location = new Vector2(16, 16);
             else
                 this.player.location = playerLocations[0];

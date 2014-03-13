@@ -75,7 +75,7 @@ namespace GateGame.Scene
             actorManager.Reset();
             List<Vector2> playerLocations = tileMap.GetLocationOfCodeValue("player");
 
-            if (playerLocations != null)
+            if (playerLocations.Count>0)
             {
                 foreach (Vector2 playerLocation in playerLocations)
                 {
