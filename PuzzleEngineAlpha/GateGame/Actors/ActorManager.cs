@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PuzzleEngineAlpha.Actors;
 using Microsoft.Xna.Framework.Content;
+using PuzzleEngineAlpha.Utils;
 
 namespace GateGame.Actors
 {
@@ -14,8 +15,8 @@ namespace GateGame.Actors
 
         List<MapObject> mapObjects;
         List<StaticObject> staticObjects;
-
-
+        List<Player> players;
+        Enumerator playerEnumerator;
         #endregion
 
         #region Constructor
@@ -33,6 +34,8 @@ namespace GateGame.Actors
         {
             mapObjects = new List<MapObject>();
             staticObjects = new List<StaticObject>();
+            players = new List<Player>();
+            playerEnumerator = new Enumerator(players.Count, 0);
         }
 
         public void AddMapObject(MapObject mapObject)
@@ -45,6 +48,12 @@ namespace GateGame.Actors
             staticObjects.Add(staticObject);                 
         }
 
+        public void AddPlayer(Player player)
+        {
+            players.Add(player);
+            playerEnumerator.Count = players.Count;
+        }
+
         public bool HasActorAtLocation(Vector2 location)
         {
             foreach (StaticObject staticObject in staticObjects)
@@ -52,6 +61,26 @@ namespace GateGame.Actors
                 if (staticObject.Intersects(location))
                     return true;
             }
+            return false;
+        }
+
+        public bool HasActorAtLocation(Vector2 location,Player playerToCheck)
+        {
+            foreach (StaticObject staticObject in staticObjects)
+            {
+                if (staticObject.Intersects(location))
+                    return true;
+            }
+
+            foreach (Player player in players)
+            {
+                if (player != playerToCheck)
+                {
+                    if (player.Intersects(location))
+                        return true;
+                }
+            }
+
             return false;
         }
 
@@ -140,6 +169,15 @@ namespace GateGame.Actors
             return false;
         }
 
+        public Player GetNextPlayer()
+        {
+            players[playerEnumerator.Value].IsActive = false;
+
+            playerEnumerator.Next();
+            players[playerEnumerator.Value].IsActive = true;
+            return players[playerEnumerator.Value];
+        }
+
         #endregion
 
         #region Update
@@ -151,6 +189,9 @@ namespace GateGame.Actors
 
             foreach (StaticObject staticObject in staticObjects)
                 staticObject.Update(gameTime);
+
+            foreach (Player player in players)
+                player.HandleTransparency(gameTime);
         }
 
         #endregion
@@ -164,6 +205,9 @@ namespace GateGame.Actors
 
             foreach (StaticObject staticObject in staticObjects)
                 staticObject.Draw(spriteBatch);
+
+            foreach (Player player in players)
+                player.Draw(spriteBatch);
         }
 
         #endregion

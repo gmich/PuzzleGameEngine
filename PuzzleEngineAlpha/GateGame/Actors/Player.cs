@@ -16,6 +16,7 @@ namespace GateGame.Actors
         MovementScript movementScript;
         int movementState;
         readonly ActorManager actorManager;
+        PuzzleEngineAlpha.Animations.SmoothTransition tranparencyTransition;
 
         #endregion
 
@@ -31,11 +32,20 @@ namespace GateGame.Actors
             movementScript = new MovementScript();
             movementState = 0;
             this.actorManager = actorManager;
+            this.IsActive = false;
+            tranparencyTransition = new PuzzleEngineAlpha.Animations.SmoothTransition(1.0f, 0.001f, 0.6f, 1.0f);
+            IsActive=false;
         }
 
         #endregion
 
         #region Properties
+
+        public bool IsActive
+        {
+            get;
+            set;
+        }
 
         public Vector2 InitialLocation
         {
@@ -76,6 +86,16 @@ namespace GateGame.Actors
         #endregion
 
         #region Helper Methods
+        
+        public void HandleTransparency(GameTime gameTime)
+        {
+            if (IsActive)
+                tranparencyTransition.Increase(gameTime);
+            else
+                tranparencyTransition.Decrease(gameTime);
+
+            Transparency = tranparencyTransition.Value;
+        }
 
         Vector2 RelativeOffset()
         {
@@ -132,7 +152,7 @@ namespace GateGame.Actors
         public override void HorizontalActorCollision(ref Vector2 moveAmount,Vector2 corner1, Vector2 corner2)
         {
 
-            if (actorManager.HasActorAtLocation(corner1) || actorManager.HasActorAtLocation(corner2))
+            if (actorManager.HasActorAtLocation(corner1,this) || actorManager.HasActorAtLocation(corner2,this))
             {
                 moveAmount.X = 0.0f;
                 velocity.X=0.0f;
@@ -142,7 +162,7 @@ namespace GateGame.Actors
 
         public override void VerticalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
         {
-            if (actorManager.HasActorAtLocation(corner1) || actorManager.HasActorAtLocation(corner2))
+            if (actorManager.HasActorAtLocation(corner1,this) || actorManager.HasActorAtLocation(corner2,this))
             {
                 moveAmount.Y = 0.0f;
                 velocity.Y = 0.0f;
@@ -163,17 +183,17 @@ namespace GateGame.Actors
             }
             else if (movementScript.MoveDown)
             {
-                velocity +=new Vector2(0, +step);
+                velocity += new Vector2(0, +step);
                 movementState = 1;
             }
             if (movementScript.MoveLeft)
             {
-                velocity += new Vector2(-step,0);
+                velocity += new Vector2(-step, 0);
                 movementState = 2;
             }
             else if (movementScript.MoveRight)
             {
-                velocity += new Vector2(step,0);
+                velocity += new Vector2(step, 0);
                 movementState = 3;
             }
 
@@ -191,6 +211,7 @@ namespace GateGame.Actors
             base.Update(gameTime);
 
             AdjustLocationInMap();
+
         }
 
 

@@ -60,7 +60,13 @@ namespace RotationGame.Scene
 
         void NewMapHandling(object sender, EventArgs e)
         {
-            this.player.location = tileMap.GetLocationOfUniqueCodeValue("player") + new Vector2(16, 16);
+            List<Vector2> playerLocations = tileMap.GetLocationOfCodeValue("player");
+
+            if (playerLocations == null)
+                this.player.location = new Vector2(16, 16);
+            else
+                this.player.location = playerLocations[0];
+
             this.player.InitialLocation = this.player.location;
         }
 

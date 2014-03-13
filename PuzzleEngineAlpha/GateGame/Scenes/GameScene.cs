@@ -72,13 +72,28 @@ namespace GateGame.Scene
 
         void NewMapHandling(object sender, EventArgs e)
         {
-            this.player.location = tileMap.GetLocationOfUniqueCodeValue("player") + new Vector2(16, 16);
-            this.player.InitialLocation = this.player.location;
             actorManager.Reset();
+            List<Vector2> playerLocations = tileMap.GetLocationOfCodeValue("player");
 
-            Dictionary<Vector2,int> actors = tileMap.GetActorsLocationAndID();
+            if (playerLocations != null)
+            {
+                foreach (Vector2 playerLocation in playerLocations)
+                {
+                    player = new Actors.Player(actorManager, tileMap, camera, playerLocation + new Vector2(16, 16), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
+                    actorManager.AddPlayer(player);
+                }
+            }
+            else
+            {
+                player = new Actors.Player(actorManager, tileMap, camera, new Vector2(16, 16), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
+                actorManager.AddPlayer(player);
+            }
 
-            foreach (KeyValuePair<Vector2,int> actor in actors)
+            this.player = actorManager.GetNextPlayer();
+
+            Dictionary<Vector2, int> actors = tileMap.GetActorsLocationAndID();
+
+            foreach (KeyValuePair<Vector2, int> actor in actors)
             {
                 StaticObject obj;
                 if (actor.Value <= gateMapper.LastGateID)
@@ -238,6 +253,12 @@ namespace GateGame.Scene
 
         public void Update(GameTime gameTime)
         {
+
+            if (PuzzleEngineAlpha.Input.InputHandler.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.E))
+            {
+                player = actorManager.GetNextPlayer();
+            }
+
             ToggleCameraScripts();
 
             if(!IsCameraFree)

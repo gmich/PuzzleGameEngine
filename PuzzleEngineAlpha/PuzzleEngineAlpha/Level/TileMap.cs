@@ -338,15 +338,17 @@ namespace PuzzleEngineAlpha.Level
 
         #region Information about MapSquare objects
 
-        public Vector2 GetLocationOfUniqueCodeValue(string codeValue)
+        public List<Vector2> GetLocationOfCodeValue(string codeValue)
         {
+            List<Vector2> locations = new List<Vector2>();
+
             for (int x = 0; x < MapWidth; x++)
                 for (int y = 0; y < MapHeight; y++)
                 {
                     if (mapCells[x, y].CodeValue == codeValue)
-                        return new Vector2(x * TileWidth, y * TileWidth);
+                        locations.Add(new Vector2(x * TileWidth, y * TileWidth));
                 }
-            return Vector2.Zero;
+            return locations;
         }
 
         public MapSquare GetMapSquareAtCell(int tileX, int tileY)

@@ -40,11 +40,18 @@ namespace PuzzleEngineAlpha.Actors
             this.collideWidth = collideWidth;
             this.tileMap = tileMap;
             this.camera = camera;
+            this.Transparency = 1.0f;
         }
 
         #endregion
 
         #region Properties
+
+        protected float Transparency
+        {
+            get;
+            set;
+        }
 
         public bool Collided
         {
@@ -119,6 +126,17 @@ namespace PuzzleEngineAlpha.Actors
                     animations[currentAnimation].Update(gameTime);
                 }
             }
+        }
+
+        #endregion
+
+        #region Intersection
+
+        public bool Intersects(Vector2 otherLocation)
+        {
+            if (!enabled) return false;
+            return ((CollisionRectangle.X <= otherLocation.X && CollisionRectangle.Y < otherLocation.Y)
+                    && (CollisionRectangle.X + CollisionRectangle.Width + 1> otherLocation.X && CollisionRectangle.Y + CollisionRectangle.Height+1 >= otherLocation.Y));
         }
 
         #endregion
@@ -294,7 +312,7 @@ namespace PuzzleEngineAlpha.Actors
 
             if (animations.ContainsKey(currentAnimation))
             {
-                spriteBatch.Draw(animations[currentAnimation].Texture, camera.WorldToScreen(WorldRectangle), animations[currentAnimation].FrameRectangle, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, drawDepth);
+                spriteBatch.Draw(animations[currentAnimation].Texture, camera.WorldToScreen(WorldRectangle), animations[currentAnimation].FrameRectangle, Color.White * Transparency, 0.0f, Vector2.Zero, SpriteEffects.None, drawDepth);
             }
         }
     
