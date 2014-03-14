@@ -157,6 +157,14 @@ namespace GateGame.Actors
 
         public override void HorizontalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
         {
+            if (actorManager.HasActorAtLocation(corner1-moveAmount,this) || actorManager.HasActorAtLocation(corner2-moveAmount,this))
+            {
+                moveAmount.X = 0;
+                velocity.X = 0;
+                Collided = true;
+                return;
+            }
+
             if (actorManager.HasActorAtLocation(corner1, this))
             {
                 HorizontalCollision(actorManager.GetActorLocation(corner1, this), corner1, ref moveAmount);
@@ -169,6 +177,14 @@ namespace GateGame.Actors
 
         public override void VerticalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
         {
+            if (actorManager.HasActorAtLocation(corner1 - moveAmount, this) || actorManager.HasActorAtLocation(corner2 - moveAmount, this))
+            {
+                moveAmount.Y = 0;
+                velocity.Y = 0;
+                Collided = true;
+                return;
+            }
+
             if (actorManager.HasActorAtLocation(corner1,this))
             {
                  VerticalCollision(actorManager.GetActorLocation(corner1,this),corner1,ref moveAmount);
@@ -179,14 +195,18 @@ namespace GateGame.Actors
             }
         }
 
-        void VerticalCollision(Vector2 actorLocation,Vector2 corner,ref Vector2 moveAmount)
+        void VerticalCollision(Vector2 actorLocation, Vector2 corner, ref Vector2 moveAmount)
         {
             Collided = true;
 
             if (moveAmount.Y > 0)
+            {
                 location = new Vector2(location.X, actorLocation.Y - this.collideHeight - 1);
+            }
             else if (moveAmount.Y < 0)
+            {
                 location = new Vector2(location.X, actorLocation.Y + actorManager.GetActorHeight(corner, this));
+            }
 
             moveAmount.Y = 0;
             velocity.Y = 0;
@@ -197,9 +217,13 @@ namespace GateGame.Actors
             Collided = true;
 
             if (moveAmount.X > 0)
-                location = new Vector2(actorLocation.X - this.collideWidth-1, location.Y);
+            {
+                location = new Vector2(actorLocation.X - this.collideWidth - 1, location.Y);
+            }
             else if (moveAmount.X < 0)
+            {
                 location = new Vector2(actorLocation.X + actorManager.GetActorWidth(corner, this), location.Y);
+            }
 
             moveAmount.X = 0;
             velocity.X = 0;

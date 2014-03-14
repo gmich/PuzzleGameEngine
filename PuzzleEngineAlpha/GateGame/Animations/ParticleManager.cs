@@ -65,6 +65,19 @@ namespace GateGame.Animations
             }
         }
 
+        public void AddRectangleDestructionParticles(Vector2 location, int rectWidth, int rectHeight, int particleWidth, int particleHeight)
+        {
+            for (int x = 0; x < rectWidth / particleWidth; x++)
+            {
+                for (int y = 0; y < rectHeight / particleHeight; y++)
+                {
+                    Particle particle = new Particle(location + new Vector2(x * particleWidth, y * particleHeight), particleTexture, new Rectangle(0, 0, particleWidth, particleHeight), RandomDirection((float)rand.Next(10, 20)), RandomDirection((float)rand.Next(10, 20)), 70, 70, Color.Black, Color.White);
+                    particle.Camera = this.camera;
+                    particles.Add(particle);
+                }
+            }
+        }
+
         public void AddRecordingParticles(Vector2 location,int amount, int width, int height,int duration)
         {
             for (int x = 0; x < amount; x++)

@@ -100,6 +100,14 @@ namespace GateGame.Actors
 
         public override void HorizontalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
         {
+            if (actorManager.HasActorAtLocation(corner1 - moveAmount, this) || actorManager.HasActorAtLocation(corner2 - moveAmount, this))
+            {
+                moveAmount.X = 0;
+                velocity.X = 0;
+                Collided = true;
+                return;
+            }
+
             if (actorManager.HasActorAtLocation(corner1, this))
             {
                 HorizontalCollision(actorManager.GetActorLocation(corner1, this), corner1, ref moveAmount);
@@ -112,6 +120,14 @@ namespace GateGame.Actors
 
         public override void VerticalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
         {
+            if (actorManager.HasActorAtLocation(corner1 - moveAmount, this) || actorManager.HasActorAtLocation(corner2 - moveAmount, this))
+            {
+                moveAmount.Y = 0;
+                velocity.Y = 0;
+                Collided = true;
+                return;
+            }
+
             if (actorManager.HasActorAtLocation(corner1, this))
             {
                 VerticalCollision(actorManager.GetActorLocation(corner1, this), corner1, ref moveAmount);
@@ -195,6 +211,7 @@ namespace GateGame.Actors
                 else
                 {
                     particleManager.AddRecordingParticles(this.WorldCenter, (queueLimit), 2, 2, 70);
+                   // particleManager.AddRectangleDestructionParticles(this.location, this.frameWidth, this.frameHeight, 1, 1);
                     Destroy = true;
                 }
 

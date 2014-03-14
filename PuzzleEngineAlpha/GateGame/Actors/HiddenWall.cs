@@ -58,11 +58,15 @@ namespace GateGame.Actors
 
         public void AddInteractionActor(MapObject mapObject)
         {
-            if (!InteractionActors.Contains(mapObject))
+            if (InteractionActors != null)
             {
-                this.InteractionActors.Add(mapObject);
+                if (!InteractionActors.Contains(mapObject))
+                {
+                    this.InteractionActors.Add(mapObject);
+                }
             }
         }
+
         void HandleTransparency(GameTime gameTime)
         {
             if (Enabled)
