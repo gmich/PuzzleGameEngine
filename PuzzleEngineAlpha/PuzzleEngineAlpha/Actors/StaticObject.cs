@@ -34,6 +34,7 @@ namespace PuzzleEngineAlpha.Actors
             this.frameHeight = frameHeight;
             this.Layer = 0.0f;
             this.Transparency = 1.0f;
+            this.Remove = false;
         }
 
         #endregion
@@ -53,6 +54,12 @@ namespace PuzzleEngineAlpha.Actors
         }
 
         protected float Layer
+        {
+            get;
+            set;
+        }
+
+        public bool Remove
         {
             get;
             set;

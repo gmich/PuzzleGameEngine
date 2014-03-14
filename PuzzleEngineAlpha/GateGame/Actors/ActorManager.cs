@@ -335,7 +335,7 @@ namespace GateGame.Actors
                 {    
                     if (staticObjects[i].InteractionRectangle.Intersects(otherRectangle))
                     {
-                        staticObjects.RemoveAt(i);
+                        staticObjects[i].Remove = true;
                         return;
                     }
                 }
@@ -447,8 +447,13 @@ namespace GateGame.Actors
             foreach (MapObject mapObject in mapObjects)
                 mapObject.Draw(spriteBatch);
 
-            foreach (StaticObject staticObject in staticObjects)
-                staticObject.Draw(spriteBatch);
+            for (int i = 0; i < staticObjects.Count; i++)
+            {
+                if (staticObjects[i].Remove)
+                    staticObjects.RemoveAt(i);
+
+                staticObjects[i].Draw(spriteBatch);
+            }
 
             foreach (Player player in players)
                 player.Draw(spriteBatch);
