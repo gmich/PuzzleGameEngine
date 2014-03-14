@@ -154,29 +154,73 @@ namespace GateGame.Actors
         #endregion
 
         #region Collision Detection
-        
-        public override void HorizontalActorCollision(ref Vector2 moveAmount,Vector2 corner1, Vector2 corner2)
-        {
 
-            if (actorManager.HasActorAtLocation(corner1,this) || actorManager.HasActorAtLocation(corner2,this))
+        public override void HorizontalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
+        {
+            if (actorManager.HasActorAtLocation(corner1, this))
             {
-                moveAmount.X = 0.0f;
-                velocity.X=0.0f;
-                Collided=true;
+                HorizontalCollision(actorManager.GetActorLocation(corner1, this), corner1, ref moveAmount);
+            }
+            if (actorManager.HasActorAtLocation(corner2, this))
+            {
+                HorizontalCollision(actorManager.GetActorLocation(corner2, this), corner2, ref moveAmount);
             }
         }
 
         public override void VerticalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
         {
-            if (actorManager.HasActorAtLocation(corner1,this) || actorManager.HasActorAtLocation(corner2,this))
+            if (actorManager.HasActorAtLocation(corner1,this))
             {
-                moveAmount.Y = 0.0f;
-                velocity.Y = 0.0f;
-                Collided = true;
+                 VerticalCollision(actorManager.GetActorLocation(corner1,this),corner1,ref moveAmount);
+            }
+            if(actorManager.HasActorAtLocation(corner2,this))
+            {
+                VerticalCollision(actorManager.GetActorLocation(corner2, this),corner2, ref moveAmount);
             }
         }
 
+        void VerticalCollision(Vector2 actorLocation,Vector2 corner,ref Vector2 moveAmount)
+        {
+            Collided = true;
+
+            if (moveAmount.Y > 0)
+                location = new Vector2(location.X, actorLocation.Y - this.collideHeight - 1);
+            else if (moveAmount.Y < 0)
+                location = new Vector2(location.X, actorLocation.Y + actorManager.GetActorHeight(corner, this));
+
+            moveAmount.Y = 0;
+            velocity.Y = 0;
+        }
+
+        void HorizontalCollision(Vector2 actorLocation, Vector2 corner, ref Vector2 moveAmount)
+        {
+            Collided = true;
+
+            if (moveAmount.X > 0)
+                location = new Vector2(actorLocation.X - this.collideWidth-1, location.Y);
+            else if (moveAmount.X < 0)
+                location = new Vector2(actorLocation.X + actorManager.GetActorWidth(corner, this), location.Y);
+
+            moveAmount.X = 0;
+            velocity.X = 0;
+        }
+
         #endregion
+
+        #region Update
+
+        public void UpdateInactive(GameTime gameTime)
+        {
+            HandleTransparency(gameTime);
+            if (!IsActive)
+            {
+                ManipulateVector(ref velocity, 240.0f, 10f);
+
+                base.Update(gameTime);
+
+                AdjustLocationInMap();
+            }
+        }
 
         public override void Update(GameTime gameTime)
         {
@@ -223,6 +267,7 @@ namespace GateGame.Actors
 
         }
 
+        #endregion
 
     }
 }

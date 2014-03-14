@@ -136,7 +136,7 @@ namespace PuzzleEngineAlpha.Actors
         {
             if (!enabled) return false;
             return ((CollisionRectangle.X <= otherLocation.X && CollisionRectangle.Y < otherLocation.Y)
-                    && (CollisionRectangle.X + CollisionRectangle.Width + 1> otherLocation.X && CollisionRectangle.Y + CollisionRectangle.Height+1 >= otherLocation.Y));
+                    && (CollisionRectangle.X + CollisionRectangle.Width + 1> otherLocation.X && CollisionRectangle.Y + CollisionRectangle.Height+1 > otherLocation.Y));
         }
 
         #endregion
@@ -160,6 +160,7 @@ namespace PuzzleEngineAlpha.Actors
                 corner1 = new Vector2(location.X + moveAmount.X + collideWidth, location.Y);
                 corner2 = new Vector2(location.X + moveAmount.X + collideWidth, location.Y + collideHeight);
             }
+
             HorizontalActorCollision(ref moveAmount,corner1, corner2);
             Vector2 mapCell1 = tileMap.GetCellByPixel(corner1);
             Vector2 mapCell2 = tileMap.GetCellByPixel(corner2);

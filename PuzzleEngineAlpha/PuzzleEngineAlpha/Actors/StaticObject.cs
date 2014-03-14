@@ -92,7 +92,7 @@ namespace PuzzleEngineAlpha.Actors
         {
             if (!enabled) return false;
             return ((CollisionRectangle.X <= otherLocation.X && CollisionRectangle.Y < otherLocation.Y)
-                    && (CollisionRectangle.X + CollisionRectangle.Width > otherLocation.X && CollisionRectangle.Y + CollisionRectangle.Height >= otherLocation.Y));
+                    && (CollisionRectangle.X + CollisionRectangle.Width > otherLocation.X && CollisionRectangle.Y + CollisionRectangle.Height > otherLocation.Y));
         }
 
         void UpdateAnimation(GameTime gameTime)
