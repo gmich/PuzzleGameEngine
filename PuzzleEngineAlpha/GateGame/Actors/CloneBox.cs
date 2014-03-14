@@ -8,23 +8,27 @@ using PuzzleEngineAlpha.Actors;
 
 namespace GateGame.Actors
 {
+    using Animations;
+
     public class CloneBox : StaticObject
     {
         #region Declarations
 
         Dictionary<Player, PlayerClone> playersAndClones;
-        ActorManager actorManager;
-        ContentManager content;
+        readonly ActorManager actorManager;
+        readonly ContentManager content;
+        readonly ParticleManager particleManager;
 
         #endregion
 
         #region Constructor
 
-        public CloneBox(ActorManager actorManager,PuzzleEngineAlpha.Level.TileMap tileMap, PuzzleEngineAlpha.Camera.Camera camera, Vector2 location,Texture2D texture, ContentManager content, int frameWidth, int frameHeight, string tag)
+        public CloneBox(ActorManager actorManager,ParticleManager particleManager,PuzzleEngineAlpha.Level.TileMap tileMap, PuzzleEngineAlpha.Camera.Camera camera, Vector2 location,Texture2D texture, ContentManager content, int frameWidth, int frameHeight, string tag)
             : base(tileMap, camera, location, frameWidth, frameHeight)
         {
             this.content=content;
             this.actorManager=actorManager;
+            this.particleManager = particleManager;
             this.animations.Add("active", new PuzzleEngineAlpha.Animations.AnimationStrip(texture, frameWidth, "active"));
             currentAnimation = "active";
             this.enabled = false;
@@ -50,7 +54,7 @@ namespace GateGame.Actors
         {
             if (!playersAndClones.ContainsKey(player))
             {
-                PlayerClone clone = new PlayerClone(this.actorManager, this.tileMap, this.camera, player.location, content, player.frameWidth, player.frameHeight, player.collideWidth, player.collideHeight);
+                PlayerClone clone = new PlayerClone(this.actorManager,this.particleManager, this.tileMap, this.camera, player.location, content, player.frameWidth, player.frameHeight, player.collideWidth, player.collideHeight);
                 clone.playerToRecord = player;
                 clone.InteractionRectangle = this.CollisionRectangle;
                 playersAndClones.Add(player, clone);

@@ -7,6 +7,8 @@ using PuzzleEngineAlpha.Actors;
 
 namespace GateGame.Actors
 {
+    using Animations;
+
     public class PlayerClone : MapObject
     {
 
@@ -16,15 +18,17 @@ namespace GateGame.Actors
         Queue<bool> interactions;
         const int queueLimit = 200;
         readonly ActorManager actorManager;
+        readonly ParticleManager particleManager;
 
         #endregion
 
         #region Constructor
 
-        public PlayerClone(ActorManager actorManager, PuzzleEngineAlpha.Level.TileMap tileMap, PuzzleEngineAlpha.Camera.Camera camera, Vector2 location, ContentManager content,int frameWidth, int frameHeight, int collideWidth, int collideHeight)
+        public PlayerClone(ActorManager actorManager, ParticleManager particleManager, PuzzleEngineAlpha.Level.TileMap tileMap, PuzzleEngineAlpha.Camera.Camera camera, Vector2 location, ContentManager content, int frameWidth, int frameHeight, int collideWidth, int collideHeight)
             : base(tileMap, camera, location, frameWidth, frameHeight, collideWidth, collideHeight)
         {
             this.actorManager = actorManager;
+            this.particleManager = particleManager;
             this.animations.Add("run", new PuzzleEngineAlpha.Animations.AnimationStrip(content.Load<Texture2D>(@"Textures/player"), frameWidth, "run"));
             currentAnimation = "run";
             this.actorManager = actorManager;
@@ -78,7 +82,7 @@ namespace GateGame.Actors
             interactions = new Queue<bool>();
             IsAlive = false;
             Destroy = false;
-            enabled = false;  
+            enabled = false;
         }
 
         void Interact()
@@ -92,7 +96,7 @@ namespace GateGame.Actors
         }
         #endregion
 
-  #region Collision Detection
+        #region Collision Detection
 
         public override void HorizontalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
         {
@@ -108,17 +112,17 @@ namespace GateGame.Actors
 
         public override void VerticalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
         {
-            if (actorManager.HasActorAtLocation(corner1,this))
+            if (actorManager.HasActorAtLocation(corner1, this))
             {
-                 VerticalCollision(actorManager.GetActorLocation(corner1,this),corner1,ref moveAmount);
+                VerticalCollision(actorManager.GetActorLocation(corner1, this), corner1, ref moveAmount);
             }
-            if(actorManager.HasActorAtLocation(corner2,this))
+            if (actorManager.HasActorAtLocation(corner2, this))
             {
-                VerticalCollision(actorManager.GetActorLocation(corner2, this),corner2, ref moveAmount);
+                VerticalCollision(actorManager.GetActorLocation(corner2, this), corner2, ref moveAmount);
             }
         }
 
-        void VerticalCollision(Vector2 actorLocation,Vector2 corner,ref Vector2 moveAmount)
+        void VerticalCollision(Vector2 actorLocation, Vector2 corner, ref Vector2 moveAmount)
         {
             Collided = true;
 
@@ -136,7 +140,7 @@ namespace GateGame.Actors
             Collided = true;
 
             if (moveAmount.X > 0)
-                location = new Vector2(actorLocation.X - this.collideWidth-1, location.Y);
+                location = new Vector2(actorLocation.X - this.collideWidth - 1, location.Y);
             else if (moveAmount.X < 0)
                 location = new Vector2(actorLocation.X + actorManager.GetActorWidth(corner, this), location.Y);
 
@@ -156,14 +160,19 @@ namespace GateGame.Actors
         {
             if (playerToRecord.CollisionRectangle.Intersects(this.InteractionRectangle))
             {
+                if(IsAlive)
+                    particleManager.AddRecordingParticles(this.WorldCenter, (queueLimit), 2, 2, 80);
+
                 Reset();
                 location = playerToRecord.location;
+                particleManager.AddRecordingParticles(playerToRecord.Center, (queueLimit - Velocities.Count)/2, 1, 1,25);
                 return;
             }
             else if (!(playerToRecord.CollisionRectangle.Intersects(this.InteractionRectangle)) && HaveToRecord && !IsAlive)
             {
-               // if (this.location == Vector2.Zero)
-                   // location = playerToRecord.location;
+                // if (this.location == Vector2.Zero)
+                // location = playerToRecord.location;
+                particleManager.AddRecordingParticles(playerToRecord.Center, (queueLimit - Velocities.Count)/2, 1, 1, 25);
 
                 Velocities.Enqueue(playerToRecord.Velocity);
                 interactions.Enqueue(playerToRecord.Interaction);
@@ -171,7 +180,7 @@ namespace GateGame.Actors
                 if (!HaveToRecord)
                 {
                     enabled = true;
-                    IsAlive = true; 
+                    IsAlive = true;
                 }
             }
             else if (IsAlive)
@@ -179,11 +188,13 @@ namespace GateGame.Actors
                 if (Velocities.Count > 0)
                 {
                     this.Velocity = Velocities.Dequeue();
+                    particleManager.AddRecordingParticles(this.WorldCenter, (Velocities.Count)/2, 1, 1, 25);
                     if (interactions.Dequeue())
                         Interact();
                 }
                 else
                 {
+                    particleManager.AddRecordingParticles(this.WorldCenter, (queueLimit), 2, 2, 70);
                     Destroy = true;
                 }
 
@@ -196,7 +207,7 @@ namespace GateGame.Actors
 
                 //TODO: may not be necessary
                 // if (Collided)
-                  //  Destroy = true;
+                //  Destroy = true;
             }
         }
 

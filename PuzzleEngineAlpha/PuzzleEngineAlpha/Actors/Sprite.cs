@@ -35,14 +35,14 @@ namespace PuzzleEngineAlpha.Actors
 
         #region Constructor
 
-        public Sprite(Vector2 worldLocation, Texture2D texture,   Rectangle initialFrame, Vector2 velocity)
+        public Sprite(Vector2 worldLocation, Texture2D texture, Rectangle initialFrame, Vector2 velocity)
         {
             this.location = worldLocation;
             Texture = texture;
             this.velocity = velocity;
             worldLocation = Vector2.Zero;
-            frames.Add(initialFrame);
             frames = new List<Rectangle>();
+            frames.Add(initialFrame);
             frameTime = 0.1f;
             timeForCurrentFrame = 0.0f;
             this.Layer=0.0f;

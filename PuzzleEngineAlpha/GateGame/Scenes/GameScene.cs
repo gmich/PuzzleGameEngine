@@ -16,6 +16,7 @@ using PuzzleEngineAlpha.Camera;
 namespace GateGame.Scene
 {
     using Actors;
+    using Animations;
 
     public class GameScene : PuzzleEngineAlpha.Scene.IScene
     {
@@ -34,6 +35,7 @@ namespace GateGame.Scene
         ActorMapper gateMapper;
         ChasingCamera chasingCamera;
         FreeRoam freeRoam;
+        ParticleManager particleManager;
 
         #endregion
 
@@ -63,7 +65,7 @@ namespace GateGame.Scene
             this.sceneryOffSet = sceneryOffSet;
             PuzzleEngineAlpha.Resolution.ResolutionHandler.Changed += ResetSizes;
             this.tileMap.NewMap += NewMapHandling;
-
+            particleManager = new ParticleManager(content,this.camera);
         }
 
         #endregion
@@ -110,7 +112,7 @@ namespace GateGame.Scene
                 }
                 else if (actor.Value == gateMapper.CloneBoxID)
                 {
-                    obj = new CloneBox(this.actorManager,this.tileMap, this.camera, actor.Key,gateMapper.GetTextureByID(actor.Value), content,tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value));
+                    obj = new CloneBox(this.actorManager,this.particleManager,this.tileMap, this.camera, actor.Key,gateMapper.GetTextureByID(actor.Value), content,tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value));
                 }
                 else
                 {
@@ -267,6 +269,8 @@ namespace GateGame.Scene
 
             if(!IsCameraFree)
             player.Update(gameTime);
+
+            particleManager.Update(gameTime);
             actorManager.Update(gameTime);
             cameraManager.TargetLocation = player.RelativeCenter;
             cameraManager.Update(gameTime);
@@ -290,7 +294,7 @@ namespace GateGame.Scene
             tileMap.Draw(spriteBatch);
             actorManager.Draw(spriteBatch);
             player.Draw(spriteBatch);
-
+            particleManager.Draw(spriteBatch);
             spriteBatch.End();
 
            /* graphicsDevice.SetRenderTarget(null);
