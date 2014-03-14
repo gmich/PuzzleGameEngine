@@ -35,12 +35,18 @@ namespace GateGame.Actors
             this.IsActive = false;
             tranparencyTransition = new PuzzleEngineAlpha.Animations.SmoothTransition(1.0f, 0.001f, 0.6f, 1.0f);
             IsActive=false;
+            Interaction = false;
         }
 
         #endregion
 
         #region Properties
 
+        public bool Interaction
+        {
+            get;
+            set;
+        }
         public bool IsActive
         {
             get;
@@ -175,6 +181,7 @@ namespace GateGame.Actors
         public override void Update(GameTime gameTime)
         {
             movementScript.RotationState = camera.RotationState;
+            Interaction = false;
 
             if (movementScript.MoveUp)
             {
@@ -200,11 +207,13 @@ namespace GateGame.Actors
             //TODO: get input from input configuration
             if (PuzzleEngineAlpha.Input.InputHandler.IsKeyReleased(Keys.Space))
             {
+                Interaction = true;
                 ToggleGate();
             }
 
             actorManager.IntersectsWithCoin(this.CollisionRectangle);
             actorManager.InteractsWithHiddenWall(this.CollisionRectangle, this);
+            actorManager.IntersectsWithCloneBox(this.CollisionRectangle, this);
 
             ManipulateVector(ref velocity, 240.0f, 10f);
 

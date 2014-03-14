@@ -16,6 +16,7 @@ namespace GateGame.Actors
         List<MapObject> mapObjects;
         List<StaticObject> staticObjects;
         List<Player> players;
+        List<PlayerClone> playerClones;
         Enumerator playerEnumerator;
         #endregion
 
@@ -35,12 +36,18 @@ namespace GateGame.Actors
             mapObjects = new List<MapObject>();
             staticObjects = new List<StaticObject>();
             players = new List<Player>();
+            playerClones = new List<PlayerClone>();
             playerEnumerator = new Enumerator(players.Count, 0);
         }
 
         public void AddMapObject(MapObject mapObject)
         {
             mapObjects.Add(mapObject);
+        }
+
+        public void AddPlayerClone(PlayerClone playerClone)
+        {
+            playerClones.Add(playerClone);
         }
 
         public void AddStaticObject(StaticObject staticObject)
@@ -54,6 +61,22 @@ namespace GateGame.Actors
             playerEnumerator.Count = players.Count;
         }
 
+        public void RemovePlayerClone(PlayerClone clone)
+        {
+            for(int i=0;i<playerClones.Count;i++)
+            {
+                if (playerClones[i]==clone)
+                {
+                    playerClones.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Actor Interactions
+
         public bool HasActorAtLocation(Vector2 location)
         {
             foreach (StaticObject staticObject in staticObjects)
@@ -61,10 +84,47 @@ namespace GateGame.Actors
                 if (staticObject.Intersects(location))
                     return true;
             }
+            foreach (Player player in players)
+            {
+                if (player.Intersects(location))
+                    return true;
+            }
+
+            foreach (PlayerClone clone in playerClones)
+            {
+                if (clone.Intersects(location))
+                    return true;
+            }
+
             return false;
         }
 
-        public bool HasActorAtLocation(Vector2 location,Player playerToCheck)
+        public bool HasActorAtLocation(Vector2 location, PlayerClone cloneToCheck)
+        {
+            foreach (StaticObject staticObject in staticObjects)
+            {
+                if (staticObject.Intersects(location))
+                    return true;
+            }
+
+            foreach (Player player in players)
+            {
+                    if (player.Intersects(location))
+                        return true;            
+            }
+
+            foreach (PlayerClone clone in playerClones)
+            {
+                if (clone != cloneToCheck)
+                {
+                    if (clone.Intersects(location))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        public bool HasActorAtLocation(Vector2 location, Player playerToCheck)
         {
             foreach (StaticObject staticObject in staticObjects)
             {
@@ -79,6 +139,12 @@ namespace GateGame.Actors
                     if (player.Intersects(location))
                         return true;
                 }
+            }
+
+            foreach (PlayerClone clone in playerClones)
+            {
+                if (clone.Intersects(location))
+                    return true;
             }
 
             return false;
@@ -113,6 +179,21 @@ namespace GateGame.Actors
             }
         }
 
+        public void IntersectsWithCloneBox(Rectangle otherRectangle,Player interactionPlayer)
+        {
+            for (int i = 0; i < staticObjects.Count; i++)
+            {
+                if (staticObjects[i] is CloneBox)
+                {
+                    if (staticObjects[i].InteractionRectangle.Intersects(otherRectangle))
+                    {
+                        CloneBox cloneBox = (CloneBox)staticObjects[i];
+                        cloneBox.AddPlayer(interactionPlayer);
+                    }
+                }
+            }
+        }
+
         public void InteractsWithHiddenWall(Rectangle otherRectangle,MapObject interactionActor)
         {
             for (int i = 0; i < staticObjects.Count; i++)
@@ -122,7 +203,7 @@ namespace GateGame.Actors
                     if (staticObjects[i].InteractionRectangle.Intersects(otherRectangle))
                     {
                         HiddenWall hWall = (HiddenWall)staticObjects[i];
-                        hWall.InteractionActor = interactionActor;
+                        hWall.AddInteractionActor(interactionActor);
                     }
                 }
             }
@@ -208,6 +289,12 @@ namespace GateGame.Actors
 
             foreach (Player player in players)
                 player.Draw(spriteBatch);
+
+            foreach (PlayerClone clone in playerClones)
+            {
+                if (clone.IsAlive)
+                    clone.Draw(spriteBatch);
+            }
         }
 
         #endregion

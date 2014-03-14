@@ -21,6 +21,8 @@ namespace GateGame.Actors
         Texture2D button_black;
         Texture2D coin;
         Texture2D hidden_wall;
+        Texture2D clone_box;
+
         PuzzleEngineAlpha.Level.TileMap tileMap;
 
         #endregion
@@ -40,6 +42,7 @@ namespace GateGame.Actors
             button_black = Content.Load<Texture2D>(@"Textures/Buttons/button_black");
             coin = Content.Load<Texture2D>(@"Textures/Items/coin");
             hidden_wall = Content.Load<Texture2D>(@"Textures/Items/hidden_wall");
+            clone_box = Content.Load<Texture2D>(@"Textures/Items/clone_box");
             this.tileMap = tileMap;
         }
 
@@ -67,6 +70,13 @@ namespace GateGame.Actors
             get
             {
                 return 16;
+            }
+        }
+        public int CloneBoxID
+        {
+            get
+            {
+                return 17;
             }
         }
 
@@ -99,6 +109,8 @@ namespace GateGame.Actors
                     return "coin";
                 case 16:
                     return "hiddenWall";
+                case 17:
+                    return "cloneBox";
                 default:
                     return "tagNotFound";
             }
@@ -136,6 +148,8 @@ namespace GateGame.Actors
                     return coin;
                 case 16:
                     return hidden_wall;
+                case 17:
+                    return clone_box;
                 default:
                     return null;
             }

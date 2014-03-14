@@ -13,12 +13,12 @@ namespace PuzzleEngineAlpha.Actors
 
         public Vector2 location;
         protected Vector2 velocity;
-        protected int frameWidth;
-        protected int frameHeight;
+        public int frameWidth;
+        public int frameHeight;
         protected bool enabled;
         protected Rectangle collisionRectangle;
-        protected int collideWidth;
-        protected int collideHeight;
+        public int collideWidth;
+        public int collideHeight;
         protected bool codeBasedBlocks = true;
         protected float drawDepth;
         protected Dictionary<string, AnimationStrip> animations = new Dictionary<string, AnimationStrip>();

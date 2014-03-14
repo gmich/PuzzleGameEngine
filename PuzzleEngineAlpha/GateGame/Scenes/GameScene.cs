@@ -108,6 +108,10 @@ namespace GateGame.Scene
                 {
                     obj = new HiddenWall(this.tileMap, this.camera, actor.Key, gateMapper.GetTextureByID(actor.Value), tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value));
                 }
+                else if (actor.Value == gateMapper.CloneBoxID)
+                {
+                    obj = new CloneBox(this.actorManager,this.tileMap, this.camera, actor.Key,gateMapper.GetTextureByID(actor.Value), content,tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value));
+                }
                 else
                 {
                     obj = new Button(this.tileMap, this.camera, actor.Key, gateMapper.GetTextureByID(actor.Value), tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value));

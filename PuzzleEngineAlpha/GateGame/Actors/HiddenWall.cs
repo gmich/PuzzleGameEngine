@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PuzzleEngineAlpha.Actors;
@@ -10,6 +11,7 @@ namespace GateGame.Actors
         #region Declarations
 
         PuzzleEngineAlpha.Animations.SmoothTransition tranparencyTransition;
+        List<MapObject> InteractionActors;
 
         #endregion
 
@@ -24,6 +26,8 @@ namespace GateGame.Actors
             this.Tag = tag;
             tranparencyTransition = new PuzzleEngineAlpha.Animations.SmoothTransition(0.1f, 0.002f, 0.1f, 1.0f);
             Transparency = tranparencyTransition.Value;
+            InteractionActors = new List<MapObject>();
+
         }
 
         #endregion
@@ -47,28 +51,33 @@ namespace GateGame.Actors
                 enabled = value;
             }
         }
-
-        public MapObject InteractionActor
-        {
-            get;
-            set;
-        }
         
         #endregion
 
         #region Helper Methods
 
+        public void AddInteractionActor(MapObject mapObject)
+        {
+            if (!InteractionActors.Contains(mapObject))
+            {
+                this.InteractionActors.Add(mapObject);
+            }
+        }
         void HandleTransparency(GameTime gameTime)
         {
             if (Enabled)
                 tranparencyTransition.Increase(gameTime);
 
-            if (InteractionActor != null)
+            if (InteractionActors != null)
             {
-                if (!InteractionActor.CollisionRectangle.Intersects(this.CollisionRectangle))
-                    Enabled = true;
-
-                InteractionActor = null;
+                foreach (MapObject actor in InteractionActors)
+                {
+                    if (!actor.CollisionRectangle.Intersects(this.CollisionRectangle))
+                    {
+                        Enabled = true;
+                        InteractionActors = null;
+                    }
+                }
             }
 
             Transparency = tranparencyTransition.Value;
