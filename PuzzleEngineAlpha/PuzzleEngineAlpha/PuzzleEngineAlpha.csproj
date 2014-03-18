@@ -54,6 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Actions\ChangeMiniMapAction.cs" />
+    <Compile Include="Actions\SetEnumeratorValueAction.cs" />
     <Compile Include="Actions\SetSelectedActorAction.cs" />
     <Compile Include="Actions\LoadMapAction.cs" />
     <Compile Include="Actions\NewMapAction.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Camera\Scripts\ICameraScript.cs" />
     <Compile Include="Camera\Scripts\MouseCamera.cs" />
     <Compile Include="Components\AGUIComponent.cs" />
+    <Compile Include="Components\Areas\ComponentEnumerator.cs" />
     <Compile Include="Components\Areas\IGUIArea.cs" />
     <Compile Include="Components\Areas\SampleArea.cs" />
     <Compile Include="Components\Buttons\TileButton.cs" />

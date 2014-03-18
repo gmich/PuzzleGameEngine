@@ -163,8 +163,8 @@ namespace GateGame.Actors
                 return new Rectangle((int)location.X + tileMap.TileWidth / 3 + 2, (int)location.Y, tileMap.TileWidth / 3 - 2, tileMap.TileHeight);
             else if (id > 11 && id < 15)
                 return new Rectangle((int)location.X, (int)location.Y, tileMap.TileWidth, tileMap.TileHeight);
-            else if (id == 15) 
-                return new Rectangle((int)location.X + 19, (int)location.Y + 20, 24, 23);
+            else if (id == 15)
+                return new Rectangle((int)location.X + 22, (int)location.Y + 23, 19, 18);
             else
                 return new Rectangle((int)location.X, (int)location.Y, tileMap.TileWidth, tileMap.TileHeight);
 
@@ -186,7 +186,7 @@ namespace GateGame.Actors
             else if (id > 11 && id < 15)
                 return new Rectangle((int)location.X, (int)location.Y, tileMap.TileWidth, tileMap.TileHeight);
             else if (id == 15)
-                return new Rectangle((int)location.X + 19, (int)location.Y + 20, 24, 23);
+                return new Rectangle((int)location.X + 22, (int)location.Y + 23, 19, 18);
             else
                 return new Rectangle((int)location.X, (int)location.Y, tileMap.TileWidth, tileMap.TileHeight);
 

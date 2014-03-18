@@ -206,7 +206,6 @@ namespace PuzzleEngineAlpha.Scene.Editor.Menu
             {
                 textbox.Draw(spriteBatch);
             }
-
         }
 
     }

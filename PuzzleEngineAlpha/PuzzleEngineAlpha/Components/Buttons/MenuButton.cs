@@ -35,6 +35,7 @@ namespace PuzzleEngineAlpha.Components.Buttons
             this.Size = size;
             this.Position = position;
             this.GeneralArea = generalArea;
+            this.mouseLocation = Input.InputHandler.MousePosition;
         }
 
         #endregion
@@ -82,6 +83,16 @@ namespace PuzzleEngineAlpha.Components.Buttons
 
         #region Mouse Response
 
+        Vector2 mouseLocation;
+        public bool MouseActive
+        {
+            get
+            {
+                if (this.mouseLocation != Input.InputHandler.MousePosition)
+                    AutoUpdate = true;
+                return AutoUpdate;
+            }
+        }
         public override void IsClicking()
         {
             if (IsFocused && InputHandler.LeftButtonIsClicked() && !isClicking)
@@ -129,8 +140,13 @@ namespace PuzzleEngineAlpha.Components.Buttons
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
-            mouseIsOver();
+            if (MouseActive)
+            {
+                IsClicking();
+                mouseIsOver();
+            }
+
+            this.mouseLocation = Input.InputHandler.MousePosition;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

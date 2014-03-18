@@ -24,6 +24,19 @@ namespace PuzzleEngineAlpha.Utils
 
         #endregion
 
+        #region Enumeration Change Event
+
+        public delegate void EnumrationHandler();
+        public event EnumrationHandler NewValue;
+
+        void OnNewValue(EventArgs e)
+        {
+            if (NewValue != null)
+                NewValue();
+        }
+
+        #endregion
+
         #region Properties
 
         public Keys NextKey
@@ -51,7 +64,7 @@ namespace PuzzleEngineAlpha.Utils
             {
                 return (int)MathHelper.Clamp(value, 0, Count - 1);
             }
-            private set
+            set
             {
                 if (value > Count - 1)
                     this.value = 0;
@@ -69,11 +82,13 @@ namespace PuzzleEngineAlpha.Utils
         public void Next()
         {
             Value++;
+            OnNewValue(EventArgs.Empty);
         }
 
         public void Previous()
         {
             Value--;
+            OnNewValue(EventArgs.Empty);
         }
 
         #endregion
@@ -88,6 +103,13 @@ namespace PuzzleEngineAlpha.Utils
                 Next();
         }
 
+        public void UpdateOnClickDown()
+        {
+            if (Input.InputHandler.IsKeyReleased(PreviousKey))
+                Previous();
+            else if (Input.InputHandler.IsKeyReleased(NextKey))
+                Next();
+        }
 
         #endregion
     }

@@ -27,6 +27,7 @@ namespace PuzzleEngineAlpha.Components
             isClicking = false;
             canRelease =false;
             TriggerKey = Keys.Enter;
+            AutoUpdate = false;
         }
 
         #endregion
@@ -78,7 +79,7 @@ namespace PuzzleEngineAlpha.Components
                 action.Execute();
         }
 
-        protected void OnClick()
+        public void OnClick()
         {
             foreach (IAction action in clickActions)
                 action.Execute();
@@ -90,7 +91,7 @@ namespace PuzzleEngineAlpha.Components
                 action.Execute();
         }
 
-        protected void OnRelease()
+        public void OnRelease()
         {
             foreach (IAction action in releaseActions)
                 action.Execute();
@@ -216,6 +217,12 @@ namespace PuzzleEngineAlpha.Components
         #endregion
 
         #region Mouse Interraction
+
+        public bool AutoUpdate
+        {
+            get;
+            set;
+        }
 
         public Keys TriggerKey
         {
