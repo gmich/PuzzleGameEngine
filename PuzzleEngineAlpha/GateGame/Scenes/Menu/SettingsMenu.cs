@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using PuzzleEngineAlpha.Scene;
 using PuzzleEngineAlpha.Components.Buttons;
 using PuzzleEngineAlpha.Components;
-
+using PuzzleEngineAlpha.Components.Areas;
 
 namespace GateGame.Scene.Menu
 {
@@ -18,17 +18,18 @@ namespace GateGame.Scene.Menu
 
         List<PuzzleEngineAlpha.Components.AGUIComponent> components;
         Texture2D backGround;
+        ComponentEnumerator enumerator;
 
         #endregion
 
         #region Constructor
 
-        public SettingsMenu(ContentManager Content, MenuHandler menuHandler)
+        public SettingsMenu(ContentManager Content, MenuHandler menuHandler,PuzzleEngineAlpha.Resolution.ResolutionHandler resolutionHandler)
         {
             components = new List<AGUIComponent>();
-            InitializeGUI(Content,menuHandler);
+            enumerator = new ComponentEnumerator(Microsoft.Xna.Framework.Input.Keys.Down, Microsoft.Xna.Framework.Input.Keys.Up, Microsoft.Xna.Framework.Input.Keys.Enter);
+            InitializeGUI(Content, menuHandler, resolutionHandler);
             backGround = Content.Load<Texture2D>(@"textures/whiteRectangle");
-
             PuzzleEngineAlpha.Resolution.ResolutionHandler.Changed += ResetSizes;
 
         }
@@ -71,9 +72,15 @@ namespace GateGame.Scene.Menu
         {
             get
             {
-                return new Vector2(ButtonSize.X , 1 * ButtonSize.Y);
+                return new Vector2(ButtonSize.X, ButtonCount * ButtonSize.Y);
             }
 
+        }
+
+        int ButtonCount
+        {
+            get;
+            set;
         }
 
         Vector2 Location
@@ -119,7 +126,7 @@ namespace GateGame.Scene.Menu
 
         #region Initialize GUI
 
-        void InitializeGUI(ContentManager Content, MenuHandler menuHandler)
+        void InitializeGUI(ContentManager Content, MenuHandler menuHandler,PuzzleEngineAlpha.Resolution.ResolutionHandler resolutionHandler)
         {
             DrawProperties button = new DrawProperties(Content.Load<Texture2D>(@"Buttons/button"), DisplayLayer.Menu, 1.0f, 0.0f, Color.White);
             DrawProperties frame = new DrawProperties(Content.Load<Texture2D>(@"Buttons/frame"), DisplayLayer.Menu + 0.02f, 1.0f, 0.0f, Color.White);
@@ -128,7 +135,25 @@ namespace GateGame.Scene.Menu
 
             components.Add(new MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 0), ButtonSize, this.MenuRectangle));
             components[0].StoreAndExecuteOnMouseRelease(new Actions.SwapGameWindowAction(menuHandler, "mainMenu"));
+            components[0].StoreAndExecuteOnMouseOver(new PuzzleEngineAlpha.Actions.SetEnumeratorValueAction(this.enumerator, 0));
+            ButtonCount = 1;
 
+            int i = 1;
+            foreach (var resolution in PuzzleEngineAlpha.Resolution.ResolutionHandler.GetSupportedResolutions())
+            {
+                textProperties.text = resolution.Key;
+                components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, i* ButtonSize.Y), ButtonSize, this.MenuRectangle));
+                components[i].StoreAndExecuteOnMouseRelease(new PuzzleEngineAlpha.Actions.ApplyResolutionAction(resolutionHandler,resolution.Value));
+                components[i].StoreAndExecuteOnMouseOver(new PuzzleEngineAlpha.Actions.SetEnumeratorValueAction(this.enumerator, i));
+                i++;
+                ButtonCount++;
+            }
+            foreach (AGUIComponent component in components)
+                enumerator.AddGUIComponent(component);
+
+            components[0].IsFocused = true;
+
+            ResetSizes(this, EventArgs.Empty);
         }
 
         #endregion
@@ -139,6 +164,7 @@ namespace GateGame.Scene.Menu
             {
                 component.Update(gameTime);
             }
+            enumerator.HandleSelection();
         }
 
         public void Draw(SpriteBatch spriteBatch)

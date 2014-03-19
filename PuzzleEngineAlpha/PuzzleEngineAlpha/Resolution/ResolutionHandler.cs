@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -115,6 +116,20 @@ namespace PuzzleEngineAlpha.Resolution
             }
             width = this.graphicsDeviceManager.PreferredBackBufferWidth;
             height = this.graphicsDeviceManager.PreferredBackBufferHeight;
+        }
+
+        public static Dictionary<string,DisplayMode> GetSupportedResolutions()
+        {
+            Dictionary<string, DisplayMode> supportedResolutions = new Dictionary<string, DisplayMode>();
+            foreach (DisplayMode dm in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
+            {
+                string key = dm.Width + " x " + dm.Height;
+
+                if (!supportedResolutions.ContainsKey(key))
+                    supportedResolutions.Add(dm.Width + " x " + dm.Height, dm);
+            }
+
+            return supportedResolutions;
         }
 
         private void FindHighestSupportedResolution()

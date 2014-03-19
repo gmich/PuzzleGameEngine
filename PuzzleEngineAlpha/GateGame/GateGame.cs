@@ -68,7 +68,7 @@ namespace GateGame
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            sceneDirector = new GameSceneDirector(GraphicsDevice, Content);
+            sceneDirector = new GameSceneDirector(GraphicsDevice, Content,this.resolutionHandler);
         }
 
         /// <summary>

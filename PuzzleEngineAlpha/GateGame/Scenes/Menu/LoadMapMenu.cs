@@ -8,6 +8,7 @@ using PuzzleEngineAlpha.Components;
 using PuzzleEngineAlpha.Components.ScrollBars;
 using PuzzleEngineAlpha.Scene;
 using PuzzleEngineAlpha.Actions;
+using PuzzleEngineAlpha.Components.Areas;
 
 namespace GateGame.Scene.Menu
 {
@@ -21,6 +22,7 @@ namespace GateGame.Scene.Menu
         PuzzleEngineAlpha.Scene.MapHandlerScene mapHandler;
         PuzzleEngineAlpha.Level.MiniMap miniMap;
         PuzzleEngineAlpha.Level.TileMap tileMap;
+        ComponentEnumerator enumerator;
 
         #endregion
 
@@ -29,13 +31,13 @@ namespace GateGame.Scene.Menu
         public LoadMapMenu(GraphicsDevice graphicsDevice, ContentManager Content, MenuHandler menuHandler, PuzzleEngineAlpha.Scene.MapHandlerScene mapHandler, PuzzleEngineAlpha.Level.TileMap tileMap)
         {
             this.tileMap = tileMap;
+            enumerator = new ComponentEnumerator(Microsoft.Xna.Framework.Input.Keys.Right, Microsoft.Xna.Framework.Input.Keys.Left, Microsoft.Xna.Framework.Input.Keys.Enter); 
             miniMap = new PuzzleEngineAlpha.Level.MiniMap(Content, graphicsDevice, new Vector2(400, 300), new PuzzleEngineAlpha.Databases.Level.BinaryMapSerialization(), new PuzzleEngineAlpha.Databases.Level.BinaryLevelInfoSerialization());
             components = new List<AGUIComponent>();
             InitializeGUI(Content,menuHandler);
             backGround = Content.Load<Texture2D>(@"textures/whiteRectangle");
             this.mapHandler = mapHandler;
             PuzzleEngineAlpha.Resolution.ResolutionHandler.Changed += ResetSizes;
-
         }
 
         #endregion
@@ -175,6 +177,11 @@ namespace GateGame.Scene.Menu
             textProperties.text = "back";
             components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X, ButtonSize.Y), ButtonSize, this.MenuRectangle));
             components[3].StoreAndExecuteOnMouseRelease(new Actions.SwapGameWindowAction(menuHandler, "mainMenu"));
+
+            foreach (AGUIComponent component in components)
+                enumerator.AddGUIComponent(component);
+
+            components[0].IsFocused = true;
         }
 
         #endregion
@@ -189,6 +196,8 @@ namespace GateGame.Scene.Menu
             {
                 component.Update(gameTime);
             }
+            enumerator.HandleSelection();
+
         }
 
         #endregion
@@ -197,7 +206,6 @@ namespace GateGame.Scene.Menu
 
         public void Draw(SpriteBatch spriteBatch)
         {
-
             spriteBatch.Draw(backGround, UpperRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, DisplayLayer.Menu - 0.01f);
             spriteBatch.Draw(backGround, LowerRectangle, null, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, DisplayLayer.Menu - 0.01f);
             spriteBatch.Draw(backGround, LowerFrameRectangle, null, Color.Black, 0.0f, Vector2.Zero, SpriteEffects.None, DisplayLayer.Menu - 0.02f);

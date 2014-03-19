@@ -29,13 +29,13 @@ namespace GateGame.Scene.Menu
 
         #region Constructor
 
-        public MenuHandler(ContentManager Content, GraphicsDevice graphicsDevice, MapHandlerScene mapHandler, PuzzleEngineAlpha.Level.TileMap tileMap, GameSceneDirector sceneDirector)
+        public MenuHandler(ContentManager Content, GraphicsDevice graphicsDevice, MapHandlerScene mapHandler, PuzzleEngineAlpha.Level.TileMap tileMap, ResolutionHandler resolutionHandler,GameSceneDirector sceneDirector)
         {
             this.graphicsDevice = graphicsDevice;
             menuWindows = new Dictionary<string, IScene>();
             menuWindows.Add("mainMenu", new MainMenu(Content,this,sceneDirector));
             menuWindows.Add("loadMap", new LoadMapMenu(graphicsDevice,Content, this,mapHandler,tileMap));
-            menuWindows.Add("settings", new SettingsMenu(Content, this));
+            menuWindows.Add("settings", new SettingsMenu(Content, this, resolutionHandler));
 
             activeWindow = menuWindows["mainMenu"];
             IsActive = false;
