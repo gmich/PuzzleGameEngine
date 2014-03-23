@@ -28,6 +28,7 @@ namespace PuzzleEngineAlpha.Components
             canRelease =false;
             TriggerKey = Keys.Enter;
             AutoUpdate = false;
+            Camera = null;
         }
 
         #endregion
@@ -58,6 +59,12 @@ namespace PuzzleEngineAlpha.Components
         }
 
         protected Vector2 Size
+        {
+            get;
+            set;
+        }
+
+        public Camera.Camera Camera
         {
             get;
             set;

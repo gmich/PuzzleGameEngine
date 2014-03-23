@@ -166,7 +166,15 @@ namespace PuzzleEngineAlpha.Components.Buttons
 
         void DrawableEntity(SpriteBatch spriteBatch, DrawProperties entity)
         {
-            spriteBatch.Draw(entity.texture, ButtonRectangle, null, entity.color * entity.transparency, entity.rotation, Vector2.Zero, SpriteEffects.None, entity.layer);
+            if (this.Camera != null)
+            {
+                spriteBatch.Draw(entity.texture, Camera.WorldToScreen(ButtonRectangle), null, entity.color * entity.transparency, entity.rotation, Vector2.Zero, SpriteEffects.None, entity.layer);
+            }
+            else
+            {
+                spriteBatch.Draw(entity.texture, ButtonRectangle, null, entity.color * entity.transparency, entity.rotation, Vector2.Zero, SpriteEffects.None, entity.layer);
+
+            }
         }
 
         #endregion
