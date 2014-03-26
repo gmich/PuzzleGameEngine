@@ -19,14 +19,14 @@ namespace GateGame.Scene.Menu
 
         List<AGUIComponent> components;
         Texture2D backGround;
-        ComponentEnumerator enumerator;
+       // ComponentEnumerator enumerator;
         #endregion
 
         #region Constructor
 
         public MainMenu(ContentManager Content, MenuHandler menuHandler, GameSceneDirector sceneDirector)
         {
-            enumerator = new ComponentEnumerator(Microsoft.Xna.Framework.Input.Keys.Down, Microsoft.Xna.Framework.Input.Keys.Up, Microsoft.Xna.Framework.Input.Keys.Enter);
+         //   enumerator = new ComponentEnumerator(Microsoft.Xna.Framework.Input.Keys.Down, Microsoft.Xna.Framework.Input.Keys.Up, Microsoft.Xna.Framework.Input.Keys.Enter);
             components = new List<AGUIComponent>();
             InitializeGUI(Content, menuHandler, sceneDirector);
             backGround = Content.Load<Texture2D>(@"textures/whiteRectangle");
@@ -128,30 +128,30 @@ namespace GateGame.Scene.Menu
 
             components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, 0), ButtonSize, this.MenuRectangle));
             components[0].StoreAndExecuteOnMouseRelease(new ExitMenuAction());
-            components[0].StoreAndExecuteOnMouseOver(new SetEnumeratorValueAction(this.enumerator,0));
+          //  components[0].StoreAndExecuteOnMouseOver(new SetEnumeratorValueAction(this.enumerator,0));
 
             textProperties.text = "load";
             components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, ButtonSize.Y), ButtonSize, this.MenuRectangle));
             components[1].StoreAndExecuteOnMouseRelease(new Actions.SwapGameWindowAction(menuHandler, "loadMap"));
-            components[1].StoreAndExecuteOnMouseOver(new SetEnumeratorValueAction(this.enumerator, 1));
+         //   components[1].StoreAndExecuteOnMouseOver(new SetEnumeratorValueAction(this.enumerator, 1));
 
             textProperties.text = "settings";
             components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, (ButtonSize.Y) * 2), ButtonSize, this.MenuRectangle));
             components[2].StoreAndExecuteOnMouseRelease(new Actions.SwapGameWindowAction(menuHandler, "settings"));
-            components[2].StoreAndExecuteOnMouseOver(new SetEnumeratorValueAction(this.enumerator, 2));
+           // components[2].StoreAndExecuteOnMouseOver(new SetEnumeratorValueAction(this.enumerator, 2));
 
             textProperties.text = "editor";
             components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, (ButtonSize.Y) * 3), ButtonSize, this.MenuRectangle));
             components[3].StoreAndExecuteOnMouseRelease(new PuzzleEngineAlpha.Actions.ToggleActiveSceneryAction((PuzzleEngineAlpha.Scene.SceneDirector)sceneDirector));
-            components[3].StoreAndExecuteOnMouseOver(new SetEnumeratorValueAction(this.enumerator, 3));
+           // components[3].StoreAndExecuteOnMouseOver(new SetEnumeratorValueAction(this.enumerator, 3));
 
             textProperties.text = "exit";
             components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(0, (ButtonSize.Y) * 4), ButtonSize, this.MenuRectangle));
             components[4].StoreAndExecuteOnMouseRelease(new Actions.TerminateGameAction());
-            components[4].StoreAndExecuteOnMouseOver(new SetEnumeratorValueAction(this.enumerator, 4));
+           // components[4].StoreAndExecuteOnMouseOver(new SetEnumeratorValueAction(this.enumerator, 4));
 
-            foreach (AGUIComponent component in components)
-                enumerator.AddGUIComponent(component);
+           // foreach (AGUIComponent component in components)
+               // enumerator.AddGUIComponent(component);
 
             components[0].IsFocused = true;
         }
@@ -164,7 +164,7 @@ namespace GateGame.Scene.Menu
             {
                 component.Update(gameTime);
             }
-            enumerator.HandleSelection();
+          //  enumerator.HandleSelection();
         }
 
         public void Draw(SpriteBatch spriteBatch)

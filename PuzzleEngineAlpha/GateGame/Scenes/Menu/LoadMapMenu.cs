@@ -22,7 +22,7 @@ namespace GateGame.Scene.Menu
         PuzzleEngineAlpha.Scene.MapHandlerScene mapHandler;
         PuzzleEngineAlpha.Level.MiniMap miniMap;
         PuzzleEngineAlpha.Level.TileMap tileMap;
-        ComponentEnumerator enumerator;
+       // ComponentEnumerator enumerator;
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace GateGame.Scene.Menu
         public LoadMapMenu(GraphicsDevice graphicsDevice, ContentManager Content, MenuHandler menuHandler, PuzzleEngineAlpha.Scene.MapHandlerScene mapHandler, PuzzleEngineAlpha.Level.TileMap tileMap)
         {
             this.tileMap = tileMap;
-            enumerator = new ComponentEnumerator(Microsoft.Xna.Framework.Input.Keys.Right, Microsoft.Xna.Framework.Input.Keys.Left, Microsoft.Xna.Framework.Input.Keys.Enter); 
+          //  enumerator = new ComponentEnumerator(Microsoft.Xna.Framework.Input.Keys.Right, Microsoft.Xna.Framework.Input.Keys.Left, Microsoft.Xna.Framework.Input.Keys.Enter); 
             miniMap = new PuzzleEngineAlpha.Level.MiniMap(Content, graphicsDevice, new Vector2(400, 300), new PuzzleEngineAlpha.Databases.Level.BinaryMapSerialization(), new PuzzleEngineAlpha.Databases.Level.BinaryLevelInfoSerialization());
             components = new List<AGUIComponent>();
             InitializeGUI(Content,menuHandler);
@@ -178,10 +178,10 @@ namespace GateGame.Scene.Menu
             components.Add(new PuzzleEngineAlpha.Components.Buttons.MenuButton(button, frame, clickedButton, textProperties, Location + new Vector2(+ButtonSize.X, ButtonSize.Y), ButtonSize, this.MenuRectangle));
             components[3].StoreAndExecuteOnMouseRelease(new Actions.SwapGameWindowAction(menuHandler, "mainMenu"));
 
-            foreach (AGUIComponent component in components)
-                enumerator.AddGUIComponent(component);
+         //   foreach (AGUIComponent component in components)
+               // enumerator.AddGUIComponent(component);
 
-            components[0].IsFocused = true;
+          //  components[0].IsFocused = true;
         }
 
         #endregion
@@ -196,7 +196,7 @@ namespace GateGame.Scene.Menu
             {
                 component.Update(gameTime);
             }
-            enumerator.HandleSelection();
+          //  enumerator.HandleSelection();
 
         }
 
