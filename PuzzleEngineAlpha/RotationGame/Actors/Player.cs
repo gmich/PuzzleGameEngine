@@ -86,6 +86,11 @@ namespace RotationGame.Actors
 
         #endregion
 
+        public override void Move()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Update(GameTime gameTime)
         {
             velocity = GetVelocity(camera.RotationState);

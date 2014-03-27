@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using PuzzleEngineAlpha.Actors;
 
-namespace GateGame.Actors
+namespace PlatformerPrototype.Actors
 {
     using Animations;
 

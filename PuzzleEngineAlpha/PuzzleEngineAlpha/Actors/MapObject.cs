@@ -21,7 +21,7 @@ namespace PuzzleEngineAlpha.Actors
         public int collideHeight;
         protected bool codeBasedBlocks = true;
         protected float drawDepth;
-        protected Dictionary<string, AnimationStrip> animations = new Dictionary<string, AnimationStrip>();
+        protected Dictionary<string, AnimationStrip> animations;
         protected string currentAnimation;
         protected readonly Level.TileMap tileMap;
         protected readonly Camera.Camera camera;
@@ -32,6 +32,7 @@ namespace PuzzleEngineAlpha.Actors
 
         public MapObject(Level.TileMap tileMap,Camera.Camera camera, Vector2 location, int frameWidth, int frameHeight, int collideWidth, int collideHeight)
         {
+            animations = new Dictionary<string, AnimationStrip>();
             this.enabled = true;
             this.location = location;
             this.frameHeight = frameHeight;
@@ -53,10 +54,19 @@ namespace PuzzleEngineAlpha.Actors
             set;
         }
 
+        protected bool VCollided;
+        protected bool HCollided;
         public bool Collided
         {
-            get;
-            set;
+            get
+            {
+                return VCollided || HCollided;
+            }
+            set
+            {
+                VCollided = value;
+                HCollided = value;
+            }
         }
 
         public bool Enabled
@@ -179,7 +189,7 @@ namespace PuzzleEngineAlpha.Actors
                 if (tileMap.CellCodeValue(mapCell1) == "BLOCK" ||
                     tileMap.CellCodeValue(mapCell2) == "BLOCK")
                 {
-                    Collided = true;
+                    HCollided = true;
                     moveAmount.X = 0;
                     velocity.X = 0;
                 }
@@ -225,7 +235,7 @@ namespace PuzzleEngineAlpha.Actors
                     tileMap.CellCodeValue(mapCell2) == "BLOCK")
                 {
                     //TODO: call vertical collision function
-                    Collided = true;
+                    VCollided = true;
                     moveAmount.Y = 0;
                     velocity.Y = 0;
                 }
@@ -236,8 +246,7 @@ namespace PuzzleEngineAlpha.Actors
 
         void VerticalCollision(Vector2 mapCell, ref Vector2 moveAmount)
         {
-            Collided = true;           
-
+            VCollided = true;
             if (moveAmount.Y > 0)
                 location = new Vector2(location.X, tileMap.GetCellLocation(mapCell).Y - this.collideHeight-1);
             else if (moveAmount.Y < 0)
@@ -249,8 +258,7 @@ namespace PuzzleEngineAlpha.Actors
 
         void HorizontalCollision(Vector2 mapCell, ref Vector2 moveAmount)
         {
-            Collided = true;            
-
+            HCollided = true;
             if (moveAmount.X > 0)
                 location = new Vector2(tileMap.GetCellLocation(mapCell).X - this.collideWidth - 1,location.Y);
             else if (moveAmount.X < 0)
@@ -278,32 +286,32 @@ namespace PuzzleEngineAlpha.Actors
             }
         }
 
+        public abstract void Move();
+
         public virtual void Update(GameTime gameTime)
         {
             if (!enabled)
                 return;
 
             Collided = false;
-
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             UpdateAnimation(gameTime);
 
 
             Vector2 moveAmount = velocity * elapsed;
-      
+
             moveAmount = HorizontalCollisionTest(moveAmount);
             moveAmount = VerticalCollisionTest(moveAmount);
 
-            Vector2 newPosition = location + moveAmount;
+            location = location + moveAmount;
 
-         /*   newPosition = new Vector2(
-                MathHelper.Clamp(newPosition.X, 0,
-                  camera.WorldRectangle.Width - frameWidth),
-                MathHelper.Clamp(newPosition.Y, 2 * (-tileMap.TileHeight),
-                  camera.WorldRectangle.Height - frameHeight));
-            */
-            location = newPosition;
+            /*   newPosition = new Vector2(
+                   MathHelper.Clamp(newPosition.X, 0,
+                     camera.WorldRectangle.Width - frameWidth),
+                   MathHelper.Clamp(newPosition.Y, 2 * (-tileMap.TileHeight),
+                     camera.WorldRectangle.Height - frameHeight));
+               */
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace GateGame.Actors
+namespace PlatformerPrototype.Actors
 {
     using PuzzleEngineAlpha.Input.Scripts;
     using PuzzleEngineAlpha.Scene;
@@ -14,7 +14,6 @@ namespace GateGame.Actors
         #region Declarations
 
         MovementScript movementScript;
-        int movementState;
         readonly ActorManager actorManager;
         PuzzleEngineAlpha.Animations.SmoothTransition tranparencyTransition;
 
@@ -30,7 +29,6 @@ namespace GateGame.Actors
             currentAnimation = "run";
             this.step = step;
             movementScript = new MovementScript();
-            movementState = 0;
             this.actorManager = actorManager;
             this.IsActive = false;
             tranparencyTransition = new PuzzleEngineAlpha.Animations.SmoothTransition(1.0f, 0.001f, 0.6f, 1.0f);
@@ -91,8 +89,22 @@ namespace GateGame.Actors
 
         #endregion
 
+        #region Physics
+
+        readonly Vector2 Gravity = new Vector2(0, 15);
+        readonly Vector2 Jump = new Vector2(0, -450);
+
+        bool CanJump
+        {
+            get
+            {
+                return (VCollided && velocity.Y >= 0); 
+            }
+        }
+        #endregion
+
         #region Helper Methods
-        
+
         public void HandleTransparency(GameTime gameTime)
         {
             if (IsActive)
@@ -105,21 +117,11 @@ namespace GateGame.Actors
 
         Vector2 RelativeOffset()
         {
-            switch (movementState)
-            {
-                case 0:
-                    return new Vector2(0, -OffSet);
-                case 1:
-                    return new Vector2(0, +OffSet);
-                case 2:
-                    return new Vector2(-OffSet, 0);
-                case 3:
-                    return new Vector2(+OffSet, 0);
-                default:
-                    return Vector2.Zero;
-            }
-            
-           // return Velocity;
+
+            if (velocity.Y <= 30 && velocity.Y >= 0)
+                return new Vector2(velocity.X, 0);
+            else
+                return new Vector2(velocity.X, velocity.Y/2);
         }
 
         void ManipulateVector(ref Vector2 vector, float maxAcceleration,float amount)
@@ -128,11 +130,6 @@ namespace GateGame.Actors
                 vector.X = MathHelper.Clamp(vector.X - amount, 0, maxAcceleration);
             else
                 vector.X = MathHelper.Clamp(vector.X + amount, -maxAcceleration, 0);
-
-            if (vector.Y > 0)
-                vector.Y = MathHelper.Clamp(vector.Y - amount, 0, maxAcceleration);
-            else
-                vector.Y = MathHelper.Clamp(vector.Y + amount, -maxAcceleration, 0);
         }
 
         void ToggleGate()
@@ -149,6 +146,11 @@ namespace GateGame.Actors
         {
             this.location.X = MathHelper.Clamp(this.location.X, 0, camera.WorldSize.X);
             this.location.Y = MathHelper.Clamp(this.location.Y, 0, camera.WorldSize.Y);
+        }
+
+        void AdjustCamera()
+        {
+            camera.Position = new Vector2((int)camera.Position.X,(int)camera.Position.Y);
         }
 
         #endregion
@@ -197,7 +199,7 @@ namespace GateGame.Actors
 
         void VerticalCollision(Vector2 actorLocation, Vector2 corner, ref Vector2 moveAmount)
         {
-            Collided = true;
+            VCollided = true;
 
             if (moveAmount.Y > 0)
             {
@@ -214,7 +216,7 @@ namespace GateGame.Actors
 
         void HorizontalCollision(Vector2 actorLocation, Vector2 corner, ref Vector2 moveAmount)
         {
-            Collided = true;
+            HCollided = true;
 
             if (moveAmount.X > 0)
             {
@@ -233,67 +235,47 @@ namespace GateGame.Actors
 
         #region Update
 
-        public void UpdateInactive(GameTime gameTime)
-        {
-            HandleTransparency(gameTime);
-            if (!IsActive)
-            {
-                ManipulateVector(ref velocity, 240.0f, 10f);
-
-                base.Update(gameTime);
-
-                AdjustLocationInMap();
-            }
-        }
-
         public override void Move()
         {
-            throw new NotImplementedException();
-        }
+            if (!IsActive) return;
 
-        public override void Update(GameTime gameTime)
-        {
-            movementScript.RotationState = camera.RotationState;
-            Interaction = false;
+            if (movementScript.MoveUp && CanJump)
+            {
+                velocity += Jump;
+            }
 
-            if (movementScript.MoveUp)
-            {
-                velocity += new Vector2(0, -step);
-                movementState = 0;
-            }
-            else if (movementScript.MoveDown)
-            {
-                velocity += new Vector2(0, +step);
-                movementState = 1;
-            }
             if (movementScript.MoveLeft)
             {
                 velocity += new Vector2(-step, 0);
-                movementState = 2;
             }
             else if (movementScript.MoveRight)
             {
                 velocity += new Vector2(step, 0);
-                movementState = 3;
             }
-
             //TODO: get input from input configuration
             if (PuzzleEngineAlpha.Input.InputHandler.IsKeyReleased(Keys.Space))
             {
                 Interaction = true;
                 ToggleGate();
             }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            HandleTransparency(gameTime);
+            movementScript.RotationState = camera.RotationState;
+            Interaction = false;
 
             actorManager.IntersectsWithCoin(this.CollisionRectangle);
             actorManager.InteractsWithHiddenWall(this.CollisionRectangle, this);
             actorManager.IntersectsWithCloneBox(this.CollisionRectangle, this);
 
-            ManipulateVector(ref velocity, 240.0f, 10f);
+            ManipulateVector(ref velocity, 300.0f, 10f);
 
             base.Update(gameTime);
-
+            velocity += Gravity;
             AdjustLocationInMap();
-
+            AdjustCamera();
         }
 
         #endregion
