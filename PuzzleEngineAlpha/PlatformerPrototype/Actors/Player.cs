@@ -98,7 +98,7 @@ namespace PlatformerPrototype.Actors
         {
             get
             {
-                return (VCollided && velocity.Y >= 0); 
+                return (VCollided && velocity.Y >= 0);
             }
         }
         #endregion
