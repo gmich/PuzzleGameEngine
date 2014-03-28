@@ -17,6 +17,7 @@ namespace PlatformerPrototype.Scene
 {
     using Actors;
     using Animations;
+    using Actors.Handlers;
 
     public class GameScene : PuzzleEngineAlpha.Scene.IScene
     {
@@ -30,7 +31,7 @@ namespace PlatformerPrototype.Scene
         GraphicsDevice graphicsDevice;
         PuzzleEngineAlpha.Camera.Camera camera;
         Vector2 sceneryOffSet;
-        Actors.ActorManager actorManager;
+        ActorManager actorManager;
         ContentManager content;
         ActorMapper gateMapper;
         ChasingCamera chasingCamera;
@@ -51,7 +52,7 @@ namespace PlatformerPrototype.Scene
             camera = new Camera( Vector2.Zero,new Vector2(this.Width, this.Height), new Vector2(50000, 50000));
             this.tileMap = tileMap;
             this.tileMap.Camera = camera;
-            actorManager = new Actors.ActorManager();
+            actorManager = new ActorManager();
             gateMapper = new ActorMapper(content,this.tileMap);
             actorManager.Reset();
             player = new Actors.Player(actorManager,tileMap, camera, new Vector2(-100, -100), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);

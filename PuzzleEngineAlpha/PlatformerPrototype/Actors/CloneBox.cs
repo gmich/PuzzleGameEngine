@@ -9,6 +9,7 @@ using PuzzleEngineAlpha.Actors;
 namespace PlatformerPrototype.Actors
 {
     using Animations;
+    using Actors.Handlers;
 
     public class CloneBox : StaticObject
     {

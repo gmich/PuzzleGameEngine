@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 namespace PlatformerPrototype.Actors.Weapons
 {
     using Animations;
+    using Actors.Handlers;
 
     public class Pistol : IWeapon
     {

@@ -40,19 +40,23 @@
   <ItemGroup>
     <Compile Include="Actions\SwapGameWindowAction.cs" />
     <Compile Include="Actions\TerminateGameAction.cs" />
-    <Compile Include="Actors\ActorManager.cs" />
-    <Compile Include="Actors\ActorMapper.cs" />
+    <Compile Include="Actors\Handlers\ActorManager.cs" />
+    <Compile Include="Actors\Handlers\ActorMapper.cs" />
     <Compile Include="Actors\Button.cs" />
     <Compile Include="Actors\CloneBox.cs" />
     <Compile Include="Actors\Coin.cs" />
     <Compile Include="Actors\Gate.cs" />
+    <Compile Include="Actors\Mobs\Chaser.cs" />
     <Compile Include="Actors\Weapons\Bullet.cs" />
     <Compile Include="Actors\Weapons\IWeapon.cs" />
     <Compile Include="Actors\Weapons\Pistol.cs" />
     <Compile Include="Actors\HiddenWall.cs" />
     <Compile Include="Actors\Player.cs" />
     <Compile Include="Actors\PlayerClone.cs" />
-    <Compile Include="Actors\WeaponManager.cs" />
+    <Compile Include="Actors\Handlers\WeaponManager.cs" />
+    <Compile Include="AI\AI.cs" />
+    <Compile Include="AI\AStar.cs" />
+    <Compile Include="AI\PathNode.cs" />
     <Compile Include="Animations\ParticleManager.cs" />
     <Compile Include="PlatformerPrototype.cs" />
     <Compile Include="Program.cs" />

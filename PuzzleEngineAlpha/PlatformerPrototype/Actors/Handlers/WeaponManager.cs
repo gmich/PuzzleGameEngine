@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PuzzleEngineAlpha.Utils;
 
-namespace PlatformerPrototype.Actors
+namespace PlatformerPrototype.Actors.Handlers
 {
     using Weapons;
 

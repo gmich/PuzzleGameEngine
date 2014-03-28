@@ -4,94 +4,93 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using PuzzleEngineAlpha.Actors;
+using PuzzleEngineAlpha.Level;
 
-namespace PlatformerPrototype.Actors
+namespace PlatformerPrototype.Actors.Mobs
 {
     using Animations;
+    using AI;
 
-    public class PlayerClone : MapObject
+    public class Chaser : MapObject
     {
-
         #region Declarations
 
-        Queue<Vector2> Velocities;
-        Queue<bool> interactions;
-        const int queueLimit = 200;
         readonly Handlers.ActorManager actorManager;
         readonly ParticleManager particleManager;
+        readonly TileMap TileMap;
+        Vector2 currentTargetSquare;
 
         #endregion
 
         #region Constructor
 
-        public PlayerClone(Handlers.ActorManager actorManager, ParticleManager particleManager, PuzzleEngineAlpha.Level.TileMap tileMap, PuzzleEngineAlpha.Camera.Camera camera, Vector2 location, ContentManager content, int frameWidth, int frameHeight, int collideWidth, int collideHeight)
+        public Chaser(Handlers.ActorManager actorManager, ParticleManager particleManager, PuzzleEngineAlpha.Level.TileMap tileMap, PuzzleEngineAlpha.Camera.Camera camera, Vector2 location, ContentManager content, int frameWidth, int frameHeight, int collideWidth, int collideHeight)
             : base(tileMap, camera, location, frameWidth, frameHeight, collideWidth, collideHeight)
         {
             this.actorManager = actorManager;
             this.particleManager = particleManager;
-            this.animations.Add("run", new PuzzleEngineAlpha.Animations.AnimationStrip(content.Load<Texture2D>(@"Textures/player"), frameWidth, "run"));
+            this.TileMap = tileMap;
+            this.animations.Add("run", new PuzzleEngineAlpha.Animations.AnimationStrip(content.Load<Texture2D>(@"Textures/Mobs/chaser"), frameWidth, "run"));
             currentAnimation = "run";
             this.actorManager = actorManager;
-
-            Reset();
+            AI = new AStar(this.TileMap);
         }
 
         #endregion
 
-        #region Clone Properties
+        #region Properties
 
-        bool HaveToRecord
+        public AI AI
         {
-            get
+            get;
+            set;
+        }
+
+        Vector2 Direction
+        {
+            get;
+            set;
+        }
+
+        Vector2 Target
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
+        #region AI Methods
+
+        Vector2 DetermineMoveDirection()
+        {
+            if (ReachedTargetSquare())
             {
-                return (Velocities.Count < queueLimit);
+                currentTargetSquare = GetNewTargetSquare();
             }
+
+            Vector2 squareCenter = TileMap.GetCellCenter(currentTargetSquare);
+
+            return squareCenter - WorldCenter;
         }
 
-        public bool IsAlive
+        bool ReachedTargetSquare()
         {
-            get;
-            set;
+            return (
+                Vector2.Distance(WorldCenter, TileMap.GetCellCenter(currentTargetSquare)) <= 2);
         }
 
-        public bool Destroy
+        Vector2 GetNewTargetSquare()
         {
-            get;
-            set;
-        }
+            List<Vector2> path = AI.FindPath(TileMap.GetCellByPixel(WorldCenter), TileMap.GetCellByPixel(Target));
 
-        public Rectangle InteractionRectangle
-        {
-            get;
-            set;
-        }
-
-        public Player playerToRecord
-        {
-            get;
-            set;
-        }
-
-        #endregion
-
-        #region Helper Methods
-
-        void Reset()
-        {
-            Velocities = new Queue<Vector2>();
-            interactions = new Queue<bool>();
-            IsAlive = false;
-            Destroy = false;
-            enabled = false;
-        }
-
-        void Interact()
-        {
-            Button button = actorManager.GetInteractionButton(this.CollisionRectangle);
-
-            if (button != null)
+            if (path.Count > 1)
             {
-                actorManager.ToggleGatesWithTag(button.Tag);
+                return new Vector2(path[1].X, path[1].Y);
+            }
+            else
+            {
+                return TileMap.GetCellByPixel(Target);
             }
         }
         #endregion
@@ -172,7 +171,7 @@ namespace PlatformerPrototype.Actors
 
         #endregion
 
-        #region Update and Movement
+        #region Update And Movement
 
         public override void Move()
         {
@@ -181,58 +180,7 @@ namespace PlatformerPrototype.Actors
 
         public override void Update(GameTime gameTime)
         {
-            if (playerToRecord.CollisionRectangle.Intersects(this.InteractionRectangle))
-            {
-                if(IsAlive)
-                    particleManager.AddRecordingParticles(this.WorldCenter, (queueLimit), 2, 2, 80);
-
-                Reset();
-                location = playerToRecord.location;
-                particleManager.AddRecordingParticles(playerToRecord.Center, (queueLimit - Velocities.Count)/2, 1, 1,25);
-                return;
-            }
-            else if (!(playerToRecord.CollisionRectangle.Intersects(this.InteractionRectangle)) && HaveToRecord && !IsAlive)
-            {
-                // if (this.location == Vector2.Zero)
-                // location = playerToRecord.location;
-                particleManager.AddRecordingParticles(playerToRecord.Center, (queueLimit - Velocities.Count)/2, 1, 1, 25);
-
-                Velocities.Enqueue(playerToRecord.Velocity);
-                interactions.Enqueue(playerToRecord.Interaction);
-
-                if (!HaveToRecord)
-                {
-                    enabled = true;
-                    IsAlive = true;
-                }
-            }
-            else if (IsAlive)
-            {
-                if (Velocities.Count > 0)
-                {
-                    this.Velocity = Velocities.Dequeue();
-                    particleManager.AddRecordingParticles(this.WorldCenter, (Velocities.Count)/2, 1, 1, 25);
-                    if (interactions.Dequeue())
-                        Interact();
-                }
-                else
-                {
-                    particleManager.AddRecordingParticles(this.WorldCenter, (queueLimit), 2, 2, 70);
-                   // particleManager.AddRectangleDestructionParticles(this.location, this.frameWidth, this.frameHeight, 1, 1);
-                    Destroy = true;
-                }
-
-                actorManager.IntersectsWithCoin(this.CollisionRectangle);
-                actorManager.InteractsWithHiddenWall(this.CollisionRectangle, this);
-
-                base.Update(gameTime);
-
-                AdjustLocationInMap();
-
-                //TODO: may not be necessary
-                // if (Collided)
-                //  Destroy = true;
-            }
+            base.Update(gameTime);
         }
 
         #endregion

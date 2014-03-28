@@ -8,6 +8,7 @@ using PuzzleEngineAlpha.Actors;
 namespace PlatformerPrototype.Actors.Weapons
 {
     using Animations;
+    using Actors.Handlers;
 
     public class Bullet : MapObject
     {

@@ -6,7 +6,7 @@ using PuzzleEngineAlpha.Actors;
 using Microsoft.Xna.Framework.Content;
 using PuzzleEngineAlpha.Utils;
 
-namespace PlatformerPrototype.Actors
+namespace PlatformerPrototype.Actors.Handlers
 {
     public class ActorManager
     {
@@ -99,7 +99,7 @@ namespace PlatformerPrototype.Actors
             return false;
         }
 
-        public bool HasActorAtLocation(Vector2 location, PlayerClone cloneToCheck)
+        public bool HasActorAtLocation(Vector2 location, MapObject mapObject)
         {
             foreach (StaticObject staticObject in staticObjects)
             {
@@ -109,74 +109,26 @@ namespace PlatformerPrototype.Actors
 
             foreach (Player player in players)
             {
+                if (player != mapObject)
+                {
                     if (player.Intersects(location))
-                        return true;            
+                        return true;
+                }
             }
 
             foreach (PlayerClone clone in playerClones)
             {
-                if (clone != cloneToCheck)
+                if (clone != mapObject)
                 {
                     if (clone.Intersects(location))
                         return true;
                 }
             }
             return false;
-        }
-
-        public bool HasActorAtLocation(Vector2 location, Player playerToCheck)
-        {
-            foreach (StaticObject staticObject in staticObjects)
-            {
-                if (staticObject.Intersects(location))
-                    return true;
-            }
-
-            foreach (Player player in players)
-            {
-                if (player != playerToCheck)
-                {
-                    if (player.Intersects(location))
-                        return true;
-                }
-            }
-
-            foreach (PlayerClone clone in playerClones)
-            {
-                if (clone.Intersects(location))
-                    return true;
-            }
-
-            return false;
-        }
+        }      
 
         #region Information About Actor Location and Boundaries
 
-        public Vector2 GetActorLocation(Vector2 location, Player playerToCheck)
-        {
-            foreach (StaticObject staticObject in staticObjects)
-            {
-                if (staticObject.Intersects(location))
-                    return new Vector2(staticObject.CollisionRectangle.X, staticObject.CollisionRectangle.Y);
-            }
-
-            foreach (Player player in players)
-            {
-                if (player != playerToCheck)
-                {
-                    if (player.Intersects(location))
-                        return player.location;
-                }
-            }
-
-            foreach (PlayerClone clone in playerClones)
-            {
-                if (clone.Intersects(location))
-                    return clone.location;
-            }
-
-            return Vector2.Zero;
-        }
         public Vector2 GetActorLocation(Vector2 location)
         {
             foreach (StaticObject staticObject in staticObjects)
@@ -200,7 +152,7 @@ namespace PlatformerPrototype.Actors
             return Vector2.Zero;
         }
 
-        public Vector2 GetActorLocation(Vector2 location, PlayerClone cloneToCheck)
+        public Vector2 GetActorLocation(Vector2 location, MapObject mapObject)
         {
             foreach (StaticObject staticObject in staticObjects)
             {
@@ -210,7 +162,7 @@ namespace PlatformerPrototype.Actors
 
             foreach (Player player in players)
             {
-              
+                if (player != mapObject)
                 {
                     if (player.Intersects(location))
                         return player.location;
@@ -219,7 +171,7 @@ namespace PlatformerPrototype.Actors
 
             foreach (PlayerClone clone in playerClones)
             {
-                if (clone != cloneToCheck)
+                if (clone != mapObject)
                 {
                     if (clone.Intersects(location))
                         return clone.location;
@@ -229,7 +181,7 @@ namespace PlatformerPrototype.Actors
             return Vector2.Zero;
         }
 
-        public float GetActorHeight(Vector2 location, Player playerToCheck)
+        public float GetActorHeight(Vector2 location, MapObject mapObject)
         {
             foreach (StaticObject staticObject in staticObjects)
             {
@@ -239,7 +191,7 @@ namespace PlatformerPrototype.Actors
 
             foreach (Player player in players)
             {
-                if (player != playerToCheck)
+                if (player != mapObject)
                 {
                     if (player.Intersects(location))
                         return player.CollisionRectangle.Height+1;
@@ -248,30 +200,7 @@ namespace PlatformerPrototype.Actors
 
             foreach (PlayerClone clone in playerClones)
             {
-                if (clone.Intersects(location))
-                    return clone.CollisionRectangle.Height+1;
-            }
-
-            return 0.0f;
-        }
-
-        public float GetActorHeight(Vector2 location, PlayerClone playerToCheck)
-        {
-            foreach (StaticObject staticObject in staticObjects)
-            {
-                if (staticObject.Intersects(location))
-                    return staticObject.CollisionRectangle.Height;
-            }
-
-            foreach (Player player in players)
-            {
-                    if (player.Intersects(location))
-                        return player.CollisionRectangle.Height + 1;
-            }
-
-            foreach (PlayerClone clone in playerClones)
-            {
-                if (clone != playerToCheck)
+                if (clone != mapObject)
                 {
                     if (clone.Intersects(location))
                         return clone.CollisionRectangle.Height + 1;
@@ -281,6 +210,7 @@ namespace PlatformerPrototype.Actors
             return 0.0f;
         }
 
+      
         public float GetActorHeight(Vector2 location)
         {
             foreach (StaticObject staticObject in staticObjects)
@@ -305,31 +235,6 @@ namespace PlatformerPrototype.Actors
             return 0.0f;
         }
 
-        public float GetActorWidth(Vector2 location, Player playerToCheck)
-        {
-            foreach (StaticObject staticObject in staticObjects)
-            {
-                if (staticObject.Intersects(location))
-                    return staticObject.CollisionRectangle.Width;
-            }
-
-            foreach (Player player in players)
-            {
-                if (player != playerToCheck)
-                {
-                    if (player.Intersects(location))
-                        return player.CollisionRectangle.Width + 1;
-                }
-            }
-
-            foreach (PlayerClone clone in playerClones)
-            {
-                if (clone.Intersects(location))
-                    return clone.CollisionRectangle.Width + 1;
-            }
-
-            return 0.0f;
-        }
 
         public float GetActorWidth(Vector2 location)
         {
@@ -355,7 +260,7 @@ namespace PlatformerPrototype.Actors
             return 0.0f;
         }
 
-        public float GetActorWidth(Vector2 location, PlayerClone playerToCheck)
+        public float GetActorWidth(Vector2 location, MapObject mapObject)
         {
             foreach (StaticObject staticObject in staticObjects)
             {
@@ -365,13 +270,16 @@ namespace PlatformerPrototype.Actors
 
             foreach (Player player in players)
             {
+                if (player != mapObject)
+                {
                     if (player.Intersects(location))
                         return player.CollisionRectangle.Width + 1;
+                }
             }
 
             foreach (PlayerClone clone in playerClones)
             {
-                if (clone != playerToCheck)
+                if (clone != mapObject)
                 {
                     if (clone.Intersects(location))
                         return clone.CollisionRectangle.Width + 1;

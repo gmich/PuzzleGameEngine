@@ -14,7 +14,7 @@ namespace PlatformerPrototype.Actors
         #region Declarations
 
         MovementScript movementScript;
-        readonly ActorManager actorManager;
+        readonly Handlers.ActorManager actorManager;
         PuzzleEngineAlpha.Animations.SmoothTransition tranparencyTransition;
         int movementState;
 
@@ -22,7 +22,7 @@ namespace PlatformerPrototype.Actors
 
         #region Constructor
 
-        public Player(ActorManager actorManager,PuzzleEngineAlpha.Level.TileMap tileMap, PuzzleEngineAlpha.Camera.Camera camera, Vector2 location, Texture2D texture, float step, int frameWidth, int frameHeight, int collideWidth, int collideHeight)
+        public Player(Handlers.ActorManager actorManager,PuzzleEngineAlpha.Level.TileMap tileMap, PuzzleEngineAlpha.Camera.Camera camera, Vector2 location, Texture2D texture, float step, int frameWidth, int frameHeight, int collideWidth, int collideHeight)
             : base(tileMap,camera,location, frameWidth, frameHeight, collideWidth,collideHeight)
         {
             this.InitialLocation = location;
@@ -65,7 +65,7 @@ namespace PlatformerPrototype.Actors
             set;
         }
 
-        public WeaponManager WeaponManager
+        public Handlers.WeaponManager WeaponManager
         {
             get;
             set;
