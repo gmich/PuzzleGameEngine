@@ -46,10 +46,13 @@
     <Compile Include="Actors\CloneBox.cs" />
     <Compile Include="Actors\Coin.cs" />
     <Compile Include="Actors\Gate.cs" />
-    <Compile Include="Actors\Guns\Bullet.cs" />
+    <Compile Include="Actors\Weapons\Bullet.cs" />
+    <Compile Include="Actors\Weapons\IWeapon.cs" />
+    <Compile Include="Actors\Weapons\Pistol.cs" />
     <Compile Include="Actors\HiddenWall.cs" />
     <Compile Include="Actors\Player.cs" />
     <Compile Include="Actors\PlayerClone.cs" />
+    <Compile Include="Actors\WeaponManager.cs" />
     <Compile Include="Animations\ParticleManager.cs" />
     <Compile Include="PlatformerPrototype.cs" />
     <Compile Include="Program.cs" />

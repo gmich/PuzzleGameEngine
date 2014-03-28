@@ -16,6 +16,7 @@ namespace PlatformerPrototype.Actors
         MovementScript movementScript;
         readonly ActorManager actorManager;
         PuzzleEngineAlpha.Animations.SmoothTransition tranparencyTransition;
+        int movementState;
 
         #endregion
 
@@ -34,6 +35,7 @@ namespace PlatformerPrototype.Actors
             tranparencyTransition = new PuzzleEngineAlpha.Animations.SmoothTransition(1.0f, 0.001f, 0.6f, 1.0f);
             IsActive=false;
             Interaction = false;
+            movementState = 0;
         }
 
         #endregion
@@ -61,7 +63,13 @@ namespace PlatformerPrototype.Actors
         {
             get;
             set;
-        }        
+        }
+
+        public WeaponManager WeaponManager
+        {
+            get;
+            set;
+        }
 
         public Vector2 Center
         {
@@ -233,6 +241,35 @@ namespace PlatformerPrototype.Actors
 
         #endregion
 
+        #region Weapon Related Methods
+
+        Vector2 WeaponVelocity
+        {
+            get
+            {
+
+            if (movementState == 0)
+                return new Vector2(-1, 0);
+            else
+                return new Vector2(1, 0);
+            }
+        }
+
+        Vector2 WeaponLocation
+        {
+            get
+            {
+                float offSet = this.collideWidth/2 + 8;
+
+                if (movementState == 0)
+                    return new Vector2(this.location.X - offSet, this.location.Y);
+                else
+                    return new Vector2(this.location.X + this.collideWidth + offSet, this.location.Y);
+            }
+        }
+
+        #endregion
+
         #region Update
 
         public override void Move()
@@ -247,17 +284,24 @@ namespace PlatformerPrototype.Actors
             if (movementScript.MoveLeft)
             {
                 velocity += new Vector2(-step, 0);
+                movementState = 0;
             }
             else if (movementScript.MoveRight)
             {
                 velocity += new Vector2(step, 0);
+                movementState = 1;
             }
             //TODO: get input from input configuration
-            if (PuzzleEngineAlpha.Input.InputHandler.IsKeyReleased(Keys.Space))
+            if (PuzzleEngineAlpha.Input.InputHandler.IsKeyReleased(Keys.LeftControl))
             {
                 Interaction = true;
                 ToggleGate();
             }
+            if (PuzzleEngineAlpha.Input.InputHandler.IsKeyReleased(Keys.Space))
+            {
+                WeaponManager.Shoot(WeaponLocation, WeaponVelocity);
+            }
+
         }
 
         public override void Update(GameTime gameTime)

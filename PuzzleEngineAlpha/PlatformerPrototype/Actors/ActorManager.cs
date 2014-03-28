@@ -177,6 +177,28 @@ namespace PlatformerPrototype.Actors
 
             return Vector2.Zero;
         }
+        public Vector2 GetActorLocation(Vector2 location)
+        {
+            foreach (StaticObject staticObject in staticObjects)
+            {
+                if (staticObject.Intersects(location))
+                    return new Vector2(staticObject.CollisionRectangle.X, staticObject.CollisionRectangle.Y);
+            }
+
+            foreach (Player player in players)
+            {
+                if (player.Intersects(location))
+                    return player.location;
+            }
+
+            foreach (PlayerClone clone in playerClones)
+            {
+                if (clone.Intersects(location))
+                    return clone.location;
+            }
+
+            return Vector2.Zero;
+        }
 
         public Vector2 GetActorLocation(Vector2 location, PlayerClone cloneToCheck)
         {
@@ -259,6 +281,30 @@ namespace PlatformerPrototype.Actors
             return 0.0f;
         }
 
+        public float GetActorHeight(Vector2 location)
+        {
+            foreach (StaticObject staticObject in staticObjects)
+            {
+                if (staticObject.Intersects(location))
+                    return staticObject.CollisionRectangle.Height;
+            }
+
+            foreach (Player player in players)
+            {
+                if (player.Intersects(location))
+                    return player.CollisionRectangle.Height + 1;
+            }
+
+            foreach (PlayerClone clone in playerClones)
+            {
+                if (clone.Intersects(location))
+                    return clone.CollisionRectangle.Height + 1;
+
+            }
+
+            return 0.0f;
+        }
+
         public float GetActorWidth(Vector2 location, Player playerToCheck)
         {
             foreach (StaticObject staticObject in staticObjects)
@@ -274,6 +320,30 @@ namespace PlatformerPrototype.Actors
                     if (player.Intersects(location))
                         return player.CollisionRectangle.Width + 1;
                 }
+            }
+
+            foreach (PlayerClone clone in playerClones)
+            {
+                if (clone.Intersects(location))
+                    return clone.CollisionRectangle.Width + 1;
+            }
+
+            return 0.0f;
+        }
+
+        public float GetActorWidth(Vector2 location)
+        {
+            foreach (StaticObject staticObject in staticObjects)
+            {
+                if (staticObject.Intersects(location))
+                    return staticObject.CollisionRectangle.Width;
+            }
+
+            foreach (Player player in players)
+            {
+                    if (player.Intersects(location))
+                        return player.CollisionRectangle.Width + 1;
+
             }
 
             foreach (PlayerClone clone in playerClones)

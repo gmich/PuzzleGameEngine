@@ -36,6 +36,7 @@ namespace PlatformerPrototype.Scene
         ChasingCamera chasingCamera;
         FreeRoam freeRoam;
         ParticleManager particleManager;
+        WeaponManager weaponManager;
 
         #endregion
 
@@ -57,7 +58,7 @@ namespace PlatformerPrototype.Scene
             chasingCamera = new ChasingCamera(player.location, camera,2.0f);
             cameraManager.SetCameraScript(chasingCamera);
             IsCameraFree = false;
-
+            this.weaponManager = new WeaponManager();
             //cameraManager.AddCameraHandler(new Rotater(0.0f, MathHelper.PiOver2, 8));
             cameraManager.AddCameraHandler(new Zoomer(1.0f, 1.0f, 0.5f, 0.01f));
 
@@ -74,6 +75,9 @@ namespace PlatformerPrototype.Scene
 
         void NewMapHandling(object sender, EventArgs e)
         {
+            //TODO: Get weapons by map actors
+            weaponManager.AddWeapon(new Actors.Weapons.Pistol(actorManager, particleManager, tileMap, camera, content));
+
             actorManager.Reset();
             List<Vector2> playerLocations = tileMap.GetLocationOfCodeValue("player");
 
@@ -82,12 +86,14 @@ namespace PlatformerPrototype.Scene
                 foreach (Vector2 playerLocation in playerLocations)
                 {
                     player = new Actors.Player(actorManager, tileMap, camera, playerLocation + new Vector2(16, 16), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
-                    actorManager.AddPlayer(player);
+                    player.WeaponManager = this.weaponManager;
+                    actorManager.AddPlayer(player);              
                 }
             }
             else
             {
                 player = new Actors.Player(actorManager, tileMap, camera, new Vector2(16, 16), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
+                player.WeaponManager = this.weaponManager;
                 actorManager.AddPlayer(player);
             }
 
@@ -269,10 +275,12 @@ namespace PlatformerPrototype.Scene
 
 
             particleManager.Update(gameTime);
+            weaponManager.Update(gameTime);
             actorManager.Update(gameTime);
             actorManager.MovePlayers(gameTime, IsCameraFree);
             cameraManager.TargetLocation = player.RelativeCenter;
             cameraManager.Update(gameTime);
+
         }
 
         //TODO: fix rendertarget order
@@ -292,6 +300,7 @@ namespace PlatformerPrototype.Scene
 
             tileMap.Draw(spriteBatch);
             actorManager.Draw(spriteBatch);
+            weaponManager.Draw(spriteBatch);
             particleManager.Draw(spriteBatch);
             spriteBatch.End();
 

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using PuzzleEngineAlpha.Actors;
 
-namespace PlatformerPrototype.Actors.Guns
+namespace PlatformerPrototype.Actors.Weapons
 {
     using Animations;
 
@@ -32,8 +32,8 @@ namespace PlatformerPrototype.Actors.Guns
             this.animations.Add("bullet", new PuzzleEngineAlpha.Animations.AnimationStrip(content.Load<Texture2D>(@"Textures/Guns/bullet"), frameWidth, "bullet"));
             currentAnimation = "bullet";
             this.actorManager = actorManager;
-
-            Reset();
+            this.Destroy = false;
+            this.enabled = true;
         }
 
         #endregion
@@ -54,16 +54,6 @@ namespace PlatformerPrototype.Actors.Guns
 
         #endregion
 
-        #region Helper Methods
-
-        void Reset()
-        {
-            Destroy = false;
-            enabled = false;
-        }
-
-        #endregion
-
         #region Collision Detection
 
         public override void HorizontalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
@@ -78,11 +68,11 @@ namespace PlatformerPrototype.Actors.Guns
 
             if (actorManager.HasActorAtLocation(corner1))
             {
-                HorizontalCollision(this.location, corner1, ref moveAmount);
+                HorizontalCollision(actorManager.GetActorLocation(corner1), corner1, ref moveAmount);
             }
             if (actorManager.HasActorAtLocation(corner2))
             {
-                HorizontalCollision(this.location, corner2, ref moveAmount);
+                HorizontalCollision(actorManager.GetActorLocation(corner2), corner2, ref moveAmount);
             }
         }
 
@@ -98,17 +88,27 @@ namespace PlatformerPrototype.Actors.Guns
 
             if (actorManager.HasActorAtLocation(corner1))
             {
-                VerticalCollision(this.location, corner1, ref moveAmount);
+                VerticalCollision(actorManager.GetActorLocation(corner1), corner1, ref moveAmount);
             }
             if (actorManager.HasActorAtLocation(corner2))
             {
-                VerticalCollision(this.location, corner2, ref moveAmount);
+                VerticalCollision(actorManager.GetActorLocation(corner2), corner2, ref moveAmount);
             }
         }
 
         void VerticalCollision(Vector2 actorLocation, Vector2 corner, ref Vector2 moveAmount)
         {
             Collided = true;
+
+            if (moveAmount.Y > 0)
+            {
+                location = new Vector2(location.X, actorLocation.Y - this.collideHeight - 1);
+            }
+            else if (moveAmount.Y < 0)
+            {
+                location = new Vector2(location.X, actorLocation.Y + actorManager.GetActorHeight(corner));
+            }
+
             moveAmount.Y = 0;
             velocity.Y = 0;
         }
@@ -116,6 +116,16 @@ namespace PlatformerPrototype.Actors.Guns
         void HorizontalCollision(Vector2 actorLocation, Vector2 corner, ref Vector2 moveAmount)
         {
             Collided = true;
+
+            if (moveAmount.X > 0)
+            {
+                location = new Vector2(actorLocation.X - this.collideWidth - 1, location.Y);
+            }
+            else if (moveAmount.X < 0)
+            {
+                location = new Vector2(actorLocation.X + actorManager.GetActorWidth(corner), location.Y);
+            }
+
             moveAmount.X = 0;
             velocity.X = 0;
         }
@@ -140,7 +150,7 @@ namespace PlatformerPrototype.Actors.Guns
             velocity += memento;
             base.Update(gameTime);
 
-            if (Collided)
+            if (Collided) 
                 this.Destroy = true;
         }
 
