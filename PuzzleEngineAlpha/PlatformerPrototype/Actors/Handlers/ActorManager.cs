@@ -18,6 +18,7 @@ namespace PlatformerPrototype.Actors.Handlers
         List<Player> players;
         List<PlayerClone> playerClones;
         Enumerator playerEnumerator;
+
         #endregion
 
         #region Constructor

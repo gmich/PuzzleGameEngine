@@ -106,7 +106,7 @@ namespace PlatformerPrototype.Actors
         {
             get
             {
-                return (VCollided && velocity.Y >= 0);
+                return (OnGround);
             }
         }
         #endregion
@@ -212,10 +212,12 @@ namespace PlatformerPrototype.Actors
             if (moveAmount.Y > 0)
             {
                 location = new Vector2(location.X, actorLocation.Y - this.collideHeight - 1);
+                OnGround = true;
             }
             else if (moveAmount.Y < 0)
             {
                 location = new Vector2(location.X, actorLocation.Y + actorManager.GetActorHeight(corner, this));
+
             }
 
             moveAmount.Y = 0;

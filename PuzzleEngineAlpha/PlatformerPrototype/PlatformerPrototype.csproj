@@ -56,6 +56,8 @@
     <Compile Include="Actors\Handlers\WeaponManager.cs" />
     <Compile Include="AI\AI.cs" />
     <Compile Include="AI\AStar.cs" />
+    <Compile Include="AI\AStarPlatformer.cs" />
+    <Compile Include="AI\PathFilter.cs" />
     <Compile Include="AI\PathNode.cs" />
     <Compile Include="Animations\ParticleManager.cs" />
     <Compile Include="PlatformerPrototype.cs" />

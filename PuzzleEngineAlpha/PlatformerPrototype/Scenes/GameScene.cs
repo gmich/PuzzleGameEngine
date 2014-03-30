@@ -82,13 +82,13 @@ namespace PlatformerPrototype.Scene
             actorManager.Reset();
             List<Vector2> playerLocations = tileMap.GetLocationOfCodeValue("player");
 
-            if (playerLocations.Count>0)
+            if (playerLocations.Count > 0)
             {
                 foreach (Vector2 playerLocation in playerLocations)
                 {
                     player = new Actors.Player(actorManager, tileMap, camera, playerLocation + new Vector2(16, 16), content.Load<Texture2D>(@"Textures/player"), 25.0f, 16, 16, 15, 15);
                     player.WeaponManager = this.weaponManager;
-                    actorManager.AddPlayer(player);              
+                    actorManager.AddPlayer(player);
                 }
             }
             else
@@ -97,8 +97,16 @@ namespace PlatformerPrototype.Scene
                 player.WeaponManager = this.weaponManager;
                 actorManager.AddPlayer(player);
             }
-
             this.player = actorManager.GetNextPlayer();
+
+            List<Vector2> mobLocations = tileMap.GetLocationOfCodeValue("mob");
+
+            foreach (Vector2 mobLocation in mobLocations)
+            {
+                Actors.Mobs.Chaser chaser = new Actors.Mobs.Chaser(actorManager, particleManager, tileMap, camera, mobLocation + new Vector2(16, 16), content, 20, 20, 20, 20);
+                chaser.ChaseTarget = this.player;
+                actorManager.AddMapObject(chaser);
+            }
 
             Dictionary<Vector2, int> actors = tileMap.GetActorsLocationAndID();
 
@@ -119,7 +127,7 @@ namespace PlatformerPrototype.Scene
                 }
                 else if (actor.Value == gateMapper.CloneBoxID)
                 {
-                    obj = new CloneBox(this.actorManager,this.particleManager,this.tileMap, this.camera, actor.Key,gateMapper.GetTextureByID(actor.Value), content,tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value));
+                    obj = new CloneBox(this.actorManager, this.particleManager, this.tileMap, this.camera, actor.Key, gateMapper.GetTextureByID(actor.Value), content, tileMap.SourceTileWidth, tileMap.SourceTileHeight, gateMapper.GetTagByID(actor.Value));
                 }
                 else
                 {

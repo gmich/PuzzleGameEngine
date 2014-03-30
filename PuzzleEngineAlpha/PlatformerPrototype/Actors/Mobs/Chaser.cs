@@ -18,7 +18,10 @@ namespace PlatformerPrototype.Actors.Mobs
         readonly Handlers.ActorManager actorManager;
         readonly ParticleManager particleManager;
         readonly TileMap TileMap;
+        readonly Vector2 Gravity = new Vector2(0, 15);
+        readonly Vector2 Jump = new Vector2(0, -450);
         Vector2 currentTargetSquare;
+        const float step = 20.0f;
 
         #endregion
 
@@ -33,7 +36,8 @@ namespace PlatformerPrototype.Actors.Mobs
             this.animations.Add("run", new PuzzleEngineAlpha.Animations.AnimationStrip(content.Load<Texture2D>(@"Textures/Mobs/chaser"), frameWidth, "run"));
             currentAnimation = "run";
             this.actorManager = actorManager;
-            AI = new AStar(this.TileMap);
+            AI = new AStarPlatformer(this.TileMap);
+            timeSinceTargetSquare = 0.0f;
         }
 
         #endregion
@@ -46,43 +50,74 @@ namespace PlatformerPrototype.Actors.Mobs
             set;
         }
 
-        Vector2 Direction
+        public MapObject ChaseTarget
         {
             get;
             set;
         }
 
+        Rectangle TargetSquareRectangle
+        {
+            get
+            {
+                return new Rectangle((int)currentTargetSquare.X, (int)currentTargetSquare.Y, this.tileMap.TileWidth, this.tileMap.TileHeight);
+            }
+        }
+
         Vector2 Target
         {
-            get;
-            set;
+            get
+            {
+                return ChaseTarget.location + new Vector2(ChaseTarget.collideWidth ,ChaseTarget.collideHeight);
+            }
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        void ManipulateVector(ref Vector2 vector, float maxAcceleration, float amount)
+        {
+            if (vector.X > 0)
+                vector.X = MathHelper.Clamp(vector.X - amount, 0, maxAcceleration);
+            else
+                vector.X = MathHelper.Clamp(vector.X + amount, -maxAcceleration, 0);
         }
 
         #endregion
 
         #region AI Methods
 
+        float timeSinceTargetSquare;
+        const float timeToGetNewTargetSquare = 0.5f;
         Vector2 DetermineMoveDirection()
         {
             if (ReachedTargetSquare())
             {
                 currentTargetSquare = GetNewTargetSquare();
+                timeSinceTargetSquare = 0.0f;
+            }
+            else if (timeSinceTargetSquare > timeToGetNewTargetSquare)
+            {
+                currentTargetSquare = GetNewTargetSquare();
+                timeSinceTargetSquare = 0.0f;
             }
 
             Vector2 squareCenter = TileMap.GetCellCenter(currentTargetSquare);
-
-            return squareCenter - WorldCenter;
+            Console.WriteLine(squareCenter - WorldCenter + new Vector2(0, this.frameHeight));
+            return squareCenter - WorldCenter + new Vector2(0, this.frameHeight+1);
         }
 
         bool ReachedTargetSquare()
         {
-            return (
-                Vector2.Distance(WorldCenter, TileMap.GetCellCenter(currentTargetSquare)) <= 2);
+            return (Vector2.Distance(WorldCenter, TileMap.GetCellCenter(currentTargetSquare)) <= tileMap.TileHeight);
         }
 
         Vector2 GetNewTargetSquare()
         {
             List<Vector2> path = AI.FindPath(TileMap.GetCellByPixel(WorldCenter), TileMap.GetCellByPixel(Target));
+
+            if (path == null) return TileMap.GetCellByPixel(Target);
 
             if (path.Count > 1)
             {
@@ -93,6 +128,7 @@ namespace PlatformerPrototype.Actors.Mobs
                 return TileMap.GetCellByPixel(Target);
             }
         }
+
         #endregion
 
         #region Collision Detection
@@ -180,7 +216,30 @@ namespace PlatformerPrototype.Actors.Mobs
 
         public override void Update(GameTime gameTime)
         {
+            Vector2 direction = DetermineMoveDirection();
+            direction.Normalize();
+
+            if (direction.Y < 0 && OnGround)
+            {
+                this.velocity += Jump;
+            }
+            if (direction.X > 0)
+            {
+                velocity.X += step;
+            }
+            if (direction.X < 0)
+            {
+                velocity.X -= step;
+            }
+
+            velocity += Gravity;
+
+            ManipulateVector(ref velocity, 260.0f, 10f);
+
+            timeSinceTargetSquare += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             base.Update(gameTime);
+  
         }
 
         #endregion

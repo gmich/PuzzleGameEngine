@@ -42,6 +42,7 @@ namespace PuzzleEngineAlpha.Actors
             this.tileMap = tileMap;
             this.camera = camera;
             this.Transparency = 1.0f;
+            OnGround = false;
         }
 
         #endregion
@@ -67,6 +68,12 @@ namespace PuzzleEngineAlpha.Actors
                 VCollided = value;
                 HCollided = value;
             }
+        }
+
+        protected bool OnGround
+        {
+            get;
+            set;
         }
 
         public bool Enabled
@@ -248,9 +255,14 @@ namespace PuzzleEngineAlpha.Actors
         {
             VCollided = true;
             if (moveAmount.Y > 0)
-                location = new Vector2(location.X, tileMap.GetCellLocation(mapCell).Y - this.collideHeight-1);
+            {
+                location = new Vector2(location.X, tileMap.GetCellLocation(mapCell).Y - this.collideHeight - 1);
+                OnGround = true;
+            }
             else if (moveAmount.Y < 0)
-                location = new Vector2(location.X, tileMap.GetCellLocation(mapCell).Y + tileMap.TileHeight );
+            {
+                location = new Vector2(location.X, tileMap.GetCellLocation(mapCell).Y + tileMap.TileHeight);
+            }
 
             moveAmount.Y = 0;
             velocity.Y = 0;
@@ -293,6 +305,7 @@ namespace PuzzleEngineAlpha.Actors
             if (!enabled)
                 return;
 
+            OnGround = false;
             Collided = false;
             float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
