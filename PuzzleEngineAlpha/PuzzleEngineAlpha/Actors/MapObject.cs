@@ -311,20 +311,12 @@ namespace PuzzleEngineAlpha.Actors
 
             UpdateAnimation(gameTime);
 
-
             Vector2 moveAmount = velocity * elapsed;
 
             moveAmount = HorizontalCollisionTest(moveAmount);
             moveAmount = VerticalCollisionTest(moveAmount);
 
             location = location + moveAmount;
-
-            /*   newPosition = new Vector2(
-                   MathHelper.Clamp(newPosition.X, 0,
-                     camera.WorldRectangle.Width - frameWidth),
-                   MathHelper.Clamp(newPosition.Y, 2 * (-tileMap.TileHeight),
-                     camera.WorldRectangle.Height - frameHeight));
-               */
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

@@ -44,6 +44,7 @@ namespace PlatformerPrototype.AI
             }
 
             openList.Insert(index, node);
+       
             nodeCosts[node.GridLocation] = node.TotalCost;
             nodeStatus[node.GridLocation] = NodeStatus.Open;
         }
@@ -80,7 +81,7 @@ namespace PlatformerPrototype.AI
                 downRight = false;
             }
 
-            if ((Y > 0) && (TileMap.CellIsPassable(X, Y - 1)))
+            if ((Y > 0) && (TileMap.CellIsPassable(X, Y - 1)) && (!TileMap.CellIsPassable(X, Y + 1)))
             {
                 adjacentNodes.Add(new PathNode(currentNode, endNode, new Vector2(X, Y - 1), CostStraight + currentNode.DirectCost));
             }
@@ -101,9 +102,9 @@ namespace PlatformerPrototype.AI
             }
 
 
-            if ((upLeft) && (TileMap.CellIsPassable(X - 1, Y - 1)))
+            if ((upLeft) && (TileMap.CellIsPassable(X - 1, Y - 1)) && (!TileMap.CellIsPassable(X, Y + 1)))
             {
-                if (TileMap.CellIsPassable(X, Y - 2) && !TileMap.CellIsPassable(X + 1, Y ))
+                if (TileMap.CellIsPassable(X, Y - 1) && !TileMap.CellIsPassable(X + 1, Y ))
                 {
                     adjacentNodes.Add(new PathNode(currentNode, endNode, new Vector2(X + 1, Y - 1), CostDiagonal + currentNode.DirectCost));
                 }
@@ -113,9 +114,9 @@ namespace PlatformerPrototype.AI
                 }
             }
 
-            if ((upRight) && (TileMap.CellIsPassable(X + 1, Y - 1)))
+            if ((upRight) && (TileMap.CellIsPassable(X + 1, Y - 1)) && (!TileMap.CellIsPassable(X, Y + 1)))
             {
-                if (TileMap.CellIsPassable(X, Y - 2) && !TileMap.CellIsPassable(X -1 , Y ))
+                if (TileMap.CellIsPassable(X, Y - 1) && !TileMap.CellIsPassable(X -1 , Y ))
                 {
                     adjacentNodes.Add(new PathNode(currentNode, endNode, new Vector2(X - 1, Y - 1), CostDiagonal + currentNode.DirectCost));
                 }
