@@ -22,7 +22,6 @@ namespace PlatformerPrototype.Actors.Mobs
         readonly Vector2 Jump = new Vector2(0, -430);
         Vector2 currentTargetSquare;
         const float step = 25.0f;
-        readonly PathFilter pathFilter;
 
         #endregion
 
@@ -39,7 +38,6 @@ namespace PlatformerPrototype.Actors.Mobs
             this.actorManager = actorManager;
             AI = new AStarPlatformer(this.TileMap);
             timeSinceTargetSquare = 0.0f;
-            pathFilter = new PathFilter(tileMap, this);
         }
 
         #endregion
@@ -123,8 +121,6 @@ namespace PlatformerPrototype.Actors.Mobs
 
             if (path.Count > 1)
             {
-               // return pathFilter.FilterNextLocation(path);
-               // return pathFilter.FilterVelocity(path, timeToGetNewTargetSquare);
                 return new Vector2(path[1].X, path[1].Y);
             }
             else

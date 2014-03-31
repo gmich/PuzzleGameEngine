@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C6239413-5D8A-4D84-ABCC-F01606053BB1}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PlatformerPrototype</RootNamespace>
     <AssemblyName>PlatformerPrototype</AssemblyName>
@@ -57,7 +57,6 @@
     <Compile Include="AI\AI.cs" />
     <Compile Include="AI\AStar.cs" />
     <Compile Include="AI\AStarPlatformer.cs" />
-    <Compile Include="AI\PathFilter.cs" />
     <Compile Include="AI\PathNode.cs" />
     <Compile Include="Animations\ParticleManager.cs" />
     <Compile Include="PlatformerPrototype.cs" />
