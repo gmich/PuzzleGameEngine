@@ -19,7 +19,7 @@ namespace PlatformerPrototype.Actors.Mobs
         readonly ParticleManager particleManager;
         readonly TileMap TileMap;
         readonly Vector2 Gravity = new Vector2(0, 15);
-        readonly Vector2 Jump = new Vector2(0, -450);
+        readonly Vector2 Jump = new Vector2(0, -430);
         Vector2 currentTargetSquare;
         const float step = 20.0f;
 
@@ -104,7 +104,7 @@ namespace PlatformerPrototype.Actors.Mobs
             }
 
             Vector2 squareCenter = TileMap.GetCellCenter(currentTargetSquare);
-            Console.WriteLine(squareCenter - WorldCenter + new Vector2(0, this.frameHeight));
+
             return squareCenter - WorldCenter + new Vector2(0, this.frameHeight+1);
         }
 
@@ -121,6 +121,7 @@ namespace PlatformerPrototype.Actors.Mobs
 
             if (path.Count > 1)
             {
+                return PathFilter.FilterNextLocation(path);
                 return new Vector2(path[1].X, path[1].Y);
             }
             else
@@ -237,9 +238,9 @@ namespace PlatformerPrototype.Actors.Mobs
             ManipulateVector(ref velocity, 260.0f, 10f);
 
             timeSinceTargetSquare += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+            
             base.Update(gameTime);
-  
+            AdjustLocationInMap();
         }
 
         #endregion

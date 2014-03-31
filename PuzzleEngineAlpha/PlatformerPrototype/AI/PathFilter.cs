@@ -7,17 +7,31 @@ namespace PlatformerPrototype.AI
 {
     class PathFilter
     {
-        TileMap tileMap;
+        //TileMap tileMap;
 
-    /*    Vector2 FilterNextLocation(List<Vector2> directions)
+        public static Vector2 FilterNextLocation(List<Vector2> directions)
         {
-            if (directions.Count > 3)
+            if (directions != null)
             {
-                //case gravity filter
-                //if (directions[0].Y > 0 && directions[1].Y > 0 && directions[2].Y > 0) ;
-             
-            } 
+               
+                if (directions.Count > 3)
+                {
+                    if ((directions[1].Y == directions[2].Y && directions[2].Y == directions[3].Y) &&( (directions[0].Y-1)==directions[1].Y) && directions[1].X<directions[2].X)
+                    {
+                        return new Vector2(directions[1].X -2, directions[1].Y);
+                    }
+                    if ((directions[1].Y == directions[2].Y && directions[2].Y == directions[3].Y) && ((directions[0].Y - 1) == directions[1].Y) && directions[1].X > directions[2].X)
+                    {
+                        return new Vector2(directions[1].X + 2, directions[1].Y);
+                    }
+       
+                }
+            
+                return directions[1];
+            }
 
-        }*/
+            return Vector2.Zero;
+
+        }
     }
 }
