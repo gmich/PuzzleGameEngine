@@ -24,6 +24,10 @@ namespace PuzzleEngineAlpha.Level
         Animations.TileSheetHandler actorTileSheet;
         Animations.DisplayMessage message;
 
+        //Encapsulate in overriden class in each game
+        Texture2D player;
+        Texture2D mob;
+
         #endregion
 
         #region Constructor
@@ -42,6 +46,8 @@ namespace PuzzleEngineAlpha.Level
             message = new Animations.DisplayMessage(Content);
             CurrentMapID = 0;
             background = Content.Load<Texture2D>(@"Textures/whiteRectangle");
+            player = Content.Load<Texture2D>(@"Textures/player");
+            mob = Content.Load<Texture2D>(@"Textures/Mobs/chaser");
             actorTileSheet = new Animations.TileSheetHandler(Content.Load<Texture2D>(@"Textures/ActorsTemp"),this.SourceTileWidth,this.SourceTileHeight);
             message.OffSet = new Vector2(0, 300);
         }
@@ -204,7 +210,7 @@ namespace PuzzleEngineAlpha.Level
                         spriteBatch.Draw(actorTileSheet.TileSheet, CellScreenRectangle(x, y), actorTileSheet.TileSourceRectangle(mapCells[x, y].ActorID),
                         GetColor(CellScreenRectangle(x, y)), 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
                     }
-
+                    DrawCodeBased(spriteBatch, x, y);
                 }
             }
             spriteBatch.End();
@@ -212,6 +218,24 @@ namespace PuzzleEngineAlpha.Level
             miniMaps.Add(map, (Texture2D)miniMapRenderTarget);
             activeMiniMap = map;
         }
+
+        //TODO: leave blank and override in each game
+        public virtual void DrawCodeBased(SpriteBatch spriteBatch, int x, int y)
+        {
+            if (mapCells[x, y].CodeValue == "player")
+            {
+                Rectangle destinationRect = CellScreenRectangle(x, y);
+                spriteBatch.Draw(player, new Rectangle(destinationRect.X + TileWidth/4, destinationRect.Y  + TileHeight/4, TileWidth/3, TileHeight/3), new Rectangle(0, 0, 16, 16),
+                                    GetColor(CellScreenRectangle(x, y)), 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+            }
+            if (mapCells[x, y].CodeValue == "mob")
+            {
+                Rectangle destinationRect = CellScreenRectangle(x, y);
+                spriteBatch.Draw(mob, new Rectangle(destinationRect.X + TileWidth / 4, destinationRect.Y + TileHeight / 4, TileWidth / 3, TileHeight / 3), new Rectangle(0, 0, 20, 20),
+                                    GetColor(CellScreenRectangle(x, y)), 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+            }
+        }
+             
 
         public override void Draw(SpriteBatch spriteBatch)
         {
