@@ -148,9 +148,11 @@ namespace PlatformerPrototype.Actors.Weapons
 
         public override void Update(GameTime gameTime)
         {
-            velocity += memento;
-            base.Update(gameTime);
-
+            if (!Destroy)
+            {
+                velocity += memento;
+                base.Update(gameTime);
+            }
             if (Collided) 
                 this.Destroy = true;
         }

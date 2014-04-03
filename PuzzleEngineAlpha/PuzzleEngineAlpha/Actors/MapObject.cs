@@ -25,7 +25,8 @@ namespace PuzzleEngineAlpha.Actors
         protected string currentAnimation;
         protected readonly Level.TileMap tileMap;
         protected readonly Camera.Camera camera;
-    
+        public bool Expired;
+
         #endregion
 
         #region Constructor
@@ -42,6 +43,7 @@ namespace PuzzleEngineAlpha.Actors
             this.tileMap = tileMap;
             this.camera = camera;
             this.Transparency = 1.0f;
+            this.Expired = false;
             OnGround = false;
         }
 

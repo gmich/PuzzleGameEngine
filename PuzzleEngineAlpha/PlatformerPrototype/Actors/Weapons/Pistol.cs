@@ -52,7 +52,9 @@ namespace PlatformerPrototype.Actors.Weapons
 
         public void Shoot(Vector2 location, Vector2 velocity)
         {
-            bullets.Add(new Bullet(actorManager, particleManager, tileMap, camera, location, velocity * this.step, memento, content, collideWidth, collideHeight, collideWidth, collideHeight));
+            Bullet bullet = new Bullet(actorManager, particleManager, tileMap, camera, location, velocity * this.step, memento, content, collideWidth, collideHeight, collideWidth, collideHeight);
+            bullets.Add(bullet);
+            actorManager.AddMapObject(bullet);
         }
 
         #endregion
@@ -66,7 +68,8 @@ namespace PlatformerPrototype.Actors.Weapons
                 bullets[i].Update(gameTime);
                 if (bullets[i].Destroy)
                 {
-                    particleManager.AddRectangleDestructionParticles(bullets[i].location, this.collideWidth, collideWidth, 1, 1);
+                    particleManager.AddRectangleDestructionParticles(Color.DarkBlue,bullets[i].location, this.collideWidth, collideWidth, 1, 1);
+                    actorManager.RemoveMapObject(bullets[i]);
                     bullets.RemoveAt(i);
                 }
             }

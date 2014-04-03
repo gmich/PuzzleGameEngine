@@ -62,6 +62,17 @@ namespace PlatformerPrototype.Actors.Handlers
             playerEnumerator.Count = players.Count;
         }
 
+        public void RemoveMapObject(MapObject objectToRemove)
+        {
+            for (int i = 0; i < mapObjects.Count; i++)
+            {
+                if (mapObjects[i] == objectToRemove)
+                {
+                    mapObjects.RemoveAt(i);
+                }
+            }
+        }
+
         public void RemovePlayerClone(PlayerClone clone)
         {
             for(int i=0;i<playerClones.Count;i++)
@@ -403,12 +414,37 @@ namespace PlatformerPrototype.Actors.Handlers
 
         #endregion
 
+        #region Bullet Related
+
+        public Vector2 GetBulletCollisionVelocity(Rectangle otherRectangle)
+        {
+            for (int i = 0; i < mapObjects.Count; i++)
+            {
+                if (mapObjects[i] is Weapons.Bullet)
+                {
+                    if (mapObjects[i].CollisionRectangle.Intersects(otherRectangle))
+                    {
+                        Weapons.Bullet bullet = (Weapons.Bullet)mapObjects[i];
+                        bullet.Destroy = true;
+                        return bullet.Velocity;
+                    }
+                }
+            }
+            return Vector2.Zero;
+        }
+
+        #endregion
         #region Update
 
         public void Update(GameTime gameTime)
         {
-            foreach (MapObject mapObject in mapObjects)
-                mapObject.Update(gameTime);
+            for (int i = 0; i < mapObjects.Count; i++)
+            {
+                if (mapObjects[i].Expired == true)
+                    mapObjects.RemoveAt(i);
+                else
+                    mapObjects[i].Update(gameTime);
+            }
 
             foreach (StaticObject staticObject in staticObjects)
                 staticObject.Update(gameTime);

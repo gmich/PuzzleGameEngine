@@ -103,7 +103,7 @@ namespace PlatformerPrototype.Scene
 
             foreach (Vector2 mobLocation in mobLocations)
             {
-                Actors.Mobs.Chaser chaser = new Actors.Mobs.Chaser(actorManager, particleManager, tileMap, camera, mobLocation + new Vector2(16, 16), content, 20, 20, 20, 20);
+                Actors.Mobs.Chaser chaser = new Actors.Mobs.Chaser(actorManager, particleManager, tileMap, camera, mobLocation + new Vector2(16, 16), content, 30, 30, 30, 30);
                 chaser.ChaseTarget = this.player;
                 actorManager.AddMapObject(chaser);
             }

@@ -21,7 +21,7 @@ namespace PlatformerPrototype.Actors.Mobs
         readonly Vector2 Gravity = new Vector2(0, 15);
         readonly Vector2 Jump = new Vector2(0, -430);
         Vector2 currentTargetSquare;
-        const float step = 25.0f;
+        float step;
 
         #endregion
 
@@ -38,6 +38,8 @@ namespace PlatformerPrototype.Actors.Mobs
             this.actorManager = actorManager;
             AI = new AStarPlatformer(this.TileMap);
             timeSinceTargetSquare = 0.0f;
+            Lives = 2;
+            step = 25.0f;
         }
 
         #endregion
@@ -75,6 +77,12 @@ namespace PlatformerPrototype.Actors.Mobs
         #endregion
 
         #region Helper Methods
+
+        float Step(float timePassed)
+        {
+            step = MathHelper.Min(25.0f, step + timePassed * 3);
+            return step;
+        }
 
         void ManipulateVector(ref Vector2 vector, float maxAcceleration, float amount)
         {
@@ -207,6 +215,55 @@ namespace PlatformerPrototype.Actors.Mobs
 
         #endregion
 
+        #region Bullet Related Methods and Properties
+
+        int Lives
+        {
+            get;
+            set;
+        }
+
+        const float Mass = 5.0f;
+
+        Vector2 GetBulletCollisionVelocity
+        {
+            get
+            {
+                return actorManager.GetBulletCollisionVelocity(this.CollisionRectangle);
+            }
+        }
+
+        void GotHit(Vector2 impactVelocity)
+        {
+            Lives--;
+            this.velocity += impactVelocity * Mass;
+            step = 15.0f;
+        }
+
+        void CheckBulletCollision()
+        {
+            Vector2 BulletVelocity = this.GetBulletCollisionVelocity;
+
+            if (BulletVelocity != Vector2.Zero)
+            {
+                this.GotHit(BulletVelocity);
+            }
+
+            if (Lives == 0)
+            {
+                AddDestructionParticles();
+                this.Expired = true;
+            }
+            
+        }
+
+        void AddDestructionParticles()
+        {
+            particleManager.AddRectangleDestructionParticles(new Color(239,228,176),this.location, this.collideWidth, this.collideHeight, 2, 2);
+        }
+
+        #endregion
+
         #region Update And Movement
 
         public override void Move()
@@ -219,26 +276,31 @@ namespace PlatformerPrototype.Actors.Mobs
             Vector2 direction = DetermineMoveDirection();
             direction.Normalize();
 
+            float timePassed = (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (direction.Y < 0 && OnGround)
             {
                 this.velocity += Jump;
             }
             if (direction.X > 0)
             {
-                velocity.X += step;
+                velocity.X += Step(timePassed);
             }
             if (direction.X < 0)
             {
-                velocity.X -= step;
+                velocity.X -= Step(timePassed);
             }
             velocity += Gravity;
 
             ManipulateVector(ref velocity, 285.0f, 10f);
 
-            timeSinceTargetSquare += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            timeSinceTargetSquare += timePassed;
             
             base.Update(gameTime);
+
             AdjustLocationInMap();
+            CheckBulletCollision();
+
+
         }
 
         #endregion

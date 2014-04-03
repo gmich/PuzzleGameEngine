@@ -36,6 +36,7 @@ namespace PlatformerPrototype.Actors
             IsActive=false;
             Interaction = false;
             movementState = 0;
+            applyJumpForce = false;
         }
 
         #endregion
@@ -100,7 +101,10 @@ namespace PlatformerPrototype.Actors
         #region Physics
 
         readonly Vector2 Gravity = new Vector2(0, 15);
-        readonly Vector2 Jump = new Vector2(0, -450);
+        readonly Vector2 MaxJump = new Vector2(0, -400);
+        readonly Vector2 InitialJump = new Vector2(0, -150);
+        Vector2 jumpForce = new Vector2(0, -40);
+        bool applyJumpForce;
 
         bool CanJump
         {
@@ -109,6 +113,20 @@ namespace PlatformerPrototype.Actors
                 return (OnGround);
             }
         }
+
+        void Jump()
+        {
+            if (applyJumpForce && movementScript.MoveUp)
+            {
+                this.velocity.Y = MathHelper.Max(velocity.Y + jumpForce.Y, MaxJump.Y);
+            }
+            if (velocity.Y == MaxJump.Y || velocity.Y >= 0)
+            {
+                applyJumpForce = false;
+            }
+            
+        }
+
         #endregion
 
         #region Helper Methods
@@ -278,10 +296,19 @@ namespace PlatformerPrototype.Actors
         {
             if (!IsActive) return;
 
-            if (movementScript.MoveUp && CanJump)
+            if (movementScript.MoveUp)
             {
-                velocity += Jump;
+                if (CanJump)
+                {
+                    velocity += InitialJump;
+                    applyJumpForce = true;
+                }
             }
+            else
+            {
+                applyJumpForce = false;
+            }
+            Jump();
 
             if (movementScript.MoveLeft)
             {
@@ -293,6 +320,7 @@ namespace PlatformerPrototype.Actors
                 velocity += new Vector2(step, 0);
                 movementState = 1;
             }
+
             //TODO: get input from input configuration
             if (PuzzleEngineAlpha.Input.InputHandler.IsKeyReleased(Keys.LeftControl))
             {
@@ -316,9 +344,11 @@ namespace PlatformerPrototype.Actors
             actorManager.InteractsWithHiddenWall(this.CollisionRectangle, this);
             actorManager.IntersectsWithCloneBox(this.CollisionRectangle, this);
 
-            ManipulateVector(ref velocity, 300.0f, 10f);
+            ManipulateVector(ref velocity, 320.0f, 10f);
 
             base.Update(gameTime);
+
+            if (VCollided) applyJumpForce = false;
             velocity += Gravity;
             AdjustLocationInMap();
             AdjustCamera();
