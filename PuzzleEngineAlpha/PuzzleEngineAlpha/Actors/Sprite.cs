@@ -47,6 +47,7 @@ namespace PuzzleEngineAlpha.Actors
             timeForCurrentFrame = 0.0f;
             this.Layer=0.0f;
             this.Scale = 1.0f;
+            this.Transparency = 1.0f;
         }
 
         #endregion
@@ -125,6 +126,12 @@ namespace PuzzleEngineAlpha.Actors
         #endregion
 
         #region Positional Properties
+
+        protected float Transparency
+        {
+            get;
+            set;
+        }
 
         public Vector2 WorldLocation
         {
@@ -277,7 +284,7 @@ namespace PuzzleEngineAlpha.Actors
             {
                 if (Camera.ObjectIsVisible(WorldRectangle))
                 {
-                    spriteBatch.Draw(Texture, ScreenCenter, Source, tintColor, rotation, RelativeCenter, Scale, SpriteEffects.None, Layer);
+                    spriteBatch.Draw(Texture, ScreenCenter, Source, tintColor * Transparency, rotation, RelativeCenter, Scale, SpriteEffects.None, Layer);
                 }
             }
         }

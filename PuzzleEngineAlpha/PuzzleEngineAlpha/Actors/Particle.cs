@@ -83,6 +83,7 @@ namespace PuzzleEngineAlpha.Actors
                     finalColor,
                     DurationProgress);
                 remainingDuration--;
+                Transparency = 1 - DurationProgress;
             }
 
             base.Update(gameTime);
