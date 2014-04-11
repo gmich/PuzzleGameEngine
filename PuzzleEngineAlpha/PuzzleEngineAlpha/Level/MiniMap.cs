@@ -231,7 +231,7 @@ namespace PuzzleEngineAlpha.Level
             if (mapCells[x, y].CodeValue == "mob")
             {
                 Rectangle destinationRect = CellScreenRectangle(x, y);
-                spriteBatch.Draw(mob, new Rectangle(destinationRect.X + TileWidth / 4, destinationRect.Y + TileHeight / 4, TileWidth / 3, TileHeight / 3), new Rectangle(0, 0, 20, 20),
+                spriteBatch.Draw(mob, new Rectangle(destinationRect.X + TileWidth / 4, destinationRect.Y + TileHeight / 4, TileWidth / 2, TileHeight / 2), new Rectangle(0, 0, 30, 30),
                                     GetColor(CellScreenRectangle(x, y)), 0.0f, Vector2.Zero, SpriteEffects.None, 1.0f);
             }
         }

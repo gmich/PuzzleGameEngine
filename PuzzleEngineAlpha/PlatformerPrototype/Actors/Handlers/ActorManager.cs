@@ -96,6 +96,13 @@ namespace PlatformerPrototype.Actors.Handlers
                 if (staticObject.Intersects(location))
                     return true;
             }
+
+          /*  foreach (MapObject mapObj in mapObjects)
+            {
+                if (mapObj.Intersects(location))
+                    return true;
+            }*/
+
             foreach (Player player in players)
             {
                 if (player.Intersects(location))
@@ -117,6 +124,15 @@ namespace PlatformerPrototype.Actors.Handlers
             {
                 if (staticObject.Intersects(location))
                     return true;
+            }
+
+            foreach (MapObject mapObj in mapObjects)
+            {
+                if (mapObj != mapObject)
+                {
+                    if (mapObj.Intersects(location))
+                        return true;
+                }
             }
 
             foreach (Player player in players)
@@ -149,6 +165,12 @@ namespace PlatformerPrototype.Actors.Handlers
                     return new Vector2(staticObject.CollisionRectangle.X, staticObject.CollisionRectangle.Y);
             }
 
+            foreach (MapObject mapObj in mapObjects)
+            {
+                if (mapObj.Intersects(location))
+                    return mapObj.location;
+            }
+
             foreach (Player player in players)
             {
                 if (player.Intersects(location))
@@ -168,8 +190,15 @@ namespace PlatformerPrototype.Actors.Handlers
         {
             foreach (StaticObject staticObject in staticObjects)
             {
-                if (staticObject.Intersects(location))
-                    return new Vector2(staticObject.CollisionRectangle.X, staticObject.CollisionRectangle.Y);
+                    if (staticObject.Intersects(location))
+                        return new Vector2(staticObject.CollisionRectangle.X, staticObject.CollisionRectangle.Y);
+            }
+
+            foreach (MapObject mapObj in mapObjects)
+            {
+                if (mapObj != mapObject)
+                    if (mapObj.Intersects(location))
+                        return mapObj.location;
             }
 
             foreach (Player player in players)
@@ -201,6 +230,13 @@ namespace PlatformerPrototype.Actors.Handlers
                     return staticObject.CollisionRectangle.Height;
             }
 
+            foreach (MapObject mapObj in mapObjects)
+            {
+                if (mapObj != mapObject)
+                    if (mapObj.Intersects(location))
+                        return mapObj.CollisionRectangle.Height + 1;
+            }
+            
             foreach (Player player in players)
             {
                 if (player != mapObject)
@@ -243,6 +279,11 @@ namespace PlatformerPrototype.Actors.Handlers
                     return clone.CollisionRectangle.Height + 1;
 
             }
+            foreach (MapObject mapObj in mapObjects)
+            {
+                    if (mapObj.Intersects(location))
+                        return mapObj.CollisionRectangle.Height + 1;
+            }
 
             return 0.0f;
         }
@@ -268,6 +309,11 @@ namespace PlatformerPrototype.Actors.Handlers
                 if (clone.Intersects(location))
                     return clone.CollisionRectangle.Width + 1;
             }
+            foreach (MapObject mapObj in mapObjects)
+            {
+                if (mapObj.Intersects(location))
+                    return mapObj.CollisionRectangle.Width + 1;
+            }
 
             return 0.0f;
         }
@@ -278,6 +324,15 @@ namespace PlatformerPrototype.Actors.Handlers
             {
                 if (staticObject.Intersects(location))
                     return staticObject.CollisionRectangle.Width;
+            }
+
+            foreach (MapObject mapObj in mapObjects)
+            {
+                if (mapObj != mapObject)
+                {
+                    if (mapObj.Intersects(location))
+                        return mapObj.CollisionRectangle.Height + 1;
+                }
             }
 
             foreach (Player player in players)

@@ -185,13 +185,13 @@ namespace PlatformerPrototype.Actors
 
         public override void HorizontalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
         {
-            if (actorManager.HasActorAtLocation(corner1-moveAmount,this) || actorManager.HasActorAtLocation(corner2-moveAmount,this))
+          /*  if (actorManager.HasActorAtLocation(corner1-moveAmount,this) || actorManager.HasActorAtLocation(corner2-moveAmount,this))
             {
                 moveAmount.X = 0;
                 velocity.X = 0;
                 Collided = true;
                 return;
-            }
+            }*/
 
             if (actorManager.HasActorAtLocation(corner1, this))
             {
@@ -205,13 +205,13 @@ namespace PlatformerPrototype.Actors
 
         public override void VerticalActorCollision(ref Vector2 moveAmount, Vector2 corner1, Vector2 corner2)
         {
-            if (actorManager.HasActorAtLocation(corner1 - moveAmount, this) || actorManager.HasActorAtLocation(corner2 - moveAmount, this))
+         /*   if (actorManager.HasActorAtLocation(corner1 - moveAmount, this) || actorManager.HasActorAtLocation(corner2 - moveAmount, this))
             {
                 moveAmount.Y = 0;
                 velocity.Y = 0;
                 Collided = true;
                 return;
-            }
+            }*/
 
             if (actorManager.HasActorAtLocation(corner1,this))
             {
@@ -229,13 +229,12 @@ namespace PlatformerPrototype.Actors
 
             if (moveAmount.Y > 0)
             {
-                location = new Vector2(location.X, actorLocation.Y - this.collideHeight - 1);
+                location = new Vector2(location.X,(float)Math.Floor(actorLocation.Y - this.collideHeight-1));
                 OnGround = true;
             }
             else if (moveAmount.Y < 0)
             {
                 location = new Vector2(location.X, actorLocation.Y + actorManager.GetActorHeight(corner, this));
-
             }
 
             moveAmount.Y = 0;
@@ -248,10 +247,12 @@ namespace PlatformerPrototype.Actors
 
             if (moveAmount.X > 0)
             {
+
                 location = new Vector2(actorLocation.X - this.collideWidth - 1, location.Y);
             }
             else if (moveAmount.X < 0)
             {
+
                 location = new Vector2(actorLocation.X + actorManager.GetActorWidth(corner, this), location.Y);
             }
 
@@ -349,9 +350,11 @@ namespace PlatformerPrototype.Actors
             base.Update(gameTime);
 
             if (VCollided) applyJumpForce = false;
+
             velocity += Gravity;
             AdjustLocationInMap();
             AdjustCamera();
+          
         }
 
         #endregion
